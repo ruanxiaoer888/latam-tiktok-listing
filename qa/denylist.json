@@ -1,7 +1,7 @@
 {
-  "version": "1.0",
-  "updated": "2026-10-20",
-  "source": "基于 Gemini V3.2 词库改造；修正了 100% 一刀切、Compra protegida、标题 | 号三处",
+  "version": "1.1",
+  "updated": "2026-10-21",
+  "source": "基于 Gemini V3.2 词库改造；修正了 100% 一刀切、Compra protegida、标题 | 号三处；1.1 新增 conversion 段（转化层检查）",
   "global": {
     "material_words": [
       "acero", "acero inoxidable", "algodón", "algodon", "cobre", "poliéster", "poliester",
@@ -14,7 +14,21 @@
       "segura", "seguro", "garantizada", "garantizado", "efectivo", "efetivo",
       "recomendado", "confiable", "confiável", "aprobado", "aprovado"
     ],
-    "non_text": ["[POR CONFIRMAR]"]
+    "non_text": ["[POR CONFIRMAR]"],
+    "conversion": {
+      "note": "转化层检查用（skill/转化层.md）。只出 P2-转化，不卡上架，卡的是「卖不动」。比对时去重音、转小写。",
+      "purpose_pattern": "\\bpara\\b|\\bp/\\b",
+      "vague_openers": [
+        "alta calidad", "excelente calidad", "maxima calidad", "mejor calidad", "calidad superior",
+        "producto de alta", "producto de calidad",
+        "otima qualidade", "ótima qualidade", "produto de alta", "qualidade superior"
+      ],
+      "promo_terms": [
+        "descuento", "cupón", "cupom", "rebaja", "oferta", "promoción", "promoção",
+        "2x1", "precio especial", "preço especial"
+      ],
+      "param_units": "\\d+(?:[.,]\\d+)?\\s?(mm|cm|V|W|Nm|kg|L|ml|rpm)\\b"
+    }
   },
   "categories": {
     "五金工具": {

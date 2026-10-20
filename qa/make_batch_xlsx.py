@@ -49,14 +49,19 @@ def main():
     for d in details:
         pid = d.get("商品ID", "").strip()
         s = d.get("严重度", "").strip()
-        sev[pid][s] += 1
+        if s == "P2":
+            # v1.3 起明细带「类别」列；旧的明细没有这一列 → 一律算 P2结构（与旧口径一致）
+            key = "P2转化" if d.get("类别", "").strip() == "转化" else "P2结构"
+        else:
+            key = s
+        sev[pid][key] += 1
         if s in ("P0", "P1", "P2"):
             issues[pid].append(f"[{s}] {d.get('说明','')} → {d.get('建议','')}")
 
     wb = Workbook()
     ws = wb.active
     ws.title = "批次结果"
-    headers = ["序号", "商品ID", "类目", "原价MXN", "标题", "描述", "P0", "P1", "P2",
+    headers = ["序号", "商品ID", "类目", "原价MXN", "标题", "描述", "P0", "P1", "P2结构", "P2转化",
                "问题清单", "待确认/备注", "图片目录"]
     ws.append(headers)
     head_fill = PatternFill("solid", fgColor="1F4E79")
@@ -70,30 +75,33 @@ def main():
         ws.append([
             i, pid, r.get("类目", ""), r.get("原价MXN", ""), r.get("标题", ""),
             r.get("描述", ""),
-            sev[pid]["P0"], sev[pid]["P1"], sev[pid]["P2"],
+            sev[pid]["P0"], sev[pid]["P1"], sev[pid]["P2结构"], sev[pid]["P2转化"],
             "\n".join(issues.get(pid, [])),
             notes.get(pid, ""),
             r.get("图片目录", ""),
         ])
 
     widths = {"A": 6, "B": 14, "C": 10, "D": 12, "E": 45, "F": 70,
-              "G": 6, "H": 6, "I": 6, "J": 45, "K": 50, "L": 40}
+              "G": 6, "H": 6, "I": 8, "J": 8, "K": 45, "L": 50, "M": 40}
     for col, w in widths.items():
         ws.column_dimensions[col].width = w
     for row in ws.iter_rows(min_row=2):
         for c in row:
             c.alignment = Alignment(wrap_text=True, vertical="top")
-        # P0/P1 标红
+        # P0/P1 标红；P2转化 标黄（能改就得改，不卡上架但卡转化）
         for col in (7, 8):
             if row[col - 1].value:
                 row[col - 1].fill = PatternFill("solid", fgColor="FFC7CE")
+        if len(row) > 9 and row[9].value:
+            row[9].fill = PatternFill("solid", fgColor="FFEB9C")
     ws.freeze_panes = "C2"
 
     # 说明页
     ws2 = wb.create_sheet("说明")
-    ws2.append(["本文件是什么", "TikTok Shop MX Listing 批次产出 + 合规校验结果"])
-    ws2.append(["生成规则", "latam-tiktok-listing 技能：骨架 + rules-mx + 类目包"])
-    ws2.append(["校验口径", "P0 上架必失败 / P1 违规风险 / P2 影响转化"])
+    ws2.append(["本文件是什么", "TikTok Shop MX Listing 批次产出 + 合规/转化校验结果"])
+    ws2.append(["生成规则", "latam-tiktok-listing 技能：骨架 + rules-mx + 类目包 + 转化层"])
+    ws2.append(["校验口径", "P0 上架必失败 / P1 违规风险 / P2结构 排版与必带信息 / P2转化 首屏·卖点·权益·FAQ"])
+    ws2.append(["处理顺序", "P0 → P1 → P2转化 → P2结构"])
     ws2.append(["待确认", "见「待确认/备注」列；多为源数据自相矛盾处，需回工厂或后台核对"])
     ws2.append(["未做", "未做自动上传；认证编号、保修条款需人工填后台"])
     ws2.column_dimensions["A"].width = 14
@@ -109,7 +117,7 @@ def main():
     total = Counter()
     for pid in sev:
         total.update(sev[pid])
-    print(f"合计：P0={total['P0']} P1={total['P1']} P2={total['P2']}")
+    print(f"合计：P0={total['P0']} P1={total['P1']} P2结构={total['P2结构']} P2转化={total['P2转化']}")
 
 
 if __name__ == "__main__":

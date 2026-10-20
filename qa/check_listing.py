@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Listing 合规校验器 v1.1
+Listing 合规 + 转化校验器 v1.3
 
 用法（在本文件所在目录执行，或给绝对路径）：
   python check_listing.py --demo --site MX
@@ -14,6 +14,16 @@ v1.1 新增：
   类目列            输入带"类目/category"列时，按行自动套用类目检查
   --fail-on-p0      出现 P0 时退出码 3，方便自动化卡口
   报告按日期分目录   qa/报告/<YYYYMMDD>/
+
+v1.3 新增（转化侧，全部记 P2-转化，不卡上架）：
+  标题用途词        标题没有 para… 用途词
+  首屏空泛开场      描述前两行出现 "alta calidad" 这类空话
+  首屏即参数        描述第一行就是 "5 Nm/12V" 参数，不是场景痛点
+  卖点条数          ⭐ 卖点 >5（堆砌）或 1–2 条（不够）
+  卖点顺序          第一条卖点先讲参数（应先讲最痛的利益）
+  权益词待核实      出现 descuento/cupón/oferta 等，需确认后台真实存在
+  FAQ 条数          💡 段内问句 <2
+  → 报告里 P2 拆成「P2-结构」「P2-转化」两行，区分回归失败与转化优化项
 
 输出：
   qa/报告/<日期>/合规扫描_<site>_<来源>_<时间>.md
@@ -209,9 +219,9 @@ def check_row(row, site, cfg, g, cats=None, default_cat=""):
     title, desc = row.get("title", ""), row.get("desc", "")
     body = f"{title}\n{desc}"
 
-    def add(sev, cid, label, field, snip, fix="", pos=-1):
+    def add(sev, cid, label, field, snip, fix="", pos=-1, conv=False):
         findings.append({"severity": sev, "id": cid, "label": label,
-                         "field": field, "snippet": snip, "fix": fix, "pos": pos})
+                         "field": field, "snippet": snip, "fix": fix, "pos": pos, "conv": conv})
 
     # P0/P1：空字段（多半是导出列名没匹配上，静默放过最危险）
     if not title:
@@ -391,6 +401,74 @@ def check_row(row, site, cfg, g, cats=None, default_cat=""):
                 line.strip()[:50], "每行最多 2 个")
             break
 
+    # ---------------- 转化侧检查（P2-转化：不卡上架，卡的是「卖不动」） ----------------
+    # 依据 skill/转化层.md；只报提醒，不影响 --fail-on-p0
+    conv = g.get("conversion") or {}
+    head_lines = [ln.strip() for ln in desc.splitlines() if ln.strip()]
+    first_line = head_lines[0] if head_lines else ""
+    head2 = fold(" ".join(head_lines[:2]))
+
+    def addc(cid, label, field, snip, fix, pos=-1):
+        add("P2", f"{site}-P2-CV-{cid}", label, field, snip, fix, pos, conv=True)
+
+    # 1) 标题缺用途词（para…）：只写品类词会丢一半搜索
+    if title and conv.get("purpose_pattern") and not re.search(conv["purpose_pattern"], title, re.I):
+        addc("TITLE-PURPOSE", "标题无用途/场景词（para…，丢一半搜索）", "标题",
+             title[:60], "补 para … 用途词，见 skill/转化层.md §1")
+
+    # 2) 首屏空泛开场（alta calidad / ótima qualidade 这类）
+    if desc and conv.get("vague_openers"):
+        for v in conv["vague_openers"]:
+            if fold(v) in head2:
+                addc("VAGUE", f"首屏空泛开场「{v}」（应写具体场景/痛点）", "描述",
+                     first_line[:60], "换成具体痛点问句，见 skill/转化层.md §3")
+                break
+
+    # 3) 描述第一行就是参数（第一行应该是钩子）
+    #    只在"行首就是数字/规格"时判：钩句里顺带提到 5 Nm 是正常的，不算开参数
+    if (first_line and conv.get("param_units")
+            and re.match(r"^\s*(?:[-*•·]\s*)?\d", first_line)
+            and re.search(conv["param_units"], first_line[:40], re.I)):
+        addc("HOOK-PARAM", "描述第一行以参数开头（应先写场景/痛点）", "描述",
+             first_line[:60], "第 1 行写场景/痛点，参数挪到规格区")
+
+    # 4) 卖点条数（只查已有 ⭐ 的条目；0 条不报，避免和分段检查重复告警）
+    bullets = [ln for ln in desc.splitlines() if "⭐" in ln]
+    if len(bullets) > 5:
+        addc("BULLETS-MANY", f"卖点 {len(bullets)} 条（应 3–5，多了像参数堆砌）", "描述",
+             bullets[0].strip()[:50], "合并到 3–5 条，按决策权重排序")
+    elif 1 <= len(bullets) <= 2:
+        addc("BULLETS-FEW", f"卖点仅 {len(bullets)} 条（应 3–5）", "描述",
+             bullets[0].strip()[:50], "补到 3 条以上：痛点 / 兼容 / 材质")
+
+    # 5) 第一条卖点先讲参数（应先讲最痛的利益）
+    if bullets and conv.get("param_units"):
+        label_txt = re.sub(r"[⭐*]", "", bullets[0]).split("：")[0].split(":")[0]
+        if re.search(conv["param_units"], label_txt, re.I):
+            addc("BULLET-ORDER", "第一条卖点是参数（应先讲最痛的利益）", "描述",
+                 label_txt.strip()[:50], "痛点利益放第一条，参数进规格区")
+
+    # 6) 权益词需人工确认后台是否真实（envío gratis 已由 P1 未验证承诺拦，这里不重复）
+    for t in conv.get("promo_terms", []):
+        m = re.search(re.escape(t), body, re.I)
+        if not m:
+            continue
+        dup = any((not f["conv"]) and f["pos"] >= 0 and abs(f["pos"] - m.start()) < 50
+                  and "UNVERIFIED" in f["id"] for f in findings)
+        if dup:
+            continue
+        addc("PROMO", f"出现权益词「{t}」——确认后台真实存在才保留", "描述",
+             snippet(body, m.start()), "无真实促销就删；有则保留，不加时效")
+        break
+
+    # 7) FAQ 条数（FAQ 是回答购买疑虑的，少于 2 条等于没写）
+    if "💡" in desc:
+        faq = desc.split("💡", 1)[1]
+        n_q = faq.count("?")
+        if n_q < 2:
+            addc("FAQ-FEW", f"FAQ 问句仅 {n_q} 条（应 ≥2）", "描述",
+                 faq.strip()[:50], "补「兼容吗 / 含什么 / 用在哪」三类问题")
+
     return findings
 
 
@@ -408,15 +486,18 @@ def write_reports(rows, results, site, source, out_dir, slug="scan"):
     csv_path = out_dir / f"明细_{site}_{safe}_{ts}.csv"
 
     total = {"P0": 0, "P1": 0, "P2": 0}
+    conv_p2 = 0
     per_check = {}
     for f in results:
         total[f["severity"]] += 1
-        per_check.setdefault((f["id"], f["label"], f["severity"]), 0)
-        per_check[(f["id"], f["label"], f["severity"])] += 1
+        if f["severity"] == "P2" and f.get("conv"):
+            conv_p2 += 1
+        key = (f["id"], f["label"], f["severity"], bool(f.get("conv")))
+        per_check[key] = per_check.get(key, 0) + 1
     hit_rows = len({f["row_id"] for f in results})
 
     lines = [
-        f"# Listing 合规扫描报告 · {site}",
+        f"# Listing 合规 + 转化扫描报告 · {site}",
         "",
         f"- 扫描时间：{datetime.now().strftime('%Y-%m-%d %H:%M')}",
         f"- 数据来源：`{source}`",
@@ -428,15 +509,19 @@ def write_reports(rows, results, site, source, out_dir, slug="scan"):
         "|---|---|---|",
         f"| P0 | {total['P0']} | 上架必失败/必被拒（中文、超长、占位符） |",
         f"| P1 | {total['P1']} | 违规或误导风险（禁词、未验证承诺、跨语言） |",
-        f"| P2 | {total['P2']} | 影响转化与流量（排版、长度、核心词、必带信息） |",
+        f"| P2-结构 | {total['P2'] - conv_p2} | 模板排版、长度、核心词、类目必带信息（影响流量与退货） |",
+        f"| P2-转化 | {conv_p2} | 首屏、卖点、权益、FAQ（影响点击后的转化率） |",
+        "",
+        "> P2-结构 是「写得像不像样」，P2-转化 是「卖不卖得动」。两者都不卡上架。",
         "",
         "## 二、按检查项",
         "",
-        "| 检查项 | 严重度 | 命中数 |",
-        "|---|---|---|",
+        "| 检查项 | 类别 | 严重度 | 命中数 |",
+        "|---|---|---|---|",
     ]
-    for (cid, label, sev), n in sorted(per_check.items(), key=lambda x: (SEV_ORDER[x[0][2]], -x[1])):
-        lines.append(f"| {cid} · {label} | {sev} | {n} |")
+    for (cid, label, sev, isconv), n in sorted(per_check.items(), key=lambda x: (SEV_ORDER[x[0][2]], -x[1])):
+        kind = "转化" if isconv else ("结构" if sev == "P2" else "合规")
+        lines.append(f"| {cid} · {label} | {kind} | {sev} | {n} |")
 
     lines += ["", "## 三、逐条命中明细", ""]
     by_row = {}
@@ -460,25 +545,28 @@ def write_reports(rows, results, site, source, out_dir, slug="scan"):
         f"- 干净条目：{clean} 条 / {len(rows)} 条",
         f"- P0 命中 {total['P0']} 处：这些是机器能直接判死的，必须清零。",
         f"- P1 命中 {total['P1']} 处：违规或误导风险，优先清。",
-        f"- P2 命中 {total['P2']} 处：影响转化与流量，不影响上架。",
-        "- 处理顺序：P0 → P1 → P2。P2 里「必带信息缺失」建议优先，直接关联退货率。",
+        f"- P2-结构 命中 {total['P2'] - conv_p2} 处：模板/排版/必带信息，不影响上架，影响流量与退货。",
+        f"- P2-转化 命中 {conv_p2} 处：首屏/卖点/权益/FAQ，不影响上架，影响转化率。",
+        "- 处理顺序：P0 → P1 → P2-转化 → P2-结构。",
+        "  （合规先过，再过转化：转化项里的「首屏空泛开场」和「标题无用途词」性价比最高，先改这两个）",
         "",
     ]
     md_path.write_text("\n".join(lines), encoding="utf-8")
 
     with open(csv_path, "w", encoding="utf-8-sig", newline="") as f:
         w = csv.writer(f)
-        w.writerow(["商品ID", "严重度", "检查项", "说明", "字段", "命中片段", "建议"])
+        w.writerow(["商品ID", "严重度", "类别", "检查项", "说明", "字段", "命中片段", "建议"])
         for r in results:
-            w.writerow([r["row_id"], r["severity"], r["id"], r["label"],
+            kind = "转化" if r.get("conv") else ("结构" if r["severity"] == "P2" else "合规")
+            w.writerow([r["row_id"], r["severity"], kind, r["id"], r["label"],
                         r["field"], r["snippet"], r["fix"]])
-    return md_path, csv_path, total, hit_rows
+    return md_path, csv_path, total, hit_rows, conv_p2
 
 
 def main():
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
-    ap = argparse.ArgumentParser(description="Listing 合规校验器 v1.1")
+    ap = argparse.ArgumentParser(description="Listing 合规 + 转化校验器 v1.3")
     ap.add_argument("--input", help="CSV / XLSX / MD / TXT 文件路径")
     ap.add_argument("--demo", action="store_true", help="用 source-gemini 里的 9 条案例做自检")
     ap.add_argument("--site", default="MX", help="站点（按 denylist.json 里的键：MX / BR）")
@@ -519,9 +607,10 @@ def main():
             f["row_id"] = row["id"]
             results.append(f)
 
-    md, csvf, total, hit_rows = write_reports(rows, results, args.site, src, Path(args.out),
-                                              slug="demo" if args.demo else src.stem)
-    print(f"样本 {len(rows)} 条，命中 {hit_rows} 条（P0={total['P0']} P1={total['P1']} P2={total['P2']}）")
+    md, csvf, total, hit_rows, conv_p2 = write_reports(rows, results, args.site, src, Path(args.out),
+                                                       slug="demo" if args.demo else src.stem)
+    print(f"样本 {len(rows)} 条，命中 {hit_rows} 条（P0={total['P0']} P1={total['P1']} "
+          f"P2-结构={total['P2'] - conv_p2} P2-转化={conv_p2}）")
     print(f"报告：{md}")
     print(f"明细：{csvf}")
     if args.fail_on_p0 and total["P0"] > 0:
