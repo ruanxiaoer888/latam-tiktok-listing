@@ -1,0 +1,52 @@
+{
+  "product_id": "示例商品001",
+  "site": "MX",
+  "category": "五金工具",
+  "sub_category": "汽保工具 / 卧式千斤顶（通用型，无车型适配）",
+  "brand": "ATVERCE",
+  "brand_owned": true,
+  "brand_awareness_mx": "自有品牌，墨西哥市场 7 年，有一定认知度（客户确认）；标题保留品牌、放句尾",
+  "product_type": "Gato hidráulico de piso de perfil bajo",
+  "capacity": { "value": 3, "unit": "toneladas" },
+  "lift_range": { "min_mm": 75, "max_mm": 500 },
+  "dimensions": { "largo_cm": 69, "ancho_cm": 35, "alto_cm": 15 },
+  "handle": { "qty": 2, "length_cm": 60 },
+  "weight_kg": 32,
+  "color": "rojo",
+  "materials": ["acero de aleación", "sillín de goma", "ruedas de acero"],
+  "features": [
+    "bomba de doble pistón",
+    "ruedas giratorias de 360 grados",
+    "válvula de seguridad contra sobrecarga",
+    "pluma hidráulica reforzada"
+  ],
+  "included": [
+    "1 gato hidráulico de piso de 3 toneladas",
+    "2 manijas de 60 cm"
+  ],
+  "not_included": [],
+  "certification": {
+    "status": "available",
+    "note": "客户确认：主营五金工具 7 年，认证具备；编号未提供，文案不主动写认证字样"
+  },
+  "warranty": { "status": "not_applicable", "note": "客户确认售后条款暂不写" },
+  "unknowns": [
+    "认证编号未提供（上架表单该填仍要填）",
+    "是否含说明书未确认"
+  ],
+  "safety_note": "Los gatos horizontales deben elevar el coche desde un lateral para obtener la máxima capacidad de carga; no se recomienda elevar por el centro si se cambian neumáticos.",
+  "usage_steps_es": [
+    "Inserte la manija en el casquillo.",
+    "Gire la palanca en sentido horario para apretar.",
+    "Presione la manija hacia arriba y abajo para elevar.",
+    "Para bajar, gire en sentido contrario de 0.5 a 2 vueltas."
+  ],
+  "sources": [
+    "产品详情描述.txt（全部硬参数）",
+    "002.jpg（尺寸：69cm / 35cm / 15cm / 手柄 60cm）",
+    "003.jpg、005.jpg（结构：胶垫、万向轮、合金钢架、双活塞）",
+    "007.jpg（最低 75mm / 最高 500mm）",
+    "008.jpg（双活塞泵说明）"
+  ],
+  "image_notes": "共 8 张图，005.jpg 与 006.jpg 二进制完全相同（重复图），实际可用 7 张"
+}

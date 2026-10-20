@@ -1,0 +1,219 @@
+{
+  "version": "1.0",
+  "updated": "2026-10-20",
+  "source": "基于 Gemini V3.2 词库改造；修正了 100% 一刀切、Compra protegida、标题 | 号三处",
+  "global": {
+    "material_words": [
+      "acero", "acero inoxidable", "algodón", "algodon", "cobre", "poliéster", "poliester",
+      "plástico", "plastico", "vidrio", "hierro", "silicona", "abs", "aluminio", "latón", "laton",
+      "cuero", "cerámica", "ceramica", "madera", "nylon",
+      "aço", "aço inox", "aço inoxidável", "algodão", "cobre", "poliéster", "plástico",
+      "vidro", "ferro", "silicone", "alumínio", "latão", "couro", "cerâmica", "madeira"
+    ],
+    "guarantee_words": [
+      "segura", "seguro", "garantizada", "garantizado", "efectivo", "efetivo",
+      "recomendado", "confiable", "confiável", "aprobado", "aprovado"
+    ],
+    "non_text": ["[POR CONFIRMAR]"]
+  },
+  "categories": {
+    "五金工具": {
+      "note": "手动工具只看 尺寸+材质；电动类（出现 inalámbrico/batería/eléctrico/motor/cargador）才追加电压与功率，靠 if_pattern 自动判断",
+      "required": [
+        { "label": "规格尺寸(mm/cm)", "pattern": "\\d+\\s?(mm|cm)\\b" },
+        { "label": "材质", "pattern": "(acero|aço|cromo|vanadio|aluminio|alumínio|cobre|metal|metálic|lithium|litio)" },
+        {
+          "label": "电压或电池平台（电动类才需要）",
+          "pattern": "\\d+\\s?V\\b",
+          "if_pattern": "(inal[aá]mbric|bater[ií]a|el[eé]ctric|motor|cargador|enchufe)"
+        },
+        {
+          "label": "功率/扭矩/转速（电动类才需要）",
+          "pattern": "\\d+\\s?(W|Nm|rpm)\\b",
+          "if_pattern": "(inal[aá]mbric|bater[ií]a|el[eé]ctric|motor|cargador|enchufe)"
+        }
+      ]
+    },
+    "汽车摩托": {
+      "note": "只有明确适配某车型的配件才查年款/位置；通用工具（千斤顶、拖车绳等）不查，靠 if_pattern 判断",
+      "required": [
+        {
+          "label": "适配年款",
+          "pattern": "(19|20)\\d{2}",
+          "if_pattern": "(compatible con|compatível com|nissan|toyota|honda|chevrolet|volkswagen|ford|mazda|kia|hyundai|suzuki|yamaha|italika|bajaj)"
+        },
+        {
+          "label": "安装位置(左/右/前/后)",
+          "pattern": "(izquierd|derech|delanter|trasero|esquerd|direit|dianteir|traseir)",
+          "if_pattern": "(compatible con|compatível com|nissan|toyota|honda|chevrolet|volkswagen|ford|mazda|kia|hyundai|suzuki|yamaha|italika|bajaj)"
+        }
+      ]
+    },
+    "家居建材": {
+      "required": [
+        { "label": "尺寸(cm/mm)", "pattern": "\\d+\\s?(cm|mm)\\b" },
+        { "label": "承重(kg)", "pattern": "\\d+\\s?kg\\b" }
+      ]
+    },
+    "运动户外": {
+      "required": [
+        { "label": "容量或重量", "pattern": "\\d+\\s?(L|ml|kg)\\b" },
+        { "label": "尺寸/折叠尺寸", "pattern": "\\d+\\s?(cm|mm)\\b" }
+      ]
+    },
+    "宠物用品": {
+      "required": [
+        { "label": "适用体重或尺寸", "pattern": "\\d+\\s?(kg|cm)\\b" },
+        { "label": "体型档位", "pattern": "(pequeñ|pequen|mediano|médio|grande|talla|porte)" }
+      ]
+    },
+    "厨房用品": {
+      "required": [
+        { "label": "容量(L/ml)", "pattern": "\\d+([.,]\\d+)?\\s?(L|ml)\\b" },
+        { "label": "适用热源", "pattern": "(inducci|induç|gas|eléctric|elétric|estufa|fogão)" }
+      ]
+    },
+    "家电": {
+      "required": [
+        { "label": "电压", "pattern": "\\d+\\s?V\\b" },
+        { "label": "功率", "pattern": "\\d+\\s?W\\b" }
+      ]
+    },
+    "时尚配件": {
+      "required": [
+        { "label": "尺寸(周长/长度)", "pattern": "\\d+\\s?(cm|mm)\\b" },
+        { "label": "材质", "pattern": "(acero|aço|plata|prata|cuero|couro|inox)" }
+      ]
+    }
+  },
+  "sites": {
+    "MX": {
+      "language": "es-MX",
+      "currency": "MXN",
+      "title": { "max": 300, "min": 25, "recommended": [60, 80], "autoparts": [80, 120], "keyword_front": 30 },
+      "description": { "max": 10000, "recommended_min": 300 },
+      "checks": [
+        {
+          "id": "MX-P1-ABSOLUTE",
+          "severity": "P1",
+          "type": "terms",
+          "label": "绝对化/夸大用语",
+          "terms": ["el mejor del mundo", "milagroso", "100% garantizado", "calidad 100% garantizada", "garantizado al 100"],
+          "fix": "改为可核实的具体描述，或直接删除"
+        },
+        {
+          "id": "MX-P1-MEDICAL",
+          "severity": "P1",
+          "type": "terms",
+          "label": "医疗/疗效宣称",
+          "terms": ["cura", "tratamiento médico", "tratamiento medico", "pérdida de peso rápida", "perdida de peso rapida", "elimina el dolor", "antibacterial", "antipulgas"],
+          "fix": "删除；宠物驱虫/医疗属受限类目"
+        },
+        {
+          "id": "MX-P1-URGENCY",
+          "severity": "P1",
+          "type": "terms",
+          "label": "虚假紧迫感",
+          "terms": ["solo por hoy", "última pieza", "ultima pieza", "por tiempo limitado", "solo hoy"],
+          "fix": "删除"
+        },
+        {
+          "id": "MX-P1-OFFSITE",
+          "severity": "P1",
+          "type": "terms",
+          "label": "站外导流",
+          "terms": ["whatsapp", "facebook", "instagram", "amazon", "mercado libre", "mercado pago", "teléfono", "telefono"],
+          "fix": "删除所有站外平台与联系方式"
+        },
+        {
+          "id": "MX-P1-UNVERIFIED",
+          "severity": "P1",
+          "type": "terms",
+          "label": "未验证的物流/信任承诺",
+          "terms": ["envío gratis", "envio gratis", "entrega inmediata", "envíos rápidos a todo méxico", "envios rapidos a todo mexico", "compra protegida", "pago contra entrega"],
+          "fix": "有实际履约能力才可写；Compra protegida 改 Compra segura"
+        },
+        {
+          "id": "MX-P1-LANG",
+          "severity": "P1",
+          "type": "foreign",
+          "label": "混入葡语词（应该是 es-MX）",
+          "terms": ["não", "nao ", "você", "voce", "frete", "peças", "pecas", "acessório", "acessorio", "também", "tambem", "obrigado", "ção"],
+          "chars": [],
+          "fix": "改为 es-MX；巴西词不要混进墨西哥 Listing"
+        },
+        {
+          "id": "MX-P2-HASHTAG",
+          "severity": "P2",
+          "type": "hashtag",
+          "label": "描述内出现标签（待 A/B 验证）",
+          "fix": "默认不放；确需放则限制 3-5 个"
+        }
+      ]
+    },
+    "BR": {
+      "language": "pt-BR",
+      "currency": "BRL",
+      "title": { "max": 200, "min": 25, "recommended": [60, 80], "autoparts": [80, 120], "keyword_front": 30 },
+      "description": { "max": 10000, "recommended_min": 300 },
+      "checks": [
+        {
+          "id": "BR-P1-ABSOLUTE",
+          "severity": "P1",
+          "type": "terms",
+          "label": "绝对化/夸大用语",
+          "terms": ["o melhor do mundo", "milagroso", "100% garantido", "garantido 100%"],
+          "fix": "改为可核实的具体描述"
+        },
+        {
+          "id": "BR-P1-MEDICAL",
+          "severity": "P1",
+          "type": "terms",
+          "label": "医疗/疗效宣称",
+          "terms": ["cura", "tratamento médico", "tratamento medico", "perda de peso rápida", "perda de peso rapida", "elimina a dor", "antipulgas", "antibacteriano"],
+          "fix": "删除；宠物驱虫/医疗属受限类目"
+        },
+        {
+          "id": "BR-P1-URGENCY",
+          "severity": "P1",
+          "type": "terms",
+          "label": "虚假紧迫感",
+          "terms": ["só hoje", "so hoje", "última peça", "ultima peca", "por tempo limitado"],
+          "fix": "删除"
+        },
+        {
+          "id": "BR-P1-OFFSITE",
+          "severity": "P1",
+          "type": "terms",
+          "label": "站外导流",
+          "terms": ["whatsapp", "facebook", "instagram", "amazon", "mercado livre", "mercado pago", "telefone"],
+          "fix": "删除所有站外平台与联系方式"
+        },
+        {
+          "id": "BR-P1-UNVERIFIED",
+          "severity": "P1",
+          "type": "terms",
+          "label": "未验证的物流/信任承诺",
+          "terms": ["frete grátis", "frete gratis", "envio grátis", "envio gratis", "entrega imediata", "compra garantida", "pague na entrega"],
+          "fix": "有实际履约能力才可写；Compra garantida 是美客多品牌词"
+        },
+        {
+          "id": "BR-P1-LANG",
+          "severity": "P1",
+          "type": "foreign",
+          "label": "混入西语（应为 pt-BR）",
+          "terms": ["envío", "envios", "año", "niño", "también", "diseño", "tamaño", "precio", "caja", "más", "tú"],
+          "chars": ["¡", "¿"],
+          "fix": "改为 pt-BR；西语倒标点在葡语中不存在"
+        },
+        {
+          "id": "BR-P2-HASHTAG",
+          "severity": "P2",
+          "type": "hashtag",
+          "label": "描述内出现标签（待 A/B 验证）",
+          "fix": "默认不放；确需放则限制 3-5 个"
+        }
+      ]
+    }
+  }
+}
