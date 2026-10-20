@@ -1,0 +1,203 @@
+# HANDOFF｜交接文档
+
+> 最后更新：2026-10-21 00:45（家里电脑）
+> 仓库：https://github.com/ruanxiaoer888/listing-pipeline （private）
+> 本文件位置 = 仓库根目录 = 流水线主本
+
+---
+
+## 0. 如果只看三件事
+
+1. **环境**：公司电脑 clone → 覆盖 `input` → 双击 `setup-new-pc.cmd`，看到 `ALL DONE.` 即可开工。
+2. **成本**：白天（峰时）只做零模型成本的活（脚本校验、改规则）；批量生成留到夜间谷时。
+3. **待决**：3 个商品数据有硬伤（ATVMX11700 功率 / BKU 品牌 / MMV 电池电压），生成对应 Listing 前必须先确认。
+
+---
+
+## 1. 当前任务
+
+**主线**：拉美 TikTok Shop（墨西哥 5 店 + 巴西 6 店，全部本土店，运营团队在国内）的 Listing 生产流水线，从「能生成」推进到「能批量、能校验、能投产」。
+
+**当前所处的阶段**：
+- 规则与工具已成型（v1.2），MX 站跑通 15 个商品批次；
+- 正在做「换机 + 连续迭代」：从家里电脑迁到公司电脑，之后每天在两地交替改规则；
+- 下一步是拿真实批次继续调规则，BR 站还没实际跑过。
+
+**明天（公司）的具体目标**：
+1. 环境自检通过（不花模型钱）；
+2. 白天用 1–2 个商品验证规则改动，其余用脚本回归；
+3. 批量生成排到夜间谷时，别在白天烧钱。
+
+---
+
+## 2. 已完成的内容
+
+### 2.1 流水线本体
+
+| 模块 | 内容 | 状态 |
+|---|---|---|
+| 技能入口 | `SKILL.md`，已装到全局 `%USERPROFILE%\.agents\skills\latam-tiktok-listing` | ✅ DSH 可加载 |
+| 站点规则 | `skill\rules-mx.md`（es-MX）、`skill\rules-br.md`（pt-BR，重写非机翻） | ✅ |
+| 类目包 | `skill\类目\01~08`（五金工具/汽车摩托/家居建材/运动户外/宠物/厨房/家电/时尚配件） | ✅ 8 个 |
+| 输出骨架 | `skill\骨架.md`（标题结构、分区、长度规则） | ✅ |
+| 属性映射 | `skill\属性映射.md` + `qa\map_attributes.py`（13 个槽位，5 条硬规则） | ✅ |
+| 合规校验 | `qa\check_listing.py` v1.2 + `qa\denylist.json` | ✅ |
+| 批次脚本 | `collect_inputs` / `map_attributes` / `build_batch_csv` / `check_listing` / `make_batch_xlsx` / `run_batch` | ✅ |
+| 案例库 | `skill\案例库索引.md`（9 条）+ `source-gemini\` 原始 V3.2 四份 | ✅ 已整合 |
+| 换机脚本 | `setup-new-pc.cmd/.ps1`、`sync-to-skill.cmd/.ps1`、`迁移到新电脑.md` | ✅ |
+
+**已验证结果**：
+
+- 9 条黄金案例：P0=0，P1=4（全是 `Compra protegida`），P2=9；
+- 15 个商品批次：P0=0，P1=0，P2=3（MMV 缺尺寸/材质、BKU 功率 N/A）；
+- 15 条标题长度全部 61–79 字符（移动端推荐 60–80）；
+- 黄金对照样例：`output\_归档\示例商品001-千斤顶-定稿与A-B对照\`（含 A/B 两版），是回归基准。
+
+### 2.2 换机与版本管理（2026-10-21）
+
+| 项 | 结果 |
+|---|---|
+| 仓库根目录 | 就是本目录（`listing-pipeline`），外层 `Tiktok` 只是资料文件夹 |
+| GitHub | 私有库 `ruanxiaoer888/listing-pipeline`，42 个文件，2 个提交 |
+| remote | SSH：`git@github.com:ruanxiaoer888/listing-pipeline.git` |
+| 提交邮箱 | `203290839+ruanxiaoer888@users.noreply.github.com`（GH007 规避） |
+| 写死路径 | `qa\run_batch.py`、`sync-to-skill.ps1` 里两处 `C:\Users\AUSU` 已改成按 `%USERPROFILE%` 解析 |
+| 忽略规则 | `.gitignore` 排除 `input\*`（商品图 49MB）、`output\*`（除黄金样例）、`qa\报告\`、缓存 |
+| 清理 | 工作区从 97.9MB 降到 49.6MB（删除 48MB 旧 zip、过期报告、`__pycache__`） |
+
+---
+
+## 3. 卡住 / 待确认的问题
+
+| # | 问题 | 影响 | 需要谁 |
+|---|---|---|---|
+| 1 | **ATVMX11700 标 6800W / 127V ≈ 54A**，物理上不可信 | 功率写进标题/卖点会被质疑，也可能判虚假宣传 | 查铭牌或供应商规格书 |
+| 2 | **BKU0000000 品牌冲突**：属性写 Fanny，描述出现 Atverce | 品牌字段填错，影响审核和搜索 | 确认到底是哪个品牌 |
+| 3 | **MMV2000000 电池电压 18V / 21V 冲突** | 标题和属性会自相矛盾 | 确认实际电池规格 |
+| 4 | 15 个商品里有 6 个电池工具属性写 `Voltaje:127V`，那是**充电器输入电压**，不是工具电压 | 已被属性映射规则识别并标注，生成时别直接抄 | 已在 `review_notes.json` 记录 |
+| 5 | **`采集清单.md` 还没接进批次核对**（应到 N 个 vs 实际 N 个） | 漏做商品不会被发现 | 可选，等要做时再接 |
+| 6 | **TikTok 后台批量模板列名未提供** | 不能直接导出「上传就绪」表格 | 需要从后台导一份空模板 |
+| 7 | 家里电脑 `github.com:443` 连不上（22 端口通） | push 走 SSH 没问题；公司网络需先试 HTTPS | 已绕过 |
+| 8 | **DSH 白天峰时贵、夜间谷时便宜** | 白天批量生成成本高 | 已定策略：白天零成本、夜间批量 |
+
+> 生成仍由 Agent 按规则完成，**刻意不接模型 API**：规则还在每天变，过早自动化会固化错误。
+
+---
+
+## 4. 下一步计划
+
+### 今晚（出门前）
+- [ ] 把 `input\`（15 个商品 / 160 文件 / 约 49MB）拷到 U 盘
+- [ ] 确认公司电脑 DSH 已装（已确认 ✅）、能登录 GitHub（已确认 ✅）
+
+### 明天（公司，白天）
+- [ ] `git clone` → 设 noreply 邮箱 → 覆盖 `input` → 双击 `setup-new-pc.cmd` → `ALL DONE.`
+- [ ] 验收：`cd qa; python check_listing.py --demo --site MX` 退出码 0
+- [ ] 用 **1–2 个商品**做生成验证（别批量，省成本），重点看标题结构和卖点排序
+- [ ] 按验证结果改 `skill\` 规则；每改一轮跑 `check_listing.py --demo` 回归
+- [ ] 需要时跑 `run_batch.py` 出属性表/批次表（纯脚本，零成本）
+
+### 夜间 / 家里（谷时）
+- [ ] 批量生成（问题 1–3 的商品先跳过）
+- [ ] 生成结果用 `git add -f output\批次XXX` 提交，公司 `pull` 后审核
+
+### 本周
+- [ ] BR 站首次实测（目前所有验证都是 MX）
+- [ ] 拿到后台上传模板 → 填 `qa\field_map.json` → 出上传就绪表
+- [ ] 决定是否接 `采集清单.md` 做批次数量核对
+
+---
+
+## 5. 踩过的坑（下次别重复）
+
+### 5.1 环境 / 脚本
+1. **Windows PowerShell 5.1 + 中文**：UTF-8 无 BOM 的 `.ps1` 含中文会解析报错。解决办法：脚本一律 **ASCII-only**，或保存为 UTF-8 **with BOM**。本仓库所有 `.ps1` 都是 ASCII-only。
+2. **ExecutionPolicy**：直接跑 `.ps1` 可能被拦。统一用 `powershell -NoProfile -ExecutionPolicy Bypass -File xxx.ps1`（`.cmd` 里已经带好）。
+3. **写死用户路径**：`C:\Users\AUSU` 写死在脚本里，换电脑必炸。现在统一用 `$env:USERPROFILE`。
+4. **openpyxl 缺失**：系统 Python 没有 openpyxl → `run_batch.py` 会自动切到 DSH 自带 Python（`~\.dsh\dsh-runtimes\...\python.exe`）。
+5. **`python -c "..."` 带管道/复杂引号**易崩，逻辑一律写进 `.py` 文件。
+6. **中文文件名的重命名**：目标名含 `:` 会失败（Windows 不允许），已改成 `示例商品001-千斤顶-定稿与A-B对照`。
+7. **DSH 沙箱**：写工作区外（如全局 skill 目录）会被拒；用户自己双击 `.cmd` 不受影响，但 agent 里跑要放行。
+8. **全局 skill 被整目录复制会膨胀**（曾到 99MB）：`sync-to-skill.ps1` 只拷白名单（`SKILL.md`/`README.md`/`skill`/`qa`/`source-gemini`/同步脚本），不拷 `input`/`output`。
+
+### 5.2 Git / GitHub
+9. **GH007**：GitHub 设置了「不公开邮箱」时，用 qq 邮箱提交会被拒绝 push。解决办法：仓库内设 noreply 邮箱（换电脑要重设一次）。
+10. **`github.com:443` 连不上**（家里网络）：`api.github.com:443` 和 `22` 端口都通，所以 remote 改 SSH。
+11. **仓库根目录搞错过一次**：先做成了工作区根（`Tiktok`），按需求改成 `listing-pipeline` 本身，历史已 force 覆盖。
+12. **force push 后上游分支丢失**：要 `git push -u origin main` 重新绑定，否则 `git push` 报 no upstream。
+13. **仓库改名**：GitHub 自动重定向旧地址，但本地必须 `git remote set-url`，否则 push 到旧名。
+14. **历史里有不该提交的文件**：先 `git rm --cached` 再从远端彻底移除，需要重写历史 + force push；`--cached` 不会删本地文件。
+15. **CRLF 警告**（`LF will be replaced by CRLF`）是 Git 自动换行提示，无害，不用改配置。
+
+### 5.3 数据层（最值钱的教训）
+16. ML 数据不能直接搬：**电池工具属性里的 `Voltaje:127V` 是充电器输入**，不是工具工作电压（6 个商品都这样）。
+17. **110V/120V 一律按 127V 处理**（墨西哥电网），但必须在描述里写明，不能悄悄改。
+18. 单位错乱：`1500Ah` 应为 `1500mAh`；转速 `1150rpm` vs `12000`、`3900` vs `1100bpm` 描述与属性冲突。
+19. 尺寸/功率缺项、ML 残留词（`mercado libre`）要剔除，但**不能凭推测补**——缺必抽字段用 `[POR CONFIRMAR]` 占位并阻断。
+20. 品牌冲突不猜：`Fanny` vs `Atverce` 这类必须人工确认。
+
+### 5.4 校验器自身修过的 bug（v1.2 已修）
+21. 命中行取值用错字段（check id 当 row_id）；
+22. emoji 计数把分区标记也算进去了；
+23. `📋 Especificaciones:` 被误判成结构错误；
+24. `100%` 被重复报告；
+25. 西语 `baño` 被英文词边界误伤；
+26. 关键词重音不一致（`Cámara` vs `camara`）判不中；
+27. 单位换算误报（同处已有 `cm` 仍报缺）；
+28. 类目必填字段对非电动工具误报（手工/液压工具没有电压功率）。
+
+---
+
+## 6. 关键命令速查
+
+```powershell
+# 换电脑一次性安装 + 自检（在本目录双击，或命令行）
+powershell -NoProfile -ExecutionPolicy Bypass -File .\setup-new-pc.ps1 -FullCheck
+
+# 改完规则后同步到全局技能（DSH 才会加载新规则）
+.\sync-to-skill.cmd
+
+# 9 条黄金案例回归（退出码 0 = 通过）
+cd qa
+python check_listing.py --demo --site MX
+
+# 跑一个批次（纯脚本，零模型成本）
+python run_batch.py --input-root ..\input --listing-dir ..\output\批次YYYYMMDD --site MX
+
+# 提交推送
+git add -A
+git commit -m "说明"
+git pull            # 另一台机器上先 pull
+git push
+```
+
+---
+
+## 7. 目录地图
+
+```
+listing-pipeline\            ← git 仓库根目录
+├─ SKILL.md                  技能入口
+├─ README.md                 身份、目录、V3.2 整合对照表、校验能力
+├─ HANDOFF.md                本文件
+├─ 迁移到新电脑.md            换机 6 步 + 坑
+├─ setup-new-pc.cmd/.ps1     新电脑安装 + 自检
+├─ sync-to-skill.cmd/.ps1    工作区主本 → 全局技能
+├─ .gitignore                排除图片/批次/报告/缓存
+├─ skill\                    规则：骨架/站点包/8 类目/属性映射/案例库/脚本库
+├─ qa\                       校验器 + 批次脚本 + denylist + 测试样例 + 报告
+├─ source-gemini\            V3.2 原始四份（只读存档）
+├─ input\                    商品原始数据（图 + input.json，不进 git）
+└─ output\                   生成结果（不进 git，黄金样例除外）
+   ├─ 批次20261020\          15 个商品：listing / check.csv / 属性映射.xlsx / 批次结果.xlsx
+   └─ _归档\示例商品001…\    黄金对照样例（A/B 两版）
+```
+
+---
+
+## 8. 对外依赖（换人接手要知道）
+
+- **TikTok Shop 后台**：无 API 对接，Listing 靠人工/批量模板上传；
+- **MercadoLibre**：只作为历史数据来源，本流水线不读写它；
+- **DSH**：技能加载与生成环境，版本不影响规则文件（纯文本 + Python）；
+- **Python**：3.9+，xlsx 输出需要 openpyxl（DSH 自带环境里有）。

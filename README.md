@@ -10,6 +10,7 @@
 - **全局安装**：`%USERPROFILE%\.agents\skills\latam-tiktok-listing\`（副本，DSH 自动加载）
 - **主本**：本目录。改规则只改这里，改完跑 `sync-to-skill.cmd`
 - **版本库**：本目录就是 git 仓库根目录（`origin` = GitHub 私有库）；换电脑 / 迁移步骤见 `迁移到新电脑.md`
+- **交接**：`HANDOFF.md`（当前任务、已完成、卡住的问题、下一步、踩过的坑）
 
 ## 目录
 
