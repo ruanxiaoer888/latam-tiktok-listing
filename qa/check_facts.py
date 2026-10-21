@@ -46,7 +46,8 @@ def die(msg, code=2):
 
 
 def load_json(p):
-    return json.loads(Path(p).read_text(encoding="utf-8"))
+    # utf-8-sig：有人用记事本手改 facts.json 会带 BOM，不让它把整条门禁打成 traceback
+    return json.loads(Path(p).read_text(encoding="utf-8-sig"))
 
 
 def get_path(obj, path):
@@ -63,9 +64,10 @@ def empty(v):
 
 
 def load_schema(category):
+    """返回类目 schema；未登记的类目返回 None（由调用方跳过并提示，不要整批崩掉）。"""
     p = SCHEMA_DIR / f"{category}.schema.json"
     if not p.exists():
-        die(f"缺少类目 schema：{p}")
+        return None
     return load_json(p)
 
 
@@ -170,7 +172,8 @@ def check_one(d, schema):
     }
 
 
-def write_report(results, fail_on_blocked):
+def write_report(results, fail_on_blocked, skipped=None):
+    skipped = skipped or []
     INDEX_DIR.mkdir(parents=True, exist_ok=True)
     day = datetime.now().strftime("%Y-%m-%d %H:%M")
     counts = {k: 0 for k in ("READY", "FAIL", "BLOCKED", "QUARANTINED", "PENDING", "DRAFT-OK")}
@@ -233,11 +236,23 @@ def write_report(results, fail_on_blocked):
         lines.append("无。")
     lines += [
         "",
-        "## 四、下一步",
+        "## 四、跳过（类目 schema 未登记，未纳入门禁）",
+        "",
+    ]
+    if skipped:
+        lines += ["| SKU | 类目 | 需要补的 schema |", "|---|---|---|"]
+        for sku, cat in skipped:
+            lines.append(f"| {sku} | {cat or '（空）'} | `kb/_schemas/{cat or '<类目>'}.schema.json` |")
+    else:
+        lines.append("无。")
+    lines += [
+        "",
+        "## 五、下一步",
         "",
         "1. 隔离项先补证据（铭牌/实物照片/包装核对），确认后删掉 `overrides.json` 里的 `quarantine` 再参与核验。",
         "2. 其余 `draft` 逐条人工核；确认后置 `verified`（`_meta.verified_by/at` 填上）。",
         "3. 再跑 `python qa\\check_facts.py`，`READY` 的才进生成。",
+        "4. 上表跳过的 SKU 要先补类目 schema，否则它们没有门禁保护。",
         "",
     ]
     (INDEX_DIR / "完整度报告.md").write_text("\n".join(lines), encoding="utf-8")
@@ -266,13 +281,25 @@ def main():
     if not dirs:
         die("没有找到 facts.json，先运行 python qa\\build_facts.py")
 
-    results = []
+    results, skipped = [], []
     for d in dirs:
         f = load_json(d / "facts.json")
-        schema = load_schema(f.get("category", ""))
+        cat = f.get("category", "")
+        schema = load_schema(cat)
+        if schema is None:
+            skipped.append((d.name, cat))
+            continue
         results.append(check_one(d, schema))
+    if skipped:
+        print(f"\n[!] 跳过 {len(skipped)} 个：类目 schema 未登记，门禁无法判定"
+              f"（{SCHEMA_DIR}）")
+        for sku, cat in skipped:
+            print(f"    跳过 {sku:<12} 类目={cat or '<空>'}")
+        print(f"    补 kb\\_schemas\\<类目>.schema.json 后重跑即可纳入；其余 SKU 已正常检查。")
+    if not results:
+        die("所有 SKU 的类目都缺少 schema，一个都没能检查；先补 kb\\_schemas\\")
 
-    counts = write_report(results, args.fail_on_blocked)
+    counts = write_report(results, args.fail_on_blocked, skipped)
     print(f"样本 {len(results)} 个 | READY={counts.get('READY', 0)} FAIL={counts.get('FAIL', 0)} "
           f"BLOCKED={counts.get('BLOCKED', 0)} QUARANTINED={counts.get('QUARANTINED', 0)} "
           f"PENDING={counts.get('PENDING', 0)} "

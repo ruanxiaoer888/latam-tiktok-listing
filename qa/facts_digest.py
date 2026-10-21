@@ -84,6 +84,9 @@ def main():
             skipped.append((d.name, status))
             continue
         schema = load_schema(f.get("category", ""))
+        if schema is None:
+            skipped.append((d.name, f"类目 schema 未登记：{f.get('category') or '<空>'}"))
+            continue
         missing = missing_of(f, requirements(f, schema))
         blocks = g(f, "gates", "hard_blocks", default=[]) or []
         if (missing or blocks) and not args.include_pending:

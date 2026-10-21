@@ -113,21 +113,50 @@ def check_one(d: dict, findings: list):
 
     # ---------- 品牌 / 型号冲突 ----------
     raw_brand = find_key(raw, "Marca", "Brand")[1]
-    aliases = [norm_text(a) for a in (ident.get("brand_aliases") or [])]
-    if not is_placeholder(ident.get("brand")) and not is_placeholder(raw_brand):
-        nb, nrb = norm_text(ident.get("brand")), norm_text(raw_brand)
-        # 同公司并列品牌（identity.brand_aliases）不算冲突
-        if nb != nrb and nrb not in aliases:
-            add(findings, sku, "FQ-P0-BRAND-CONFLICT", "P0", "品牌冲突",
-                f"identity.brand={ident.get('brand')!r} vs raw.Marca={raw_brand!r}",
-                "先确认到底是哪个品牌，别猜", "identity.brand")
-
     raw_model = find_key(raw, "Modelo", "Model")[1]
-    if not is_placeholder(ident.get("model")) and not is_placeholder(raw_model):
-        if norm_text(ident.get("model")) != norm_text(raw_model):
-            add(findings, sku, "FQ-P1-MODEL-CONFLICT", "P1", "型号不一致",
-                f"identity.model={ident.get('model')!r} vs raw.Modelo={raw_model!r}",
-                "型号影响证书覆盖范围，需核对", "identity.model")
+    aliases = [norm_text(a) for a in (ident.get("brand_aliases") or [])]
+    brand, model = ident.get("brand"), ident.get("model")
+
+    # 美客多 Marca/Modelo 两字段互换：Marca 填的是型号、Modelo 填的是品牌。
+    # 这种是上游属性错位，identity 已按标题校正（见 input/<SKU>/overrides.json），
+    # 不能再报 P0 品牌冲突，否则该 SKU 补齐其它缺项后永远过不了 --strict。
+    # 注意：model 常被回填成品牌（缺型号属性时），brand==model 属正常兜底，不算互换。
+    _has_conflict = (
+        (not is_placeholder(brand) and not is_placeholder(raw_brand)
+         and norm_text(brand) != norm_text(raw_brand))
+        or (not is_placeholder(model) and not is_placeholder(raw_model)
+            and norm_text(model) != norm_text(raw_model))
+    )
+    crossed = (
+        _has_conflict
+        and norm_text(brand) != norm_text(model)
+        and (
+            (not is_placeholder(model) and not is_placeholder(raw_brand)
+             and norm_text(raw_brand) == norm_text(model))
+            or (not is_placeholder(brand) and not is_placeholder(raw_model)
+                and norm_text(raw_model) == norm_text(brand))
+        )
+    )
+    if crossed:
+        add(findings, sku, "FQ-P1-BRAND-MODEL-SWAP", "P1", "品牌/型号字段互换",
+            f"raw.Marca={raw_brand!r} / raw.Modelo={raw_model!r} 与 identity 交叉相同"
+            f"（brand={brand!r} model={model!r}）",
+            "已按标题/override 校正，不用改 facts；要根治请让采购核对美客多属性",
+            "identity.brand")
+    else:
+        if not is_placeholder(brand) and not is_placeholder(raw_brand):
+            nb, nrb = norm_text(brand), norm_text(raw_brand)
+            # 同公司并列品牌（identity.brand_aliases）不算冲突
+            if nb != nrb and nrb not in aliases:
+                add(findings, sku, "FQ-P0-BRAND-CONFLICT", "P0", "品牌冲突",
+                    f"identity.brand={brand!r} vs raw.Marca={raw_brand!r}",
+                    "先确认到底是哪个品牌，别猜", "identity.brand")
+
+        if not is_placeholder(model) and not is_placeholder(raw_model):
+            if norm_text(model) != norm_text(raw_model):
+                add(findings, sku, "FQ-P1-MODEL-CONFLICT", "P1", "型号不一致",
+                    f"identity.model={model!r} vs raw.Modelo={raw_model!r}",
+                    "型号影响证书覆盖范围，需核对", "identity.model")
 
     # ---------- 电压口径 ----------
     if ptype == "battery":

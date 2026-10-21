@@ -42,6 +42,10 @@ def main():
         pid = f.get("product_id", d.name)
         status = f.get("status", "draft")
         schema = load_schema(f.get("category", ""))
+        if schema is None:
+            print(f"[!] 跳过 {pid}：类目 schema 未登记（{f.get('category') or '<空>'}）",
+                  file=sys.stderr)
+            continue
         missing = missing_of(f, requirements(f, schema))
         blocks = (f.get("gates") or {}).get("hard_blocks") or []
         warns = (f.get("gates") or {}).get("warnings") or []

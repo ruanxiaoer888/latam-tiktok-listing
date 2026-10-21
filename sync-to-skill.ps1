@@ -37,10 +37,14 @@ foreach ($item in $items) {
 }
 
 # Generated artifacts are not part of the skill; scripts rebuild them on demand.
-foreach ($junk in @("kb\_index", "qa\报告", "qa\__pycache__")) {
-    $p = Join-Path $dst $junk
-    if (Test-Path $p) { Remove-Item $p -Recurse -Force }
-}
+# NEVER put a Chinese folder name in this file: it is ASCII-only on purpose, and
+# Windows PowerShell 5.1 reads BOM-less UTF-8 as ANSI, so a literal CJK path
+# becomes mojibake and Test-Path silently returns false - which is exactly how
+# 40 stray report files used to survive every sync. Delete qa sub-folders by
+# enumeration instead.
+Remove-Item (Join-Path $dst "kb\_index") -Recurse -Force -ErrorAction SilentlyContinue
+Get-ChildItem (Join-Path $dst "qa") -Directory -ErrorAction SilentlyContinue |
+    Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
 Write-Host "[OK] synced: $src -> $dst (input/output/index excluded)"
 
 # Resolve a Python interpreter: prefer the DSH bundled runtime, then PATH.
@@ -58,9 +62,13 @@ if (-not $py) {
     exit 1
 }
 Write-Host "[..] self-test with the 9 V3.2 golden cases ($py):"
-Push-Location (Join-Path $dst "qa")
+# Run from the SOURCE qa folder and write reports to TEMP: running it inside
+# $dst\qa would drop the generated report folder right back into the skill.
+$demoOut = Join-Path $env:TEMP ("dsh-listing-demo-" + [guid]::NewGuid().ToString("N"))
+Push-Location (Join-Path $src "qa")
 try {
-    & $py check_listing.py --demo --site MX
+    & $py check_listing.py --demo --site MX --out $demoOut
 } finally {
     Pop-Location
+    Remove-Item $demoOut -Recurse -Force -ErrorAction SilentlyContinue
 }

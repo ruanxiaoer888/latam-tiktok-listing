@@ -39,6 +39,10 @@ def main():
     for d in dirs:
         f = load_json(d / "facts.json")
         schema = load_schema(f.get("category", ""))
+        if schema is None:
+            print(f"[!] 跳过 {d.name}：类目 schema 未登记（{f.get('category') or '<空>'}）",
+                  file=sys.stderr)
+            continue
         reqs = requirements(f, schema)
         missing = missing_of(f, reqs)
         soft = missing_of(f, recommended_fields(f, schema))

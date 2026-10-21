@@ -45,7 +45,7 @@ def run(cmd, label):
     print("$ " + " ".join(str(c) for c in cmd))
     rc = subprocess.call([str(c) for c in cmd])
     if rc != 0:
-        print(f"[!] {label} 失败（exit={rc}），继续下一步" if label != "合规校验" else f"[!] {label} 失败（exit={rc}）")
+        print(f"[!] {label} 失败（exit={rc}），继续下一步")
     return rc
 
 
@@ -91,14 +91,19 @@ def main():
         check_csv = ldir / "check.csv"
         run([sys.executable, BASE / "build_batch_csv.py",
              "--input-root", inroot, "--listing-dir", ldir, "--out", check_csv], "汇总校验用 CSV")
+        # 只认「本次」生成的明细：跑之前先记下 qa\报告 里已有的文件。
+        # 不能按全目录 mtime 取最新——跑到一半又跑过 demo / 别的批次时会拿错文件。
+        before = set(BASE.glob("报告/*/*"))
         run([sys.executable, BASE / "check_listing.py",
              "--input", check_csv, "--site", args.site], "合规校验")
-        # 取最新明细
-        reports = sorted(BASE.glob("报告/*/明细_*.csv"), key=lambda p: p.stat().st_mtime)
-        if not reports:
-            raise SystemExit("没找到校验明细，check_listing 可能失败了")
+        fresh = [p for p in BASE.glob("报告/*/明细_*.csv") if p not in before]
+        if not fresh:
+            raise SystemExit("没找到本次校验的明细，check_listing 可能失败了；"
+                             "不要拿上一次的旧明细顶替，先看上面的报错")
+        newest = sorted(fresh, key=lambda p: p.stat().st_mtime)[-1]
         findings = ldir / "_findings.csv"
-        findings.write_bytes(reports[-1].read_bytes())
+        findings.write_bytes(newest.read_bytes())
+        print(f"[i] 本次明细：{newest}")
         notes = args.notes or str(ldir / "review_notes.json")
         run([sys.executable, BASE / "make_batch_xlsx.py",
              "--check-csv", check_csv, "--detail-csv", findings,

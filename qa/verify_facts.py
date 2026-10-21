@@ -40,6 +40,9 @@ def main():
             refused.append((pid, "已隔离，先删掉 overrides.json 里的 quarantine 再核验"))
             continue
         schema = load_schema(f.get("category", ""))
+        if schema is None:
+            refused.append((pid, f"类目 schema 未登记：{f.get('category') or '<空>'}，先补 kb\\_schemas\\"))
+            continue
         missing = missing_of(f, requirements(f, schema))
         blocks = (f.get("gates") or {}).get("hard_blocks") or []
         if blocks:
