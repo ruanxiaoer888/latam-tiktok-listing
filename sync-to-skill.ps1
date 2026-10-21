@@ -20,21 +20,28 @@ if (-not (Test-Path $dst)) {
 }
 
 # Remove the copied sub-folders first so deleted/renamed files do not linger.
-foreach ($d in @("skill", "qa", "source-gemini")) {
+foreach ($d in @("skill", "qa", "source-gemini", "kb")) {
     $p = Join-Path $dst $d
     if (Test-Path $p) { Remove-Item $p -Recurse -Force }
 }
 
 # Only content the skill needs. Do NOT copy input\ and output\ (raw product data
 # and generated listings stay in the workspace; they would bloat the skill folder).
-$items = @("SKILL.md", "README.md", "skill", "qa", "source-gemini", "sync-to-skill.cmd", "sync-to-skill.ps1")
+# kb\ IS required: check_facts.py loads kb\_schemas\<category>.schema.json.
+$items = @("SKILL.md", "README.md", "skill", "qa", "kb", "source-gemini", "sync-to-skill.cmd", "sync-to-skill.ps1")
 foreach ($item in $items) {
     $p = Join-Path $src $item
     if (Test-Path $p) {
         Copy-Item $p $dst -Recurse -Force
     }
 }
-Write-Host "[OK] synced: $src -> $dst (input/output excluded)"
+
+# Generated artifacts are not part of the skill; scripts rebuild them on demand.
+foreach ($junk in @("kb\_index", "qa\报告", "qa\__pycache__")) {
+    $p = Join-Path $dst $junk
+    if (Test-Path $p) { Remove-Item $p -Recurse -Force }
+}
+Write-Host "[OK] synced: $src -> $dst (input/output/index excluded)"
 
 # Resolve a Python interpreter: prefer the DSH bundled runtime, then PATH.
 $py = $null

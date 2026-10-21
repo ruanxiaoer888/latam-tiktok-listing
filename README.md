@@ -34,7 +34,11 @@ listing-pipeline\
 │  ├─ check_certificates.py 认证检查器（缺失/过期/待确认 + 换证提醒）
 │  ├─ 认证台账说明.md      字段定义、维护 SOP、飞书导入
 │  ├─ 认证台账_导入模板.csv 飞书多维表格导入模板（含示例行）
-│  ├─ check_listing.py    合规校验器 v1.2
+│  ├─ check_listing.py    合规校验器 v1.3
+│  ├─ build_facts.py      事实卡构建（input.json + overrides → facts.json）
+│  ├─ index_kb.py         事实库索引（kb\_index\products.csv）
+│  ├─ verify_facts.py     人工核验后批量置 verified
+│  ├─ source_digest.py    生成用摘要（input.json → output\_batch\digest.md）
 │  ├─ check_facts.py      事实卡门禁（schema 必填/完整度 → kb\_index\完整度报告.md）
 │  ├─ check_facts_quality.py 数据质量哨兵（品牌/电压/功率/单位/价格口径）
 │  ├─ map_attributes.py   ML 属性 → TikTok 槽位映射（电池工具电压口径等）
@@ -42,7 +46,8 @@ listing-pipeline\
 │  ├─ make_batch_xlsx.py  批量：校验结果 + 备注 → 批次结果.xlsx
 │  ├─ 测试样例.csv        回归用例（含 核心词 / 类目 两列）
 │  └─ 报告\<日期>\        扫描输出
-├─ input\                 待处理商品（一个商品一个子目录）
+├─ kb\                    产品事实库：_schemas\（3 个类目 schema + _fields.md）、_index\（脚本生成）
+├─ input\                 待处理商品（一个商品一个子目录；facts.json/overrides/img_manifest 进 git，图与原始 json 不进）
 └─ output\                生成结果
 ```
 

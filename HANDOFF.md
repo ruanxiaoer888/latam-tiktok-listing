@@ -1,6 +1,6 @@
 # HANDOFF｜交接文档
 
-> 最后更新：2026-10-21 01:00（家里电脑，v1.3 转化层）
+> 最后更新：2026-10-21 20:50（家里电脑；v1.3 转化层 + 生成前事实门禁）
 > 仓库：https://github.com/ruanxiaoer888/listing-pipeline （private）
 > 本文件位置 = 仓库根目录 = 流水线主本
 
@@ -8,10 +8,10 @@
 
 ## 0. 如果只看三件事
 
-1. **目标别跑偏**：这一切的最终目的只有一个——**在合规前提下，写出能提高转化率的 Listing**。校验器和脚本是手段，不是目的。
+1. **目标别跑偏**：这一切的最终目的只有一个——**在合规前提下，写出能提高转化率的 Listing**。校验器、事实库、门禁都是手段，不是目的。
 2. **环境**：公司电脑 clone → 覆盖 `input` → 双击 `setup-new-pc.cmd`，看到 `ALL DONE.` 即可开工。
-3. **成本**：白天（峰时）只做零模型成本的活（脚本校验、改规则）；批量生成留到夜间谷时。
-4. **待决**：3 个商品数据有硬伤（ATVMX11700 功率 / BKU 品牌 / MMV 电池电压），生成对应 Listing 前必须先确认。
+3. **成本**：白天（峰时）只做零模型成本的活（脚本校验、核事实、改规则）；批量生成留到夜间谷时。
+4. **现在的卡点**：门禁建好了，但 **15 个 SKU 里 0 个 `verified`** → 按规则一个都不能生成。先人工核验（2–3 分钟/条）再跑批量。
 
 ---
 
@@ -25,16 +25,10 @@
 **工程主线**：拉美 TikTok Shop（墨西哥 5 店 + 巴西 6 店，全部本土店，运营团队在国内）的 Listing 生产流水线，从「能生成」推进到「能批量、能校验、能投产」。
 
 **当前所处的阶段**：
-- 合规层与工具链已成型（v1.3），MX 站跑通 15 个商品批次；
-- **2026-10-21 补齐转化层**（`skill\转化层.md` + 7 条 P2-转化 检查），这是从「合格」走到「能卖」的一步；
-- 正在做「换机 + 连续迭代」：从家里电脑迁到公司电脑，之后每天在两地交替改规则；
+- 合规层 + 转化层 + 工具链已成型（v1.3），MX 站跑通 15 个商品批次；
+- **2026-10-21 公司电脑补了两件事**：① 事实层落地（`kb/` + 15 份 `facts.json`，生成立唯一事实来源）；② 生成前三道门禁（事实卡 / 口径 / 认证），4 个疑点 SKU 已隔离；
 - 还差一样东西：**后台真实数据**（曝光/点击/转化/退货），没有它只能做下限提升，做不了定向优化。
-- BR 站还没实际跑过。
-
-**明天（公司）的具体目标**：
-1. 环境自检通过（不花模型钱）；
-2. 白天用 1–2 个商品验证规则改动，其余用脚本回归；
-3. 批量生成排到夜间谷时，别在白天烧钱。
+- BR 站还没实际跑过（所有验证都是 MX）。
 
 ---
 
@@ -47,35 +41,66 @@
 | 技能入口 | `SKILL.md`，已装到全局 `%USERPROFILE%\.agents\skills\latam-tiktok-listing` | ✅ DSH 可加载 |
 | 站点规则 | `skill\rules-mx.md`（es-MX）、`skill\rules-br.md`（pt-BR，重写非机翻） | ✅ |
 | 类目包 | `skill\类目\01~08`（五金工具/汽车摩托/家居建材/运动户外/宠物/厨房/家电/时尚配件） | ✅ 8 个 |
-| 输出骨架 | `skill\骨架.md`（标题结构、分区、长度规则 + 转化侧首屏/卖点规则） | ✅ |
-| **转化层** | `skill\转化层.md`（5 个 GATE + 关键词三层 + 合规替代表达 + 6 条转化自检） | ✅ 2026-10-21 新增 |
+| 输出骨架 | `skill\骨架.md`（标题结构、分区、长度 + 转化侧首屏/卖点规则、⭐ 行间空行） | ✅ |
+| 转化层 | `skill\转化层.md`（5 个 GATE + 关键词三层 + 合规替代表达 + 6 条转化自检） | ✅ |
 | 属性映射 | `skill\属性映射.md` + `qa\map_attributes.py`（13 个槽位，5 条硬规则） | ✅ |
-| 合规校验 | `qa\check_listing.py` **v1.3** + `qa\denylist.json` v1.1 | ✅ |
+| 合规校验 | `qa\check_listing.py` v1.3 + `qa\denylist.json` v1.1（含官方来源清单） | ✅ |
 | 批次脚本 | `collect_inputs` / `map_attributes` / `build_batch_csv` / `check_listing` / `make_batch_xlsx` / `run_batch` | ✅ |
-| 案例库 | `skill\案例库索引.md`（9 条）+ `source-gemini\` 原始 V3.2 四份 | ✅ 已整合 |
+| 案例库 | `skill\案例库索引.md`（9 条）+ `source-gemini\` 原始 V3.2 四份 | ✅ |
 | 换机脚本 | `setup-new-pc.cmd/.ps1`、`sync-to-skill.cmd/.ps1`、`迁移到新电脑.md` | ✅ |
 
-**已验证结果**：
+### 2.2 事实层（2026-10-21 公司电脑新增）
 
-- 9 条黄金案例：P0=0，P1=4（全是 `Compra protegida`），P2-结构=9，P2-转化=14；
-- 15 个商品批次：P0=0，P1=0，P2-结构=3（MMV 缺尺寸/材质、BKU 功率 N/A），P2-转化=14；
-- 15 条标题长度全部 61–79 字符（移动端推荐 60–80）；
-- **v1.3 转化层回归**：加检查后 P0 / P1 / P2-结构 三项与 v1.2 **完全一致**（没把旧口径弄乱），新增的 P2-转化 是可执行的新指标；
-- **自有产出暴露的真实缺口**：15 条批次里 **9 条标题没有 `para…` 用途词、5 条第一条卖点是参数**——都是老提示词生成的，按新规则重生成即修。这是转化层立刻能拿到的收益；
-- 黄金对照样例：`output\_归档\示例商品001-千斤顶-定稿与A-B对照\`（含 A/B 两版），是回归基准。
-- **转化层单条实测**（2026-10-21）：`ABU5000000` 按新规则重写（`output\批次20261021\`），P2-转化 2 → 0、全项清零、标题 79 字符；旧版在 `output\批次20261020\`。改的是：标题补 `para Poda y Leña`、第一条卖点从「Motor sin escobillas de 21V」改成「Sin cable ni gasolina」、补 FAQ 到 3 条、把 127V 明确写成充电器电压。
+| 项 | 内容 |
+|---|---|
+| 事实卡 | `input\<SKU>\facts.json` × 15：品牌/供电/电压/功率/尺寸/包装/兼容/认证/图片哈希/门禁 |
+| 图片清单 | `input\<SKU>\img_manifest.csv`：哈希、主图、重复组 |
+| 人工确认 | `input\<SKU>\overrides.json` × 4：按点路径覆盖 + 解除阻断 + 加警告 + 隔离；重建自动重放 |
+| 字段字典 | `kb\_schemas\_fields.md` + 3 个类目 schema（五金工具/汽摩/家电） |
+| 状态机 | `draft`（待核）→ `verified`（可生成）/ `quarantined`（移出生成集）/ `blocked`（硬伤） |
+| 版本库 | `facts.json`、`overrides.json`、`img_manifest.csv` **进 git**；`input.json`/`item.json`/`img/` 不进 |
+| 构建/门禁 | `qa\build_facts.py`（`--check` 只报告不写）/ `check_facts.py` / `index_kb.py` / `verify_facts.py` |
+| 数据质量哨兵 | `qa\check_facts_quality.py`：品牌/型号冲突、电池 vs 充电器电压、电压口径、功率物理、单位、价格币种、属性键值错位 |
+| 认证卡口 | `qa\check_certificates.py` + `qa\certifications.json` + `认证台账说明.md` + 飞书导入模板 |
+| 生成摘要 | `qa\source_digest.py`：`input.json` → `output\_batch\digest.md`（省去反复读图/长描述） |
 
-### 2.2 换机与版本管理（2026-10-21）
+**认证规则**：NOM-003（MX 电动类，阻断）、INMETRO（BR，范围待确认→只提醒）、ANATEL（只认 bluetooth/wifi/2.4G/radio，`inalámbrico` 不算）、UN38.3（含锂电池即需要）。
+
+**当前隔离 4 个**（不进本批生成，事实卡和 overrides 都保留）：
+- `ATVMX11700`：6800W / 127V ≈ 54A，与家庭电路矛盾，拿不到铭牌；
+- `AMR3000002`：电池电压 18V 只是口述估计，无标签；
+- `BKU0000000`：包装清单是推断（是否含充电器未核对）；
+- `MMV2000000`：电池 18V / 整机标称 21V 口径未确认。
+
+**干净候选 11 个**：`ABTL000006`、`ABU5000000`、`ABU6000008`、`ABU600000T`、`AHR6C50002`、`AMU0000003`、`AMU3CI0000`、`AMU6000005`、`ATVMX18200`、`MBU6000001`、`ZK2604270H`。
+
+### 2.3 换机与版本管理
 
 | 项 | 结果 |
 |---|---|
 | 仓库根目录 | 就是本目录（`listing-pipeline`），外层 `Tiktok` 只是资料文件夹 |
-| GitHub | 私有库 `ruanxiaoer888/listing-pipeline`，44 个文件，4 个提交（v1.3 转化层为止） |
+| GitHub | 私有库 `ruanxiaoer888/listing-pipeline`，**93 个文件，7 个提交** |
 | remote | SSH：`git@github.com:ruanxiaoer888/listing-pipeline.git` |
 | 提交邮箱 | `203290839+ruanxiaoer888@users.noreply.github.com`（GH007 规避） |
-| 写死路径 | `qa\run_batch.py`、`sync-to-skill.ps1` 里两处 `C:\Users\AUSU` 已改成按 `%USERPROFILE%` 解析 |
-| 忽略规则 | `.gitignore` 排除 `input\*`（商品图 49MB）、`output\*`（除黄金样例）、`qa\报告\`、缓存 |
-| 清理 | 工作区从 97.9MB 降到 49.6MB（删除 48MB 旧 zip、过期报告、`__pycache__`） |
+| 忽略规则 | `.gitignore` 排除 `input\*`（图 49MB，但放行 facts/overrides/manifest）、`output\*`（除黄金样例）、`qa\报告\`、`kb\_index\`、缓存 |
+
+### 2.4 已验证结果（都可重跑）
+
+**转化侧**
+- 9 条黄金案例：P0=0，P1=4（全是 `Compra protegida`），P2-结构=9，P2-转化=14；
+- 15 个商品批次：P0=0，P1=0，P2-结构=3，P2-转化=14；
+- **v1.3 回归**：加转化检查后 P0 / P1 / P2-结构 三项与 v1.2 完全一致；
+- 自有产出真实缺口：15 条里 9 条标题无 `para…`、5 条第一条卖点是参数；
+- 单条实测 `ABU5000000`：按转化层重写后 P2-转化 2 → 0，标题 79 字符（旧版存 `output\批次20261020\`）。
+
+**事实侧（2026-10-21 实跑）**
+- `check_facts.py`：15 个 → READY=0、DRAFT-OK=11、已隔离=4、BLOCKED=0；
+- `check_facts_quality.py --strict`：P0=0、P1=4、P2=8，退出码 0（修掉两个误报后，见 §5.6）；
+- `check_certificates.py --strict`：跳过 4 个隔离，剩 **14 条未登记**，退出码 3（真实阻塞：台账为空）；
+- `build_facts.py --check`：15 条，退出码 0，不写文件；
+- `index_kb.py`：候选 11 个，必填齐全 11/11；
+- `source_digest.py`：15 个 SKU → `output\_batch\digest.md`；
+- 两个 `--demo` 自检通过；`check_listing.py --demo` 仍是 0/4/9/14（没被改坏）。
 
 ---
 
@@ -83,17 +108,19 @@
 
 | # | 问题 | 影响 | 需要谁 |
 |---|---|---|---|
-| 1 | **ATVMX11700 标 6800W / 127V ≈ 54A**，物理上不可信 | 功率写进标题/卖点会被质疑，也可能判虚假宣传 | 查铭牌或供应商规格书 |
-| 2 | **BKU0000000 品牌冲突**：属性写 Fanny，描述出现 Atverce | 品牌字段填错，影响审核和搜索 | 确认到底是哪个品牌 |
-| 3 | **MMV2000000 电池电压 18V / 21V 冲突** | 标题和属性会自相矛盾 | 确认实际电池规格 |
-| 4 | 15 个商品里有 6 个电池工具属性写 `Voltaje:127V`，那是**充电器输入电压**，不是工具电压 | 已被属性映射规则识别并标注，生成时别直接抄 | 已在 `review_notes.json` 记录 |
-| 5 | **`采集清单.md` 还没接进批次核对**（应到 N 个 vs 实际 N 个） | 漏做商品不会被发现 | 可选，等要做时再接 |
-| 6 | **TikTok 后台批量模板列名未提供** | 不能直接导出「上传就绪」表格 | 需要从后台导一份空模板 |
-| 7 | 家里电脑 `github.com:443` 连不上（22 端口通） | push 走 SSH 没问题；公司网络需先试 HTTPS | 已绕过 |
-| 8 | **DSH 白天峰时贵、夜间谷时便宜** | 白天批量生成成本高 | 已定策略：白天零成本、夜间批量 |
-| 9 | **没有后台转化数据**（曝光/点击率/转化率/退货率） | 只能做「下限提升」，做不了「定向优化」：不知道是没人点（主图/标题）还是点了不买（描述/价格） | 从 TikTok 后台导出 15 个 SKU 的 7 天数据 |
-| 10 | **TikTok 后台搜索词数据拿不到**（只有下拉和竞品标题） | L1 关键词靠猜，不能量化热度 | 后台「搜索分析」能导则导，不能则先用下拉词表 |
-| 11 | **转化层的规则还没经过 A/B 验证** | 现在只是「按经验该更好」，没有数据证明 | 挑 2 个商品各投 7 天对比 |
+| 1 | **15 个 SKU 全 `draft`，0 个 `verified`** | 门禁下无法生成任何一条 | 人工核验后跑 `verify_facts.py` |
+| 2 | **认证台账 `certificates: []` 是空的** | 14 条 NOM-003 / UN38.3 全部 `未登记`，上架必卡 | 向供应商/认证机构拿证书号 + 有效期 |
+| 3 | ATVMX11700 功率 6800W/127V 不可信 | 已隔离，补齐铭牌才能恢复 | 铭牌/规格书 |
+| 4 | AMR3000002 电池电压仅口述 | 已隔离 | 电池标签照片 |
+| 5 | BKU0000000 包装清单是推断 | 已隔离 | 实物/包装核对 |
+| 6 | MMV2000000 18V vs 21V | 已隔离 | 确认电池平台 |
+| 7 | 15 个商品里 6 个电池工具属性写 `Voltaje:127V`（那是充电器输入） | 已由 `state_power` / `charger_v` 区分，别直接抄 | 已进 facts，生成时读 facts |
+| 8 | 3 个类目 schema 只覆盖本批（五金/汽摩/家电） | 下一批碰到家居建材等会报「缺少类目 schema」 | 扩 schema |
+| 9 | **没有后台转化数据**（曝光/点击率/转化率/退货率） | 只能做「下限提升」，做不了定向优化 | 从 TikTok 后台导出 15 个 SKU 的 7 天数据 |
+| 10 | 后台搜索词数据拿不到（只有下拉和竞品标题） | L1 关键词靠猜 | 能导则导 |
+| 11 | 转化层规则未 A/B 验证 | 只是「按经验该更好」 | 挑 2 个商品各投 7 天 |
+| 12 | `采集清单.md` 未接进批次核对 | 漏做商品不会被发现 | 可选 |
+| 13 | TikTok 后台批量模板列名未提供 | 不能直接出「上传就绪」表格 | 后台导一份空模板 |
 
 > 生成仍由 Agent 按规则完成，**刻意不接模型 API**：规则还在每天变，过早自动化会固化错误。
 
@@ -101,100 +128,97 @@
 
 ## 4. 下一步计划
 
-### 今晚（出门前）
-- [x] **把转化层写进 skill**（2026-10-21 01:00 完成）：`skill\转化层.md` + 骨架/提示词改造 + 7 条 P2-转化 检查 + 回归
-- [ ] 把 `input\`（15 个商品 / 160 文件 / 约 49MB）拷到 U 盘
-- [ ] 确认公司电脑 DSH 已装（已确认 ✅）、能登录 GitHub（已确认 ✅）
+### 今晚（谷时）
+- [x] 事实门禁接入 skill（`SKILL.md` 加三道门 + facts 唯一事实源；同步脚本补 `kb/`；修 2 个误报）
+- [ ] **人工核验 11 个干净 SKU** → `python qa\verify_facts.py <ID...> --by "<你的名字>"`
+- [ ] 核完 `python qa\check_facts.py`，看到 `READY=11` 再动手
+- [ ] 按新规则生成这 11 条（老批次 9 条标题缺用途词、5 条首条卖点是参数）
 
 ### 明天（公司，白天）
-- [ ] `git clone` → 设 noreply 邮箱 → 覆盖 `input` → 双击 `setup-new-pc.cmd` → `ALL DONE.`
-- [ ] 验收：`cd qa; python check_listing.py --demo --site MX` 退出码 0（现应为 `P0=0 P1=4 P2-结构=9 P2-转化=14`）
-- [ ] 用 **1–2 个商品**做生成验证（别批量，省成本），重点看：标题有没有 `para…` 用途词、第一行是不是具体痛点、第一条卖点是不是利益
-- [ ] 按验证结果改 `skill\` 规则；每改一轮跑 `check_listing.py --demo` 回归
-- [ ] 需要时跑 `run_batch.py` 出属性表/批次表（纯脚本，零成本）
-- [ ] **导后台数据**：15 个 SKU 的 曝光 / 点击率 / 转化率 / 退货率（见问题 9）
-
-### 夜间 / 家里（谷时）
-- [ ] 按新规则**重生成 15 条**（老批次 9 条标题缺用途词、5 条首条卖点是参数，能直接消掉）
-- [ ] 批量生成（问题 1–3 的商品先跳过）
-- [ ] 生成结果用 `git add -f output\批次XXX` 提交，公司 `pull` 后审核
+- [ ] 环境自检（不花模型钱）：`cd qa; python check_listing.py --demo --site MX` → 0/4/9/14
+- [ ] 新门禁自检三条：`check_facts.py` / `check_facts_quality.py --strict` / `check_certificates.py --strict`
+- [ ] 用 1–2 个商品做生成验证（别批量），重点看标题 `para…`、首行痛点、首条卖点是利益
+- [ ] **导后台数据**：15 个 SKU 的曝光 / 点击率 / 转化率 / 退货率
 
 ### 本周
-- [ ] **A/B 喂数据**：挑 2 个商品，各出两版（旧版 vs 转化层版），各投 7 天，看转化差 —— 这是唯一能证明转化层有效的办法
-- [ ] BR 站首次实测（目前所有验证都是 MX）
-- [ ] 拿到后台上传模板 → 填 `qa\field_map.json` → 出上传就绪表
-- [ ] 决定是否接 `采集清单.md` 做批次数量核对
+- [ ] 认证台账填第一批证书（哪怕先填 2–3 个 SKU 的）
+- [ ] A/B 喂数据：挑 2 个商品旧版 vs 转化层版，各投 7 天
+- [ ] BR 站首次实测
+- [ ] 拿后台上传模板 → 填 `qa\field_map.json` → 出上传就绪表
 
 ---
 
 ## 5. 踩过的坑（下次别重复）
 
 ### 5.1 环境 / 脚本
-1. **Windows PowerShell 5.1 + 中文**：UTF-8 无 BOM 的 `.ps1` 含中文会解析报错。解决办法：脚本一律 **ASCII-only**，或保存为 UTF-8 **with BOM**。本仓库所有 `.ps1` 都是 ASCII-only。
-2. **ExecutionPolicy**：直接跑 `.ps1` 可能被拦。统一用 `powershell -NoProfile -ExecutionPolicy Bypass -File xxx.ps1`（`.cmd` 里已经带好）。
-3. **写死用户路径**：`C:\Users\AUSU` 写死在脚本里，换电脑必炸。现在统一用 `$env:USERPROFILE`。
-4. **openpyxl 缺失**：系统 Python 没有 openpyxl → `run_batch.py` 会自动切到 DSH 自带 Python（`~\.dsh\dsh-runtimes\...\python.exe`）。
-5. **`python -c "..."` 带管道/复杂引号**易崩，逻辑一律写进 `.py` 文件。
-6. **中文文件名的重命名**：目标名含 `:` 会失败（Windows 不允许），已改成 `示例商品001-千斤顶-定稿与A-B对照`。
-7. **DSH 沙箱**：写工作区外（如全局 skill 目录）会被拒；用户自己双击 `.cmd` 不受影响，但 agent 里跑要放行。
-8. **全局 skill 被整目录复制会膨胀**（曾到 99MB）：`sync-to-skill.ps1` 只拷白名单（`SKILL.md`/`README.md`/`skill`/`qa`/`source-gemini`/同步脚本），不拷 `input`/`output`。
+1. **PowerShell 5.1 + 中文**：UTF-8 无 BOM 的 `.ps1` 含中文会解析报错。一律 **ASCII-only** 或 UTF-8 with BOM。
+2. **ExecutionPolicy**：统一 `powershell -NoProfile -ExecutionPolicy Bypass -File xxx.ps1`（`.cmd` 已带好）。
+3. **写死用户路径**：一律 `$env:USERPROFILE`。
+4. **openpyxl 缺失**：系统 Python 没有 → `run_batch.py` 自动切 DSH 自带 Python（`~\.dsh\dsh-runtimes\...`）。
+5. **`python -c "..."` 带管道/复杂引号**易崩，逻辑写进 `.py`。
+6. **DSH 沙箱**：写工作区外（全局 skill 目录）会被拒；git→ssh 子进程也会被拦（`couldn't create signal pipe`），push / 同步全局技能要放行。
 
 ### 5.2 Git / GitHub
-9. **GH007**：GitHub 设置了「不公开邮箱」时，用 qq 邮箱提交会被拒绝 push。解决办法：仓库内设 noreply 邮箱（换电脑要重设一次）。
-10. **`github.com:443` 连不上**（家里网络）：`api.github.com:443` 和 `22` 端口都通，所以 remote 改 SSH。
-11. **仓库根目录搞错过一次**：先做成了工作区根（`Tiktok`），按需求改成 `listing-pipeline` 本身，历史已 force 覆盖。
-12. **force push 后上游分支丢失**：要 `git push -u origin main` 重新绑定，否则 `git push` 报 no upstream。
-13. **仓库改名**：GitHub 自动重定向旧地址，但本地必须 `git remote set-url`，否则 push 到旧名。
-14. **历史里有不该提交的文件**：先 `git rm --cached` 再从远端彻底移除，需要重写历史 + force push；`--cached` 不会删本地文件。
-15. **CRLF 警告**（`LF will be replaced by CRLF`）是 Git 自动换行提示，无害，不用改配置。
+7. **GH007**：仓库内设 noreply 邮箱（换电脑要重设）。
+8. **家里 `github.com:443` 连不上** → remote 走 SSH。
+9. **force push 后要 `git push -u origin main`** 重新绑定上游。
+10. **改动 `input` 的忽略规则**：`input/*` 忽略后用 `!input/*/` 放行子目录，再单独忽略 `input.json`/`item.json`/`img/`——顺序错了 facts.json 进不了库。
 
 ### 5.3 数据层（最值钱的教训）
-16. ML 数据不能直接搬：**电池工具属性里的 `Voltaje:127V` 是充电器输入**，不是工具工作电压（6 个商品都这样）。
-17. **110V/120V 一律按 127V 处理**（墨西哥电网），但必须在描述里写明，不能悄悄改。
-18. 单位错乱：`1500Ah` 应为 `1500mAh`；转速 `1150rpm` vs `12000`、`3900` vs `1100bpm` 描述与属性冲突。
-19. 尺寸/功率缺项、ML 残留词（`mercado libre`）要剔除，但**不能凭推测补**——缺必抽字段用 `[POR CONFIRMAR]` 占位并阻断。
-20. 品牌冲突不猜：`Fanny` vs `Atverce` 这类必须人工确认。
+11. ML 数据不能直接搬：**电池工具属性里的 `Voltaje:127V` 是充电器输入**，不是工具工作电压。
+12. **110V/120V 一律按 127V 处理**，但必须写明是规范值，不能悄悄改。
+13. 单位错乱：`1500Ah` 应为 `1500mAh`；转速 `1150rpm` vs `12000` 描述与属性冲突。
+14. **功率物理不可信**：6800W/127V≈54A、2500W≈19.7A 这类要标出来，`state_power=false`，Listing 不写瓦数。
+15. 品牌冲突不猜：`Fanny` / `Atverce` 必须人工确认，确认后写进 `overrides.json`（不要手改 facts，重建会覆盖）。
 
-### 5.4 校验器自身修过的 bug（v1.2 已修）
-21. 命中行取值用错字段（check id 当 row_id）；
-22. emoji 计数把分区标记也算进去了；
-23. `📋 Especificaciones:` 被误判成结构错误；
-24. `100%` 被重复报告；
-25. 西语 `baño` 被英文词边界误伤；
-26. 关键词重音不一致（`Cámara` vs `camara`）判不中；
-27. 单位换算误报（同处已有 `cm` 仍报缺）；
-28. 类目必填字段对非电动工具误报（手工/液压工具没有电压功率）。
+### 5.4 校验器自身修过的 bug
+16. 命中行取值用错字段；emoji 把分区标记算进去；`📋 Especificaciones:` 误判；`100%` 重复报；`baño` 词边界误伤；关键词重音不一致；单位换算误报；手工/液压工具被要求电压。
+17. `HOOK-PARAM` 第一版误伤好钩句 → 改成「行首是数字 + 40 字符内有单位」。**新规则必须先用「好例子」跑一遍确认不误伤。**
 
 ### 5.5 转化层时期的教训（v1.3）
-29. **最大的坑是方向跑偏**：前几轮精力全花在 Git、换机、校验器上，那是「工具」，不是「目标」。目标是**转化率**。任何时候都要问一句「这一小时让 Listing 更好卖了吗」。
-30. **合规跟转化不是一回事**：合规过了等于「不会被拒」，不等于「有人买」。15 条自有产出 P0/P1 全清零，但 9 条标题没有用途词、5 条卖点第一条讲参数——机器判合格，人不会买单。
-31. **`alta calidad` 这类开场必须靠规则拦**：模型天然爱写形容词开场，写进提示词会犯、写进自检还犯，最后靠脚本 P2-转化 兜底。
-32. **新检查第一次上线必有误报**：`HOOK-PARAM` 最初写成「第一行含 Nm/V 就报」，把 `¿Se aflojan los tornillos? Aprieta con 5 Nm` 这种好钩句也报了。改成「行首就是数字 + 含单位」才对。**新规则必须先用「好例子」跑一遍，确认不误伤**。
-33. **新检查要能区分「回归失败」和「新增指标」**：加 P2-转化 时如果把计数混进原 P2，就看不出旧口径有没有被弄坏。所以报告里把 P2 拆成 `P2-结构` / `P2-转化` 两行——加完检查后旧三项数字必须一模一样。
+18. **最大的坑是方向跑偏**：精力全花在 Git、换机、校验器上，那是工具不是目标。任何时候问一句「这一小时让 Listing 更好卖了吗」。
+19. **合规跟转化不是一回事**：P0/P1 全清零，但 9 条标题没用途词、5 条卖点第一条讲参数——机器判合格，人不会买单。
+20. **新检查要能区分「回归失败」和「新增指标」**：把 P2 拆成 `P2-结构` / `P2-转化` 两行，加完检查后旧三项数字必须一模一样。
+
+### 5.6 事实门禁时期的教训（2026-10-21 晚）
+21. **门禁建好 ≠ 能生成**：`check_facts` 要求 `verified`，但没人跑 `verify_facts`，结果 11 个「干净」SKU 一个都生成不了。**建门禁当天就要把核验动作排进流程**。
+22. **门禁也会误报**：口径哨兵原来不读 `identity.brand_aliases`，已人工确认的 `BKU` 品牌（Atverce / Fanny）被反复报 P0，`--strict` 会误拦整批。修法：别名归一后不算冲突。
+23. **隔离 ≠ 从报告里消失**：已隔离 SKU 的问题仍会被扫到（`ATVMX11700` 功率 P0）。现在质量和认证两个检查都改成「隔离中：单独列出，不参与阻断判定」，否则要么漏看、要么误拦。
+24. **技能入口是单独一份文件**：`SKILL.md` 没跟着提示词一起改，就会「规则写进库里、Agent 却按旧流程走」。**改规则时四件套一起改：`skill/` + `qa/` + `SKILL.md` + `HANDOFF.md`**。
+25. **同步脚本是白名单**：`sync-to-skill.ps1` 不拷 `kb/`，`check_facts.py` 在全局技能目录里会报「缺少类目 schema」。已补 `kb`，并清掉 `kb\_index`、`qa\报告`。
+26. **一个 SKU 的 facts 有 6KB 左右，进 git 不心疼；但 `input.json`/图不进**，换机靠 U 盘/网盘。
 
 ---
 
 ## 6. 关键命令速查
 
 ```powershell
-# 换电脑一次性安装 + 自检（在本目录双击，或命令行）
+# 换电脑一次性安装 + 自检
 powershell -NoProfile -ExecutionPolicy Bypass -File .\setup-new-pc.ps1 -FullCheck
 
 # 改完规则后同步到全局技能（DSH 才会加载新规则）
 .\sync-to-skill.cmd
 
-# 9 条黄金案例回归（退出码 0 = 通过）
-cd qa
-python check_listing.py --demo --site MX
+# —— 生成前三道门（零模型成本，先跑这个）——
+python qa\check_facts.py                                        # READY 才可生成
+python qa\check_facts_quality.py --input-root input --strict    # P0 时退出码 3
+python qa\check_certificates.py --input-root input --strict     # 上架卡口，阻断退出码 3
 
-# 跑一个批次（纯脚本，零模型成本）
+# 事实卡维护
+python qa\build_facts.py --check                 # 只看不写
+python qa\verify_facts.py ABU5000000 --by "名字"  # 人工核完置 verified
+python qa\index_kb.py                            # 汇总索引
+python qa\source_digest.py                       # 生成用摘要
+
+# 合规 + 转化回归（9 黄金案例，退出码 0 = 通过）
+cd qa
+python check_listing.py --demo --site MX         # 应为 P0=0 P1=4 P2-结构=9 P2-转化=14
+
+# 跑一个批次（纯脚本）
 python run_batch.py --input-root ..\input --listing-dir ..\output\批次YYYYMMDD --site MX
 
 # 提交推送
-git add -A
-git commit -m "说明"
-git pull            # 另一台机器上先 pull
-git push
+git add -A; git commit -m "说明"; git pull; git push
 ```
 
 ---
@@ -203,19 +227,20 @@ git push
 
 ```
 listing-pipeline\            ← git 仓库根目录
-├─ SKILL.md                  技能入口
-├─ README.md                 身份、目录、V3.2 整合对照表、校验能力
+├─ SKILL.md                  技能入口（三道门 + facts 唯一事实源）
+├─ README.md                 身份、目录、V3.2 整合对照表、校验能力、认证卡口
 ├─ HANDOFF.md                本文件
 ├─ 迁移到新电脑.md            换机 6 步 + 坑
 ├─ setup-new-pc.cmd/.ps1     新电脑安装 + 自检
-├─ sync-to-skill.cmd/.ps1    工作区主本 → 全局技能
-├─ .gitignore                排除图片/批次/报告/缓存
-├─ skill\                    规则：骨架/站点包/8 类目/属性映射/案例库/脚本库
-├─ qa\                       校验器 + 批次脚本 + denylist + 测试样例 + 报告
+├─ sync-to-skill.cmd/.ps1    工作区主本 → 全局技能（含 kb）
+├─ skill\                    规则：骨架/转化层/站点包/8 类目/属性映射/案例库/脚本库
+├─ kb\                       事实库：_schemas\（3 类目 + 字段字典）、_index\（脚本生成，不进 git）
+├─ qa\                       校验器 + 事实工具 + 认证台账 + 批次脚本 + denylist + 报告
 ├─ source-gemini\            V3.2 原始四份（只读存档）
-├─ input\                    商品原始数据（图 + input.json，不进 git）
+├─ input\<SKU>\              商品：facts.json / overrides.json / img_manifest.csv 进 git；图与原始 json 不进
 └─ output\                   生成结果（不进 git，黄金样例除外）
-   ├─ 批次20261020\          15 个商品：listing / check.csv / 属性映射.xlsx / 批次结果.xlsx
+   ├─ 批次20261020\          15 个商品：旧规则产出（对照基准）
+   ├─ 批次20261021\          ABU5000000 转化层重写版（单条前后对照）
    └─ _归档\示例商品001…\    黄金对照样例（A/B 两版）
 ```
 

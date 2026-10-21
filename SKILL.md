@@ -1,6 +1,6 @@
 ---
 name: latam-tiktok-listing
-description: "拉美 TikTok Shop（墨西哥 MX / 巴西 BR）商品 Listing 生成、转化率优化与合规校验。当需要根据商品图片和描述生成或优化 Listing（标题/描述/卖点/规格/包装清单/FAQ）、想提高 Listing 的点击率与转化率、给标题定关键词结构、按决策权重排卖点，或批量检查已上架 Listing 的违禁词、字符数、中文残留、西葡混用、未验证承诺时使用。内置 8 个类目包（五金工具、汽车摩托、家居建材、运动户外、宠物、厨房、家电、时尚配件）、转化层手册（首屏钩子/卖点排序/疑虑前置/权益写实）与可执行的合规+转化扫描脚本。"
+description: "拉美 TikTok Shop（墨西哥 MX / 巴西 BR）商品 Listing 生成、转化率优化与合规校验。当需要根据商品图片和描述生成或优化 Listing（标题/描述/卖点/规格/包装清单/FAQ）、想提高 Listing 的点击率与转化率、给标题定关键词结构、按决策权重排卖点，或批量检查已上架 Listing 的违禁词、字符数、中文残留、西葡混用、未验证承诺时使用。内置事实卡门禁（`facts.json` 为唯一事实来源）、认证台账卡口（NOM-003 / INMETRO / ANATEL / UN38.3）、8 个类目包（五金工具、汽车摩托、家居建材、运动户外、宠物、厨房、家电、时尚配件）、转化层手册（首屏钩子/卖点排序/疑虑前置/权益写实）与可执行的合规+转化扫描脚本。"
 ---
 
 # 拉美 TikTok Shop Listing 生成、转化与合规校验
@@ -28,6 +28,15 @@ skill\类目\01..08-*.md   8 个类目包（双站标题公式/必带信息/FAQ/
 skill\案例库索引.md      9 条案例的类目映射、盲区、few-shot 使用规则
 skill\短视频脚本.md      可选模块 B（Hook 库/CTA 库/15-30 秒结构），默认不生成
 skill\属性映射.md        ML 属性 → TikTok 槽位映射规则（电池电压 vs 充电器电压等）
+kb\_schemas\             3 个类目事实 schema + _fields.md（字段字典）
+kb\README.md             事实库状态机（draft/verified/quarantined/blocked）+ 命令
+input\<SKU>\facts.json   事实卡：生成的唯一事实来源（verified 才可生成）
+qa\build_facts.py        input.json + overrides.json → facts.json
+qa\check_facts.py        事实卡门禁（必填/完整度 → kb\_index\完整度报告.md）
+qa\check_facts_quality.py 数据质量哨兵（品牌/电压/功率/单位口径，--strict 有 P0 退出 3）
+qa\check_certificates.py 认证卡口（NOM-003 / INMETRO / ANATEL / UN38.3）
+qa\certifications.json   认证台账主本（规则 + 证书明细）
+qa\source_digest.py      input.json → output\_batch\digest.md（生成用摘要）
 qa\denylist.json         机器可判规则（MX/BR 两套 + 8 类目必带信息）
 qa\check_listing.py      合规校验脚本（标准库，无第三方依赖）
 qa\测试样例.csv          回归用例（含 核心词 / 类目 两列）
@@ -39,19 +48,25 @@ sync-to-skill.ps1 / .cmd 主本 → 全局技能目录 同步 + 自检
 ## 使用步骤
 
 1. **先定站点**：MX 或 BR。**两站规则不通用，禁止混用**（西语倒标点、você/Tú、R$/MXN、127V/220V、NOM/INMETRO 全不同）。
-2. **读数**：`skill\生成提示词.md`（模板）+ `skill\骨架.md` + `skill\转化层.md` + `skill\rules-<站点>.md` + `skill\类目\<最贴近的类目>.md`；要 few-shot 就按 `skill\案例库索引.md` 取同类目案例。
-3. **生成**（二选一）：
+2. **先过三道门（生成前，零模型成本）**：
+   - `python qa\check_facts.py` → 看 `READY`。**只有 `verified` 且无硬伤才允许生成**；`quarantined` / `blocked` / `draft` 一律不生成。
+   - `python qa\check_facts_quality.py --strict` → 有 P0 先修（品牌冲突、电压口径、功率物理不可能）。`--strict` 返回 3 表示不许生成。
+   - `python qa\check_certificates.py --input-root input --strict` → 认证缺登记/过期/待确认，"上架"会卡在这里（本批台账为空，全部 `missing` 是事实）。
+3. **读数（顺序固定）**：
+   - **事实**：只读 `input\<SKU>\facts.json`。**不读原始描述、不读图片、不猜参数**——`power.state_power=false` 时不许写瓦数，`certification.status=missing` 时不许写 NOM/INMETRO/ANATEL。
+   - **规则**：`skill\生成提示词.md`（模板）+ `skill\骨架.md` + `skill\转化层.md` + `skill\rules-<站点>.md` + `skill\类目\<最贴近的类目>.md`；要 few-shot 就按 `skill\案例库索引.md` 取同类目案例。
+4. **生成**（二选一）：
    - 单条：按规则直接产出纯文本，**不要**输出"以下是您的 Listing"、不要结构标签、不要引用标记。
-   - 批量：`input\<商品ID>\` 放图片 + `input.json`，逐条产出到 `output\`。
+   - 批量：`input\<商品ID>\facts.json`（+ 需要时 `output\_batch\digest.md`）喂进去，逐条产出到 `output\`。
    - 顺序别乱：核事实 → 定关键词（L1/L2/L3）→ 定标题 → 写首屏两行 → 排卖点 → 规格/清单/FAQ → 权益 → 自检
-4. **校验**：`cd qa` 后 `python check_listing.py --input 结果.csv --site MX`（或 `--site BR`）。
+5. **校验**：`cd qa` 后 `python check_listing.py --input 结果.csv --site MX`（或 `--site BR`）。
    - 加 `--category 家电`（或行内带"类目"列）会额外检查该类目的必带信息
    - 输入带"核心词"列时，会检查核心词是否落在标题前 30 字符
    - `--fail-on-p0` 让脚本在出现 P0 时返回非 0，便于接自动化
    - 报告分四档：`P0` / `P1` / `P2-结构` / `P2-转化`
-5. **交付门槛**：P0 与 P1 必须清零；**P2-转化 优先清**（直接关联转化率），P2-结构 记入备注排期。
-6. **缺失即阻断**：核心参数（电压、尺寸、件数、适配车型、容量、材质）在原资料里没有 → 写 `[POR CONFIRMAR]` 并停止生成，不许猜。
-7. **转化自检 6 条**（`skill\转化层.md` §8）：标题有 L1+L2？第 1 行是具体痛点？第一条卖点是利益不是参数？卖点 3–5 条按决策权重？三问疑虑答了且 FAQ ≥2？每项权益后台真实存在？
+6. **交付门槛**：P0 与 P1 必须清零；**P2-转化 优先清**（直接关联转化率），P2-结构 记入备注排期。
+7. **缺参数不阻断**：资料里没有的参数**不写进正文、不推测**，列进中文备注「待确认清单」；属性与描述冲突时**以属性为准**并写明冲突点。只有后台必填字段才在字段层标 `[POR CONFIRMAR]`。**禁止**为了凑排版而编参数。
+8. **转化自检 6 条**（`skill\转化层.md` §8）：标题有 L1+L2？第 1 行是具体痛点？第一条卖点是利益不是参数？卖点 3–5 条按决策权重？三问疑虑答了且 FAQ ≥2？每项权益后台真实存在？
 
 ## 硬约束（违反即不交付）
 
@@ -64,7 +79,8 @@ sync-to-skill.ps1 / .cmd 主本 → 全局技能目录 同步 + 自检
 - 禁 `Compra protegida`（MX）、`Compra garantida`（BR）——都是美客多品牌词
 - `100%` 只允许出现在材质成分语境（`100% acero inoxidable`），保证/效果语境一律禁
 - 物流与信任承诺（包邮、极速、货到付款）没有实际履约能力不得写；促销/折扣词只在后台活动真实存在时写
-- 家电/电动工具/汽摩配/无线产品：先确认认证（NOM / INMETRO / ANATEL）再写
+- 事实只取 `facts.json`：`power.state_power=false` 时**禁止写瓦数**；属性与描述冲突以属性为准并备注；不确定的参数一律进「待确认清单」，不许编
+- 家电/电动工具/汽摩配/无线产品：先跑 `python qa\check_certificates.py --strict`；台账 `missing` 时**禁止**出现 NOM / INMETRO / ANATEL / UN38.3 字样（可写「uso seguro en casa」这类通用表达）
 
 ## 输出
 

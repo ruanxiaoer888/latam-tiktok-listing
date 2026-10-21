@@ -113,8 +113,11 @@ def check_one(d: dict, findings: list):
 
     # ---------- 品牌 / 型号冲突 ----------
     raw_brand = find_key(raw, "Marca", "Brand")[1]
+    aliases = [norm_text(a) for a in (ident.get("brand_aliases") or [])]
     if not is_placeholder(ident.get("brand")) and not is_placeholder(raw_brand):
-        if norm_text(ident.get("brand")) != norm_text(raw_brand):
+        nb, nrb = norm_text(ident.get("brand")), norm_text(raw_brand)
+        # 同公司并列品牌（identity.brand_aliases）不算冲突
+        if nb != nrb and nrb not in aliases:
             add(findings, sku, "FQ-P0-BRAND-CONFLICT", "P0", "品牌冲突",
                 f"identity.brand={ident.get('brand')!r} vs raw.Marca={raw_brand!r}",
                 "先确认到底是哪个品牌，别猜", "identity.brand")
@@ -248,7 +251,12 @@ def load_facts(input_root: Path):
 def evaluate(facts_list):
     findings = []
     for d in facts_list:
+        start = len(findings)
         check_one(d, findings)
+        # 已隔离 SKU（移出生成集）保留问题记录，但不参与阻断判定
+        if (d.get("status") or "").strip().lower() == "quarantined":
+            for f in findings[start:]:
+                f["quarantined"] = True
     # 去重：同一 SKU + 同一检查 + 同一证据只报一次（specs 与 raw 常重复）
     seen, uniq = set(), []
     for f in findings:
@@ -262,12 +270,16 @@ def evaluate(facts_list):
 
 
 def print_report(findings, strict):
-    p0 = [f for f in findings if f["sev"] == "P0"]
-    p1 = [f for f in findings if f["sev"] == "P1"]
-    p2 = [f for f in findings if f["sev"] == "P2"]
-    print(f"\n数据质量哨兵（口径一致性）  |  P0={len(p0)}  P1={len(p1)}  P2={len(p2)}")
+    quarantined = [f for f in findings if f.get("quarantined")]
+    active = [f for f in findings if not f.get("quarantined")]
+    p0 = [f for f in active if f["sev"] == "P0"]
+    p1 = [f for f in active if f["sev"] == "P1"]
+    p2 = [f for f in active if f["sev"] == "P2"]
+    tail = f"  |  已隔离（不阻断）={len(quarantined)}" if quarantined else ""
+    print(f"\n数据质量哨兵（口径一致性）  |  P0={len(p0)}  P1={len(p1)}  P2={len(p2)}{tail}")
     print("=" * 100)
-    for label, group in (("P0 阻断", p0), ("P1 需核实", p1), ("P2 提示", p2)):
+    for label, group in (("P0 阻断", p0), ("P1 需核实", p1), ("P2 提示", p2),
+                         ("已隔离·仅提示（不进生成集，不参与阻断）", quarantined)):
         if not group:
             continue
         print(f"\n[{label}]")
@@ -277,6 +289,8 @@ def print_report(findings, strict):
             print(f"     建议：{f['advice']}")
     if p0:
         print(f"\n结论：{len(p0)} 条阻断项，修完再生成。" + ("（--strict，退出码 3）" if strict else "（未加 --strict，退出码 0）"))
+    elif quarantined:
+        print(f"\n结论：没有阻断项（{len(quarantined)} 条属于已隔离 SKU，不参与阻断）。")
     else:
         print("\n结论：没有阻断项。")
 
@@ -285,9 +299,10 @@ def write_csv(findings, out_path: Path):
     out_path.parent.mkdir(parents=True, exist_ok=True)
     with out_path.open("w", encoding="utf-8-sig", newline="") as f:
         w = csv.writer(f)
-        w.writerow(["SKU", "检查ID", "级别", "问题", "证据", "建议", "字段"])
+        w.writerow(["SKU", "检查ID", "级别", "问题", "证据", "建议", "字段", "隔离"])
         for x in findings:
-            w.writerow([x["sku"], x["cid"], x["sev"], x["title"], x["evidence"], x["advice"], x["field"]])
+            w.writerow([x["sku"], x["cid"], x["sev"], x["title"], x["evidence"], x["advice"],
+                        x["field"], "隔离" if x.get("quarantined") else ""])
     return out_path
 
 
@@ -349,7 +364,7 @@ def main() -> int:
     out = Path(args.outdir) / date.today().strftime("%Y%m%d") / "数据质量检查.csv"
     write_csv(findings, out)
     print(f"\n明细已写入：{out}")
-    p0 = [f for f in findings if f["sev"] == "P0"]
+    p0 = [f for f in findings if f["sev"] == "P0" and not f.get("quarantined")]
     return 3 if (args.strict and p0) else 0
 
 

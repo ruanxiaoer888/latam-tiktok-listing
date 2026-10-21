@@ -368,6 +368,16 @@ def main() -> int:
         print(f"[ERROR] {args.input_root} 下没有 facts.json", file=sys.stderr)
         return 2
 
+    # 已隔离 SKU 不参与上架卡口（它本来就不进生成集），但要明示跳过了谁
+    skipped = [f.get("product_id") or f["_dir"] for f in facts_list
+               if (f.get("status") or "").lower() == "quarantined"]
+    facts_list = [f for f in facts_list if (f.get("status") or "").lower() != "quarantined"]
+    if skipped:
+        print(f"[i] 跳过 {len(skipped)} 个已隔离 SKU（不参与卡口）：{'、'.join(skipped)}")
+    if not facts_list:
+        print("[ERROR] 过滤隔离项后没有剩余 SKU", file=sys.stderr)
+        return 2
+
     rows = evaluate(facts_list, ledger, args.site, today, args.days)
     print_report(rows, today, args.days, args.strict, args.site)
 
