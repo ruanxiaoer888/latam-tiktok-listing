@@ -29,8 +29,14 @@ listing-pipeline\
 │  ├─ 案例库索引.md       9 条案例 → 类目映射、盲区、few-shot 规则
 │  └─ 短视频脚本.md       可选模块 B（Hook/CTA/结构），默认不生成
 ├─ qa\
-│  ├─ denylist.json       违规词 + 结构规则 + 8 类目必带信息（MX/BR）
+│  ├─ denylist.json       违规词 + 结构规则 + 8 类目必带信息（MX/BR）+ 合规来源
+│  ├─ certifications.json 认证台账（规则 + 证书明细；上架前卡口主本）
+│  ├─ check_certificates.py 认证检查器（缺失/过期/待确认 + 换证提醒）
+│  ├─ 认证台账说明.md      字段定义、维护 SOP、飞书导入
+│  ├─ 认证台账_导入模板.csv 飞书多维表格导入模板（含示例行）
 │  ├─ check_listing.py    合规校验器 v1.2
+│  ├─ check_facts.py      事实卡门禁（schema 必填/完整度 → kb\_index\完整度报告.md）
+│  ├─ check_facts_quality.py 数据质量哨兵（品牌/电压/功率/单位/价格口径）
 │  ├─ map_attributes.py   ML 属性 → TikTok 槽位映射（电池工具电压口径等）
 │  ├─ build_batch_csv.py  批量：input + listing → 校验用 CSV
 │  ├─ make_batch_xlsx.py  批量：校验结果 + 备注 → 批次结果.xlsx
@@ -74,6 +80,16 @@ python check_listing.py --input 导出.csv --site MX --fail-on-p0    # P0 时退
 python check_listing.py --demo --site MX                           # 回归自检
 python check_listing.py --input 测试样例.csv --site MX
 
+# 认证卡口（上架前）：缺失/过期/待确认 + 换证提醒
+python check_certificates.py --input-root ..\input --site auto
+python check_certificates.py --input-root ..\input --site ALL --strict   # 双站口径，有阻断项退出码 3
+python check_certificates.py --demo                                      # 自检
+
+# 事实卡两道检查（生成前）
+python check_facts.py                                              # schema 必填/完整度门禁
+python check_facts_quality.py --input-root ..\input --strict        # 口径一致性，P0 退出码 3
+python check_facts_quality.py --demo                                # 自检
+
 # 6) 属性映射（ML 属性 → TikTok 槽位；需带 openpyxl 的 Python）
 python map_attributes.py --input-root ..\input --out ..\output\批次20261020\属性映射.xlsx
 
@@ -99,6 +115,38 @@ python run_batch.py --input-root ..\input --listing-dir ..\output\批次20261020
 > 报告与明细里两类分开计数；`批次结果.xlsx` 有独立的 `P2结构` / `P2转化` 两列（转化超标黄）。
 
 **查不了**：参数与图/原文是否一致、证书真伪、汽配适配表准确性（需事实卡 + 人工）；**也没有转化率数据**——后台的曝光/点击/转化需要你导出，脚本只判断文案质量。
+
+## 认证卡口（v1.0，2026-10-21）
+
+上架前回答三个问题：**这个 SKU 在这个站点要不要认证、有没有、过没过期**。
+
+| 检查 | 触发 | 严重度 |
+|---|---|---|
+| NOM-003 | MX 电动类（五金/家电/汽摩） | 阻断 |
+| INMETRO | BR 电动类 | 提醒（适用范围待确认） |
+| ANATEL | 含蓝牙/WiFi/射频模块（`inalámbrico` 不算） | 阻断 |
+| UN38.3 | 含锂电池（含随包电池） | 阻断 |
+
+- 主本：`qa/certifications.json`（规则 + 证书；**证书明细现在是空的，全部报 missing 是事实**）
+- 检查器：`qa/check_certificates.py`，状态 `valid / expiring / expired / unverified / missing`
+- 换证提醒窗口默认 60 天，`--days` 可调
+- 飞书导入：`qa/认证台账_导入模板.csv`；字段与 SOP 见 `qa/认证台账说明.md`
+- `--strict` 有阻断项退出码 3，可接上架前卡口
+
+## 事实卡检查（生成前，两道）
+
+| 工具 | 查什么 | 产物 |
+|---|---|---|
+| `qa/check_facts.py` | 按 `kb/_schemas/<类目>.schema.json` 查必填/完整度/门禁 | `kb/_index/完整度报告.md` |
+| `qa/check_facts_quality.py` | **字段之间的口径一致性** | `qa/报告/<日期>/数据质量检查.csv` |
+
+**口径检查项**：品牌冲突（`identity.brand` vs `raw.Marca`）、型号不一致、电池电压/充电器电压混用、电压口径冲突（18V vs 21V）、功率物理不可能（>27A）、电池工具功率偏高（>600W）、回路偏高（16–27A）、功率字段与属性不一致、容量/重量单位错、噪音异常、价格/币种、属性键值错位、材质仅来自描述、标题英制单位。
+
+**实测（15 个 SKU，2026-10-21）**：P0=2、P1=7、P2=8。
+- P0：`ATVMX11700` 6800W / 127V ≈ 53.5A；`BKU0000000` 品牌 `Atverce` vs `Marca=Fanny`
+- P1：`MMV2000000` 18V/21V 冲突；`ABU5000000`(1500W)、`AMU6000005`(900W)、`MMV2000000`(850W) 电池功率偏高；`MBU6000001`(19.7A)、`ZK2604270H`(22A) 电流偏高
+
+**退出码**：`0` 正常；`2` 输入/文件问题；`3` `--strict` 且有 P0。
 
 ## 转化层是什么（v1.3）
 
@@ -138,7 +186,7 @@ python run_batch.py --input-root ..\input --listing-dir ..\output\批次20261020
 2. **接生成端**：`input\商品ID\`（图片 + input.json）→ 事实卡 facts.json → 按 `生成提示词.md` 生成 → 过校验 → 出 `output\批次.xlsx`
 3. **汽配适配表结构化**（退货最大头）
 4. **补 BR 案例**：现在 0 条葡语案例，规则有了但缺锚点
-5. **认证台账**：证书编号/有效期，上架前卡口
+5. **认证台账**：✅ v1.0 已建（`qa/certifications.json` + `qa/check_certificates.py`），待向供应商/认证机构收集证书号与有效期后填入
 
 ## 注意
 

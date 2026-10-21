@@ -30,6 +30,27 @@
       "param_units": "\\d+(?:[.,]\\d+)?\\s?(mm|cm|V|W|Nm|kg|L|ml|rpm)\\b"
     }
   },
+  "compliance": {
+    "note": "合规来源清单与台账指针。规则只在 certifications.json，本段只放出处，避免两处改规则。",
+    "verified_at": "2026-10-21",
+    "ledger": "certifications.json",
+    "checker": "check_certificates.py",
+    "sources": {
+      "MX": [
+        { "id": "NOM-003", "label": "DOF：NOM-003-SCFI-2014 原文", "url": "https://dof.gob.mx/normasOficiales/5700/seeco2a11_C/seeco2a11_C.html" },
+        { "id": "OCP", "label": "gob.mx：产品认证机构（OCP）名录", "url": "https://www.gob.mx/cms/uploads/attachment/file/48460/OCP.pdf" },
+        { "id": "SAT", "label": "SAT：Constancia de Situación Fiscal（RFC 状态）", "url": "https://www.gob.mx/sat/es/articulos/genera-tu-constancia-de-situacion-fiscal-csf" }
+      ],
+      "BR": [
+        { "id": "INMETRO", "label": "INMETRO：合规产品查询 / 认证范围", "url": "https://www.gov.br/inmetro/pt-br/acesso-a-informacao/perguntas-frequentes/avaliacao-da-conformidade/avaliacao-da-conformidade-em-geral/como-obter-o-acesso-a-base-de-produtos-e-servicos-com-conformidade-avaliada" },
+        { "id": "ANATEL", "label": "ANATEL：产品认证 / 公示查询", "url": "https://www.gov.br/anatel/pt-br/regulado/certificacao-de-produtos/consulta-publica" },
+        { "id": "RECEITA", "label": "Receita Federal：进口税计算器（II + ICMS）", "url": "https://www.gov.br/receitafederal/pt-br/assuntos/aduana-e-comercio-exterior/manuais/remessas-postal-e-expressa/calculadora-de-impostos-portal-aduana-e-comercio-exterior" }
+      ],
+      "GLOBAL": [
+        { "id": "UN38.3", "label": "UNECE：危险货物运输（UN38.3 依据）", "url": "https://unece.org/transport/dangerous-goods" }
+      ]
+    }
+  },
   "categories": {
     "五金工具": {
       "note": "手动工具只看 尺寸+材质；电动类（出现 inalámbrico/batería/eléctrico/motor/cargador）才追加电压与功率，靠 if_pattern 自动判断",

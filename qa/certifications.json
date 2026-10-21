@@ -1,0 +1,77 @@
+{
+  "version": 1,
+  "updated": "2026-10-21",
+  "note": "认证台账主本。规则只写在 requirements，证书明细写在 certificates。缺证书号/缺有效期一律标【待确认】，禁止填猜测值。",
+  "verified_at": "2026-10-21",
+  "sources": {
+    "MX": [
+      { "id": "NOM-003", "label": "DOF：NOM-003-SCFI-2014 原文", "url": "https://dof.gob.mx/normasOficiales/5700/seeco2a11_C/seeco2a11_C.html" },
+      { "id": "OCP", "label": "gob.mx：产品认证机构（OCP）名录", "url": "https://www.gob.mx/cms/uploads/attachment/file/48460/OCP.pdf" },
+      { "id": "SAT", "label": "SAT：Constancia de Situación Fiscal（RFC 状态）", "url": "https://www.gob.mx/sat/es/articulos/genera-tu-constancia-de-situacion-fiscal-csf" }
+    ],
+    "BR": [
+      { "id": "INMETRO", "label": "INMETRO：合规产品查询 / 认证范围", "url": "https://www.gov.br/inmetro/pt-br/acesso-a-informacao/perguntas-frequentes/avaliacao-da-conformidade/avaliacao-da-conformidade-em-geral/como-obter-o-acesso-a-base-de-produtos-e-servicos-com-conformidade-avaliada" },
+      { "id": "ANATEL", "label": "ANATEL：产品认证 / 公示查询", "url": "https://www.gov.br/anatel/pt-br/regulado/certificacao-de-produtos/consulta-publica" },
+      { "id": "RECEITA", "label": "Receita Federal：进口税计算器（II + ICMS）", "url": "https://www.gov.br/receitafederal/pt-br/assuntos/aduana-e-comercio-exterior/manuais/remessas-postal-e-expressa/calculadora-de-impostos-portal-aduana-e-comercio-exterior" }
+    ],
+    "GLOBAL": [
+      { "id": "UN38.3", "label": "UNECE：危险货物运输（UN38.3 依据）", "url": "https://unece.org/transport/dangerous-goods" }
+    ]
+  },
+  "requirements": [
+    {
+      "id": "MX-NOM003",
+      "site": "MX",
+      "cert": "NOM-003",
+      "label": "NOM-003-SCFI-2014（电动工具/家电）",
+      "when": { "categories": ["五金工具", "家电", "汽车摩托"], "power_types": ["corded", "battery"] },
+      "severity": "block",
+      "confirmed": true,
+      "source_id": "NOM-003",
+      "note": "电动类才需要；手动/液压工具（power.type=manual）不触发"
+    },
+    {
+      "id": "BR-INMETRO",
+      "site": "BR",
+      "cert": "INMETRO",
+      "label": "INMETRO（电动工具强制范围待确认）",
+      "when": { "categories": ["五金工具", "家电"], "power_types": ["corded", "battery"] },
+      "severity": "warn",
+      "confirmed": false,
+      "source_id": "INMETRO",
+      "note": "Portaria 148/2022 是否覆盖锂电工具【待确认】；确认前只提醒不阻断"
+    },
+    {
+      "id": "BR-ANATEL",
+      "site": "BR",
+      "cert": "ANATEL",
+      "label": "ANATEL（含无线/电信模块）",
+      "when": { "categories": ["*"], "wireless": true },
+      "severity": "block",
+      "confirmed": true,
+      "source_id": "ANATEL",
+      "note": "只在出现 bluetooth/wifi/2.4G/radio 等无线模块时触发，cordless 不算"
+    },
+    {
+      "id": "GLOBAL-UN383",
+      "site": "GLOBAL",
+      "cert": "UN38.3",
+      "label": "UN38.3（锂电池运输）",
+      "when": { "categories": ["*"], "battery": true },
+      "severity": "block",
+      "confirmed": true,
+      "source_id": "UN38.3",
+      "note": "产品含锂电池（含随包电池）即需要；报告由第三方实验室出"
+    }
+  ],
+  "certificates": [],
+  "maintenance": [
+    "新增证书：填 cert_id / site / type / number / models / expires_at / source_url，skus 建议逐条列明。",
+    "证书按品牌+型号签发时，可只填 brand + models，skus 留空，checker 会按品牌/型号匹配并在结果里标注 match_by。",
+    "到期前 60 天进入 expiring，到期后为 expired；换证时不要改旧行，新增一行并把旧行 state 置 replaced。",
+    "每季度核对一次：更新 verified_at，并把变更记到本文件底部 changelog。"
+  ],
+  "changelog": [
+    { "date": "2026-10-21", "change": "v1 建立：规则 + 官方来源；证书明细待现场收集（当前为空，检查结果全部为 missing）" }
+  ]
+}
