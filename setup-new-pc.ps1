@@ -48,6 +48,16 @@ if ($SkillDir) {
 if ($LASTEXITCODE -ne 0) { Fail "sync-to-skill.ps1 failed (exit=$LASTEXITCODE)" }
 Ok "skill installed: $target"
 
+Step "3b" "Install the collector skill (Mercado Libre -> input\<SKU>\)"
+$syncCollector = Join-Path $root "sync-collector-skill.ps1"
+if (Test-Path $syncCollector) {
+    & powershell -NoProfile -ExecutionPolicy Bypass -File $syncCollector
+    if ($LASTEXITCODE -ne 0) { Fail "sync-collector-skill.ps1 failed (exit=$LASTEXITCODE)" }
+    Ok "collector skill installed: $env:USERPROFILE\.agents\skills\mercadolibre-listing-collector"
+} else {
+    Warn "sync-collector-skill.ps1 not found; collector skill not installed"
+}
+
 Step 4 "Checker self-test (9 golden cases)"
 Push-Location (Join-Path $root "qa")
 try {
@@ -85,3 +95,5 @@ Write-Host "Next:"
 Write-Host "  1) Open DSH and ask it to load the skill 'latam-tiktok-listing'."
 Write-Host "  2) Put the product images back under input\ (same folder layout)."
 Write-Host "  3) Run a batch when ready."
+Write-Host "  4) To collect new listings, make sure a residential exit is up FIRST,"
+Write-Host "     then load the skill 'mercadolibre-listing-collector' (collector\SKILL.md)."

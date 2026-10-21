@@ -28,3 +28,6 @@ output/_smoke/
 __pycache__/
 *.pyc
 *.zip
+
+# 采集技能的中间结果（raw_*.json / _sheet_rows.json / build_report.json / pending.json）
+collector/_work/
