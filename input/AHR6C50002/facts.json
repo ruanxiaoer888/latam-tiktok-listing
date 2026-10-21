@@ -1,0 +1,193 @@
+{
+  "schema": "facts/v1",
+  "product_id": "AHR6C50002",
+  "category": "家电",
+  "status": "draft",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": [
+      "描述尺寸「Tamaño: 30*31*32」未标单位，按 cm 处理，需核实"
+    ]
+  },
+  "identity": {
+    "brand": "Atverce",
+    "brand_aliases": [],
+    "model": "ATV-15L",
+    "title_raw": "Aspiradora Industrial Seco-mojado De 15l Función 3en1 Rojo"
+  },
+  "power": {
+    "type": "corded",
+    "voltage_v": 127.0,
+    "battery_v": null,
+    "charger_v": null,
+    "w": 1200.0,
+    "claimed_w": 1200,
+    "rated_claimed_w": null,
+    "claims_w": [
+      1200
+    ],
+    "basis": "description",
+    "state_power": true,
+    "listing_policy": "state_verified_only",
+    "device_v": null,
+    "listing_voltage_v": 127.0
+  },
+  "size": {
+    "length_cm": 30.0,
+    "width_cm": 31.0,
+    "height_cm": 32.0,
+    "diameter_cm": null,
+    "raw": [
+      "Tamaño: 30*31*32"
+    ]
+  },
+  "weight_kg": 5.0,
+  "capacity": "15 L",
+  "pieces": null,
+  "material": [],
+  "material_basis": null,
+  "extras": {
+    "lift_range_mm": null,
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-3487933676-aspiradora-industrial-seco-mojado-de-15l-funcion-3en1-rojo-_JM",
+    "store_id": "CNMERION-MXF2",
+    "core_keyword": "aspiradora industrial"
+  },
+  "package": {
+    "included": [
+      "1*Caja de recogida para aspiradora de 15L",
+      "1*Manguera",
+      "1*Cepillo de suelo",
+      "2*Manguera telescópica",
+      "1*Hipo",
+      "1*Cepillo para ácaros",
+      "9*Cabezal de interfaz"
+    ],
+    "not_included": [],
+    "source": "description"
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "missing"
+  },
+  "features": [
+    "filtro de salida",
+    "ruedas"
+  ],
+  "usage": [],
+  "specs": {
+    "Tiempo de calentamiento": "0 m",
+    "Presión máxima de vapor": "0 bar",
+    "Frecuencia": "1200W",
+    "Eficiencia energética": "A+++"
+  },
+  "raw_attributes": {
+    "Marca": "Atverce",
+    "Línea": "Aspiradora",
+    "Modelo": "ATV-15L",
+    "Capacidad en volumen": "15 L",
+    "Voltaje": "127V",
+    "Frecuencia": "1200W",
+    "Tipos de aspiradora y limpiador a vapor": "Tambor",
+    "Tipos de colector": "Bolsa permanente",
+    "Es apto para líquido": "Sí",
+    "Es inalámbrico": "No",
+    "Es industrial": "Sí",
+    "Con filtro de salida": "Sí",
+    "Incluye filtros reutilizables": "No",
+    "Tiempo de calentamiento": "0 m",
+    "Presión máxima de vapor": "0 bar",
+    "Incluye batería": "No",
+    "Peso": "5 kg",
+    "Eficiencia energética": "A+++",
+    "Con ruedas": "Sí",
+    "Accesorios incluidos": "Boquilla, Boquilla de esquina, Manguera, Tubos, Boquilla para pisos"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 1812,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 185728,
+      "sha256": "4cd73719ad7dbdb245d2222b92259741791d6bc97092bc3b877e53a96898427d",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 282923,
+      "sha256": "c01ce879d5dd27c6df00f404ce730e8b967f3f2fa7497167ca1f84c0cf7b8b5a",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 178240,
+      "sha256": "b587964150d4503fb19760b009f2950eb964166ff07c779eb185de4121ebd32a",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 217652,
+      "sha256": "dfcffbfb37ef5b2055a0863939b537c9b46f6e62b6079d21b34c491e0a757da5",
+      "main": false
+    },
+    {
+      "file": "img/05.jpg",
+      "bytes": 139167,
+      "sha256": "14481741f81df7a0ed031182334cfd9c02376c3f57f63664d1a0bf1ff03dfe61",
+      "main": false
+    },
+    {
+      "file": "img/06.jpg",
+      "bytes": 222304,
+      "sha256": "82feaf73210d8b5f3607f28e5d5eed36b3e7b9445e9fd1ba88463a9fb99b9041",
+      "main": false
+    },
+    {
+      "file": "img/07.jpg",
+      "bytes": 293656,
+      "sha256": "7545f3b4b526e23e73b3fa3d902ef24182daa441975dc8f4a74b709ca64393f2",
+      "main": false
+    },
+    {
+      "file": "img/08.jpg",
+      "bytes": 141263,
+      "sha256": "2e95857b12999b1c1a009d751d69bc69a2cbdbd6aee2f1027ef5adcf936d5de9",
+      "main": false
+    },
+    {
+      "file": "img/09.jpg",
+      "bytes": 244699,
+      "sha256": "d5c6e2526cd141d20752352619ae9b81b794c7fdba8bf1d4534a4d4fdb2c31a5",
+      "main": false
+    },
+    {
+      "file": "img/10.jpg",
+      "bytes": 228004,
+      "sha256": "35f96ca1db9ba124dc699c3ba9756281ab3ec6cd9c3d9e4fbeee498607175325",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-21T15:37:15",
+    "built_from": [
+      "input/AHR6C50002/input.json",
+      "input/AHR6C50002/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "2324d0b8b53bd6041af576ac18403cb3ca278d200364b653733412c20fc4f1ea",
+      "item.json": "b2d2defa5a910ece33130bed55c5880b972af8908c0ddb7385926e740db9318f"
+    },
+    "verified_by": null,
+    "verified_at": null
+  }
+}

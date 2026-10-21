@@ -1,0 +1,194 @@
+{
+  "schema": "facts/v1",
+  "product_id": "AMU6000005",
+  "category": "五金工具",
+  "status": "draft",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": [
+      "电池类标 900W 偏高（多为等效/峰值功率，不是持续功率）；Listing 不写瓦数",
+      "材质取自描述推断（aluminio），需人工核实"
+    ]
+  },
+  "identity": {
+    "brand": "Merion",
+    "brand_aliases": [],
+    "model": "MER-520BS",
+    "title_raw": "Llave De Impacto Inalámbrica Electrica 21v 1/2 520 Nm 2 En 1"
+  },
+  "power": {
+    "type": "battery",
+    "voltage_v": null,
+    "battery_v": 21.0,
+    "charger_v": 127.0,
+    "w": null,
+    "claimed_w": 900,
+    "rated_claimed_w": null,
+    "claims_w": [
+      900
+    ],
+    "basis": "attribute",
+    "state_power": false,
+    "listing_policy": "do_not_state_power",
+    "device_v": null,
+    "listing_voltage_v": 21.0
+  },
+  "size": {
+    "length_cm": null,
+    "width_cm": null,
+    "height_cm": null,
+    "diameter_cm": null,
+    "raw": []
+  },
+  "weight_kg": null,
+  "capacity": "",
+  "pieces": null,
+  "material": [
+    "aluminio"
+  ],
+  "material_basis": "description",
+  "extras": {
+    "lift_range_mm": null,
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-3403213054-llave-de-impacto-inalambrica-electrica-21v-12-520-nm-2-en-1-_JM",
+    "store_id": "CNMERION-MXF2",
+    "core_keyword": "llave de impacto inalambrica"
+  },
+  "package": {
+    "included": [
+      "1 × Llave de impacto inalámbrica",
+      "1 × Adaptador de corriente",
+      "2 × Batería",
+      "5 × El pasador",
+      "5 × Junta tórica",
+      "2 × Broca de carpintero",
+      "5 × Llaves de vaso ( 17mm 18mm 19mm 21mm 22mm )",
+      "14 ×enchufe pequeño",
+      "1 × Bolsa",
+      "1 × Llave para portabrocas",
+      "4 ×Taladro para carpintería de 3/4/5/6 mm",
+      "4 ×Taladro helicoidal de 3/4/5/6 mm",
+      "1 × Guante",
+      "1 x Portabrocas"
+    ],
+    "not_included": [],
+    "source": "description"
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "missing"
+  },
+  "features": [
+    "luz LED",
+    "velocidad variable",
+    "función percutor",
+    "función reversa"
+  ],
+  "usage": [],
+  "specs": {
+    "Velocidad máxima de rotación": "3,200 rpm",
+    "Amperaje de la bateria": "3 Ah"
+  },
+  "raw_attributes": {
+    "Marca": "Merion",
+    "Modelo": "MER-520BS",
+    "Presentación": "Maletín de transporte",
+    "Color": "Verde",
+    "Voltaje": "127V",
+    "Potencia": "900 W",
+    "Es inalámbrico": "Sí",
+    "Con luz LED": "Sí",
+    "Cantidad de baterías": "2",
+    "Amperaje de la bateria": "3 Ah",
+    "Incluye cargador": "Sí",
+    "Incluye batería": "Sí",
+    "Tipo de batería": "Li-ion",
+    "Velocidad máxima de rotación": "3,200 rpm",
+    "Con velocidad variable": "Sí",
+    "Con función destornillador": "No",
+    "Con función percutor": "Sí",
+    "Con función reversa": "Sí",
+    "Otros accesorios incluidos": "0 ah, 1 llave de impacto inalámbrica, 1 × Adaptador de corriente 2 baterías de 3, 2 broc, 5 juntas tóricas, 5 pestillos"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 1341.75,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 545737,
+      "sha256": "b2b5f69e383d3dea8b300463e600d9d708ad9d13fb692aaa1f069fa20fb4a5f9",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 659299,
+      "sha256": "e14a7c5e279e85d38012a8d35af49de4dc219b95110d86abaaaa74d5d161c347",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 464555,
+      "sha256": "3d7940b8aff0c2b1b23c27dbbbfc1604aacc24f9fc4e7e17dfcfe4b4a8e3b58d",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 538998,
+      "sha256": "35aa8c7326d114d0aabbc42c8cf5ace7841bd2a4179c5ccc534f52f6addf5fbf",
+      "main": false
+    },
+    {
+      "file": "img/05.jpg",
+      "bytes": 595055,
+      "sha256": "0e1da23280a956e0ee8fd8d5c76daf8076a5508752a82d4387be77e07b55cc3d",
+      "main": false
+    },
+    {
+      "file": "img/06.jpg",
+      "bytes": 544751,
+      "sha256": "f91835a317196d5083bd6964b64378f6b0e6c0a6f93815082ad6de6c14b8ab2e",
+      "main": false
+    },
+    {
+      "file": "img/07.jpg",
+      "bytes": 504185,
+      "sha256": "d0186da3fa09d35fca3546dc0df65a340322cfa91ba3b6b7b7bc8fb8cac2259b",
+      "main": false
+    },
+    {
+      "file": "img/08.jpg",
+      "bytes": 561522,
+      "sha256": "dfffdbfc7e9dfdc8cc5a899c64ac9a86034a885bb0fd4a5c8d1bb8531d105398",
+      "main": false
+    },
+    {
+      "file": "img/09.jpg",
+      "bytes": 678941,
+      "sha256": "59e89c27927a20d16b483e2796eefd24ed9201f3f138d458b5a73c01e771a9ae",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-21T15:37:15",
+    "built_from": [
+      "input/AMU6000005/input.json",
+      "input/AMU6000005/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "ebf2a043677ff1b3c3752c60070d858d64994165e0845467915d669175739401",
+      "item.json": "7b8c68c90e4e6e12b2f66c3fff13715c228c735b56d2f6e5c6e3c13e52d5a6a3"
+    },
+    "verified_by": null,
+    "verified_at": null
+  }
+}

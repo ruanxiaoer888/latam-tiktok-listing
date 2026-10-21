@@ -1,0 +1,36 @@
+{
+  "schema": "category-schema/v1",
+  "category": "汽车摩托",
+  "version": "1.1",
+  "updated": "2026-10-21",
+  "description": "汽车摩托类事实卡字段。当前批次 2 个 SKU 均为通用千斤顶；真正汽配（适配表）需额外补 compatibility。",
+  "required": [
+    { "path": "identity.brand", "label": "品牌" },
+    { "path": "capacity", "label": "承载/容量（如 3 toneladas）" },
+    { "any_of": ["extras.lift_range_mm", "size.length_cm", "size.width_cm", "size.height_cm"], "label": "起升范围或尺寸" },
+    { "path": "package.included", "label": "包装清单", "non_empty": true }
+  ],
+  "recommended": [
+    { "path": "material", "label": "材质", "non_empty": true },
+    { "path": "weight_kg", "label": "整机重量" }
+  ],
+  "conditional": [
+    {
+      "when": "title_has_car_brand",
+      "require": ["compatibility"],
+      "note": "标题/描述出现具体车型（Nissan/Toyota/Honda/Chevrolet/VW/Ford/Mazda/Kia/Hyundai/Suzuki/Yamaha/Italika/Bajaj）时，必须有结构化适配信息"
+    }
+  ],
+  "power_rules": {
+    "corded_max_w": 3500,
+    "battery_max_w": 600,
+    "voltage_required": {
+      "corded": "power.voltage_v",
+      "battery": "power.battery_v"
+    }
+  },
+  "notes": [
+    "通用千斤顶不需要车型适配表，但必须写清承载吨位、起升范围、最低/最高高度。",
+    "涉及安全件（刹车/灯光/安全带）不得写“保证通过年检”等承诺。"
+  ]
+}

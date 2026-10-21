@@ -1,0 +1,153 @@
+{
+  "schema": "facts/v1",
+  "product_id": "ATVMX18200",
+  "category": "汽车摩托",
+  "status": "draft",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": []
+  },
+  "identity": {
+    "brand": "Atverce",
+    "brand_aliases": [],
+    "model": "ATV+QJD+02",
+    "title_raw": "Gato Hidraulico Auto Mecanico Tijera Y Manija Trinquete 2t"
+  },
+  "power": {
+    "type": "manual",
+    "voltage_v": null,
+    "battery_v": null,
+    "charger_v": null,
+    "w": null,
+    "claimed_w": null,
+    "rated_claimed_w": null,
+    "claims_w": [],
+    "basis": null,
+    "state_power": false,
+    "listing_policy": "state_verified_only",
+    "device_v": null,
+    "listing_voltage_v": null
+  },
+  "size": {
+    "length_cm": null,
+    "width_cm": null,
+    "height_cm": null,
+    "diameter_cm": null,
+    "raw": []
+  },
+  "weight_kg": null,
+  "capacity": "2 t",
+  "pieces": null,
+  "material": [],
+  "material_basis": null,
+  "extras": {
+    "lift_range_mm": [
+      95.0,
+      385.0
+    ],
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-4546957208-gato-hidraulico-auto-mecanico-tijera-y-manija-trinquete-2t-_JM",
+    "store_id": "ATVERCE-MX",
+    "core_keyword": "gato hidraulico tijera"
+  },
+  "package": {
+    "included": [
+      "Gato 2T *1",
+      "Casquillo *2",
+      "Llave *1",
+      "Manija *1"
+    ],
+    "not_included": [],
+    "source": "description"
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "not_applicable"
+  },
+  "features": [],
+  "usage": [],
+  "specs": {},
+  "raw_attributes": {
+    "Marca": "Atverce",
+    "Modelo": "ATV+QJD+02",
+    "Formato del gato": "Tijera",
+    "Peso máximo soportado": "2 t",
+    "Mínima altura levantada - Máxima altura levantada": "9.5 cm - 38.5 cm",
+    "Largo de la palanca": "50 cm"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 453,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 255449,
+      "sha256": "40a4ead414ce5acd496cebff6484c37c345113e43da78a993fe351bc6e4cb012",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 181915,
+      "sha256": "7e756a80dcea61ebe5aa78b7583be92982d2e5060cb84764ed24648d26949521",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 296686,
+      "sha256": "00e38ccc95dbb02e81e3b913e3a6ee32fbc7c9d48571b850b4ada41496fbd220",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 360884,
+      "sha256": "7b8b8935b151322ce493c89a84e229ff272f6279b315532aa1950ab799076b19",
+      "main": false
+    },
+    {
+      "file": "img/05.jpg",
+      "bytes": 367020,
+      "sha256": "a74546eed37250e362979b0e89655b5c7da8f7a16c3d956fb06e896770fa98bc",
+      "main": false
+    },
+    {
+      "file": "img/06.jpg",
+      "bytes": 236799,
+      "sha256": "5e513bfd9d6ff62a49c964b1f61a95c99ccd0f9c615e2ccf82d3be235067bed0",
+      "main": false
+    },
+    {
+      "file": "img/07.jpg",
+      "bytes": 342441,
+      "sha256": "ae936547c9bfd235a3616cf5765370c881bbef956af0bd4ae939235f5f26c57b",
+      "main": false
+    },
+    {
+      "file": "img/08.jpg",
+      "bytes": 500775,
+      "sha256": "f821bb27c59f4b9365b7c6c2a4bafe828b39e2562bcac2029bc8c3b88efe197a",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-21T15:37:16",
+    "built_from": [
+      "input/ATVMX18200/input.json",
+      "input/ATVMX18200/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "2029c5188506d08f6afb897ddbafd43a01b0c5864413e82b54fccb5ba7f148c9",
+      "item.json": "4d9acfa4ad647f9acd3eed41eee33f8bf81f58a593ad1db20097f38999fcbbf5"
+    },
+    "verified_by": null,
+    "verified_at": null
+  }
+}

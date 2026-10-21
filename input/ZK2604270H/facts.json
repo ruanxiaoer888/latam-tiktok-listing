@@ -1,0 +1,199 @@
+{
+  "schema": "facts/v1",
+  "product_id": "ZK2604270H",
+  "category": "五金工具",
+  "status": "draft",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": [
+      "描述出现 ['120V']，与属性 127V 不一致",
+      "材质取自描述推断（acero inoxidable），需人工核实"
+    ]
+  },
+  "identity": {
+    "brand": "Atverce",
+    "brand_aliases": [],
+    "model": "ATV-DC-2800W",
+    "title_raw": "Rotomartillo Cincelador Perforador Sds Industrial 2800w 5j"
+  },
+  "power": {
+    "type": "corded",
+    "voltage_v": 127.0,
+    "battery_v": null,
+    "charger_v": null,
+    "w": 2800.0,
+    "claimed_w": 2800,
+    "rated_claimed_w": null,
+    "claims_w": [
+      2800
+    ],
+    "basis": "attribute",
+    "state_power": true,
+    "listing_policy": "state_verified_only",
+    "device_v": null,
+    "listing_voltage_v": 127.0
+  },
+  "size": {
+    "length_cm": 37.0,
+    "width_cm": 8.0,
+    "height_cm": 23.0,
+    "diameter_cm": null,
+    "raw": []
+  },
+  "weight_kg": null,
+  "capacity": "",
+  "pieces": null,
+  "material": [
+    "acero inoxidable"
+  ],
+  "material_basis": "description",
+  "extras": {
+    "lift_range_mm": null,
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-4648402330-rotomartillo-cincelador-perforador-sds-industrial-2800w-5j-_JM",
+    "store_id": "ATVERCE-MX",
+    "core_keyword": "rotomartillo sds"
+  },
+  "package": {
+    "included": [
+      "Martillo eléctrico industrial *1",
+      "Guante *1",
+      "Escobillas de carbón *4",
+      "Grasa *1",
+      "Tapón antipolvo *1",
+      "Portabrocas *1",
+      "Taladro de impacto: 6/8/10/12",
+      "Pico afilado *1",
+      "Pico plano *1",
+      "Gafas *1",
+      "Caja de plástico *1",
+      "Llave inglesa *1",
+      "Llave *1",
+      "Biela *1"
+    ],
+    "not_included": [],
+    "source": "description"
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "missing"
+  },
+  "features": [
+    "embrague de seguridad",
+    "posicionamiento Vario-lock",
+    "sistema antivibración",
+    "velocidad variable",
+    "diseño ergonómico"
+  ],
+  "usage": [],
+  "specs": {
+    "Modos de operación": "Perforación por percusión",
+    "Sistema de encastre": "SDS Plus",
+    "Energía de impacto": "5 J",
+    "Golpes por minuto": "1100",
+    "Velocidad máxima de rotación": "1,100 rpm",
+    "Velocidad mínima de rotación": "0 rpm"
+  },
+  "raw_attributes": {
+    "Tipo de alimentación": "Corriente doméstica",
+    "Marca": "Atverce",
+    "Modelo": "ATV-DC-2800W",
+    "Voltaje": "127V",
+    "Potencia": "2,800 W",
+    "Es inalámbrico": "No",
+    "Golpes por minuto": "1100",
+    "Sistema de encastre": "SDS Plus",
+    "Modos de operación": "Perforación por percusión",
+    "Con embrague de seguridad": "Sí",
+    "Con posicionamiento Vario-lock": "Sí",
+    "Es sin escobillas": "No",
+    "Con sistema antivibración": "Sí",
+    "Es antipolvo": "Sí",
+    "Energía de impacto": "5 J",
+    "Velocidad mínima de rotación": "0 rpm",
+    "Velocidad máxima de rotación": "1,100 rpm",
+    "Con velocidad variable": "Sí",
+    "Accesorios incluidos": "Batería, Brocas",
+    "Con luz LED": "No",
+    "Con diseño ergonómico": "Sí",
+    "Largo del cable": "1.83 m",
+    "Largo": "37 cm",
+    "Ancho": "8 cm",
+    "Altura": "23 cm"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 1255.8,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 259863,
+      "sha256": "a48c358e372d2a467c2941b9ec1633659ae750abfa16afeb1fe8d547bda80826",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 291529,
+      "sha256": "ce6f4ac6dc3dcf81be29164610deccabb03467718f5af974645e208ab3d23960",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 400365,
+      "sha256": "d242271c5bd580e2d4e5f1cb5b554f53402d60ecfdb7145adbd58dbe328771c9",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 391121,
+      "sha256": "234432919ce8813b686d88dc454164e71ec0e7eb242acc2bfc69f4adaeb3d2f3",
+      "main": false
+    },
+    {
+      "file": "img/05.jpg",
+      "bytes": 381545,
+      "sha256": "97d3c32b4d1abff3b0941c9a45af08ab0d0cf84f10351708a50b0c9934fe0cbe",
+      "main": false
+    },
+    {
+      "file": "img/06.jpg",
+      "bytes": 303897,
+      "sha256": "da918ccaa8f89e2583fb344c1c1be651175bd4904be5a310d60d70a0a29ccdb6",
+      "main": false
+    },
+    {
+      "file": "img/07.jpg",
+      "bytes": 257059,
+      "sha256": "36dcdab8221a30d5eaa87877e327a470a0deb34fa01c3a105f48d41492ec133f",
+      "main": false
+    },
+    {
+      "file": "img/08.jpg",
+      "bytes": 321670,
+      "sha256": "ecdab70867de159efcd911aab8e6e749e96af4ecba718808a5080f1ed037e7b0",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-21T15:37:16",
+    "built_from": [
+      "input/ZK2604270H/input.json",
+      "input/ZK2604270H/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "98fc71e0f88c819c38d84649755907082fc88278b9e52cab95829f92f4963a17",
+      "item.json": "a5d7dd365a29b4555b9643fc9f4dd4d640f3d014e1e4699efad02abad10a998d"
+    },
+    "verified_by": null,
+    "verified_at": null
+  }
+}

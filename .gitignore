@@ -1,8 +1,16 @@
 # ===== 大体积 / 可再生成的东西不进版本库 =====
 
 # 商品原始数据（图片约 49MB）：走 U 盘或网盘单独搬，不进 git
+# 但 facts.json / img_manifest.csv 属于知识库主本，要进 git（2026-10-21 起）
 input/*
 !input/README.md
+!input/*/
+input/*/input.json
+input/*/item.json
+input/*/img/
+
+# 知识库自动生成的索引与报告（可重跑脚本再生成）
+kb/_index/
 
 # 批次输出（可重新生成）：只保留黄金样例目录作为测试夹具
 output/*

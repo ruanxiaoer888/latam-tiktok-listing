@@ -1,0 +1,31 @@
+{
+  "schema": "category-schema/v1",
+  "category": "家电",
+  "version": "1.1",
+  "updated": "2026-10-21",
+  "description": "家电类事实卡字段。电压/认证是硬门槛；尺寸/重量/功率是软提醒。",
+  "required": [
+    { "path": "identity.brand", "label": "品牌" },
+    { "path": "power.type", "label": "供电类型（corded/battery）" },
+    { "path": "package.included", "label": "包装清单", "non_empty": true },
+    { "path": "certification.status", "label": "认证状态（available/missing/not_applicable）" }
+  ],
+  "recommended": [
+    { "any_of": ["capacity", "size.length_cm", "size.width_cm", "size.height_cm"], "label": "容量或尺寸" },
+    { "path": "weight_kg", "label": "整机重量" },
+    { "path": "power.w", "label": "可写功率（插电类）" }
+  ],
+  "power_rules": {
+    "corded_max_w": 3500,
+    "battery_max_w": 600,
+    "voltage_required": {
+      "corded": "power.voltage_v",
+      "battery": "power.battery_v"
+    }
+  },
+  "notes": [
+    "墨西哥家电/电动工具需 NOM-003-SCFI-2014；页面标 NOM 编码。",
+    "巴西：INMETRO 强制 + 大家电 PBE + 无线 ANATEL + N 型插头。",
+    "认证状态为 missing 时，Listing 不得出现 NOM/INMETRO/ANATEL 字样。"
+  ]
+}

@@ -1,0 +1,176 @@
+{
+  "schema": "facts/v1",
+  "product_id": "MBU6000001",
+  "category": "五金工具",
+  "status": "draft",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": []
+  },
+  "identity": {
+    "brand": "Atverce",
+    "brand_aliases": [],
+    "model": "BX1",
+    "title_raw": "Mezcladora Eléctrica De Cemento Pintura 6 Velocidades 2500w"
+  },
+  "power": {
+    "type": "corded",
+    "voltage_v": 127.0,
+    "battery_v": null,
+    "charger_v": null,
+    "w": 2500.0,
+    "claimed_w": 2500,
+    "rated_claimed_w": null,
+    "claims_w": [
+      2500
+    ],
+    "basis": "attribute",
+    "state_power": true,
+    "listing_policy": "state_verified_only",
+    "device_v": null,
+    "listing_voltage_v": 127.0
+  },
+  "size": {
+    "length_cm": 38.0,
+    "width_cm": null,
+    "height_cm": null,
+    "diameter_cm": 12.0,
+    "raw": []
+  },
+  "weight_kg": null,
+  "capacity": "",
+  "pieces": null,
+  "material": [],
+  "material_basis": null,
+  "extras": {
+    "lift_range_mm": null,
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-2675580661-mezcladora-electrica-de-cemento-pintura-6-velocidades-2500w-_JM",
+    "store_id": "ATVERCE-MX",
+    "core_keyword": "mezcladora de cemento electrica"
+  },
+  "package": {
+    "included": [
+      "Batidora *1",
+      "Varilla batidora *1",
+      "Cabezal de batido en espiral *1",
+      "Doble cabeza *1",
+      "Llave *2",
+      "Cepillos de carbón *6",
+      "Funda de esponja *2",
+      "Guantes (un par) *1",
+      "Manual en español *1"
+    ],
+    "not_included": [],
+    "source": "description"
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "missing"
+  },
+  "features": [],
+  "usage": [
+    "Pintura, Mortero, Adhesivo"
+  ],
+  "specs": {
+    "Frecuencia": "110V 60Hz",
+    "Cantidad de velocidades": "6",
+    "Máxima velocidad": "1,100 rpm"
+  },
+  "raw_attributes": {
+    "Marca": "Atverce",
+    "Modelo": "BX1",
+    "Tipo de mezclador": "Eléctrico",
+    "Voltaje": "127V",
+    "Diámetro": "12 cm",
+    "Largo": "38 cm",
+    "Frecuencia": "110V 60Hz",
+    "Potencia": "2,500 W",
+    "Máxima velocidad": "1,100 rpm",
+    "Cantidad de velocidades": "6",
+    "Usos recomendados": "Pintura, Mortero, Adhesivo",
+    "Incluye accesorios": "Sí",
+    "Accesorios incluidos": "Como se muestra en la figura"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 1345.5,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 170741,
+      "sha256": "2a775d8e8fd9d4872bf747a278668ccc5b42347642793fc3ffeb00dad4de19c1",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 172561,
+      "sha256": "34300c9acb86e3c5e7047e2764602f7677d1730b0804ab48a915bf01d0d4d3a7",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 143290,
+      "sha256": "d6618e07a4d26740d71e5d7f912302448d654349ad8f5e38fd4b79b30f4c4d34",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 210810,
+      "sha256": "59cfe908716defbec82c75ff178678323705301708c7c9dfffd4923eaaaed1f7",
+      "main": false
+    },
+    {
+      "file": "img/05.jpg",
+      "bytes": 258008,
+      "sha256": "dc91630e621f6817c0e40ee1e04293a3ff6892bb5312e8124414fdf4acbe4b21",
+      "main": false
+    },
+    {
+      "file": "img/06.jpg",
+      "bytes": 207938,
+      "sha256": "6f4b65df0dcebe320e7e6420f80cb152d8e602ffe57776c5e03ee75c8ed9ee2d",
+      "main": false
+    },
+    {
+      "file": "img/07.jpg",
+      "bytes": 249466,
+      "sha256": "da3cd6d06b5318d766b4ef6a714841e95e2b08951e186a7c9e286cec1629c462",
+      "main": false
+    },
+    {
+      "file": "img/08.jpg",
+      "bytes": 373528,
+      "sha256": "e1b9c8e3e61432b5ec25735a4aaf78db481faba203ae2aa95e04ca19d60140e3",
+      "main": false
+    },
+    {
+      "file": "img/09.jpg",
+      "bytes": 281462,
+      "sha256": "6054034e126d418ae448244aca6dbfdef424427f94c0efdb7f94af8688880469",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-21T15:37:16",
+    "built_from": [
+      "input/MBU6000001/input.json",
+      "input/MBU6000001/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "254ec932e7157bde66ef75b92e39f07927c045f3e47ec7b83c0ede604849cc2a",
+      "item.json": "0bd97c2c0d9c8f5fa2676173c9f432500ddf2aafdeb00f956f62a457d002ffb9"
+    },
+    "verified_by": null,
+    "verified_at": null
+  }
+}

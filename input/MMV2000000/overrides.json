@@ -1,0 +1,18 @@
+{
+  "source": "用户确认 2026-10-21：电池电压 18V；整机标称 21V（口述）",
+  "set": {
+    "power.battery_v": 18,
+    "power.device_v": 21,
+    "power.listing_voltage_v": 18,
+    "power.battery_v_basis": "user_confirmed"
+  },
+  "resolve_blocks": ["电池电压多值冲突"],
+  "add_warnings": [
+    "电池 18V / 整机标称 21V：Listing 统一写电池实际值 18V，不写 21V；需确认是否与 21V 平台电池通用"
+  ],
+  "quarantine": {
+    "reason": "电池 18V / 整机标称 21V 口径未确认，移出本批生成",
+    "by": "用户",
+    "at": "2026-10-21"
+  }
+}

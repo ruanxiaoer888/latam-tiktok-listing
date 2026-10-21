@@ -1,0 +1,189 @@
+{
+  "schema": "facts/v1",
+  "product_id": "ABU6000008",
+  "category": "五金工具",
+  "status": "draft",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": [
+      "源数据写 110V，墨西哥规范为 127V",
+      "材质取自描述推断（acero inoxidable），需人工核实"
+    ]
+  },
+  "identity": {
+    "brand": "Atverce",
+    "brand_aliases": [],
+    "model": "BD1",
+    "title_raw": "Rotomartillo Cincelador Electrica Taladro Perforador 850w"
+  },
+  "power": {
+    "type": "corded",
+    "voltage_v": 127.0,
+    "battery_v": null,
+    "charger_v": null,
+    "w": 850.0,
+    "claimed_w": 850,
+    "rated_claimed_w": null,
+    "claims_w": [
+      850
+    ],
+    "basis": "attribute",
+    "state_power": true,
+    "listing_policy": "state_verified_only",
+    "device_v": null,
+    "listing_voltage_v": 127.0
+  },
+  "size": {
+    "length_cm": null,
+    "width_cm": null,
+    "height_cm": null,
+    "diameter_cm": null,
+    "raw": []
+  },
+  "weight_kg": null,
+  "capacity": "",
+  "pieces": null,
+  "material": [
+    "acero inoxidable"
+  ],
+  "material_basis": "description",
+  "extras": {
+    "lift_range_mm": null,
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-3310081490-rotomartillo-cincelador-electrica-taladro-perforador-850w-_JM",
+    "store_id": "ATVERCE-MX",
+    "core_keyword": "rotomartillo cincelador"
+  },
+  "package": {
+    "included": [
+      "Martillo eléctrico de 850 W*1",
+      "Llave de mandril * 1",
+      "Portabrocas de acero inoxidable* 1",
+      "Biela de broca * 1",
+      "Medidor de profundidad*1",
+      "Cincel plano 14*250mm",
+      "Cincel afilado 14*250mm",
+      "Broca 6*150mm",
+      "Broca 8*150mm",
+      "Broca 10*150mm",
+      "Caja de herramientas*1"
+    ],
+    "not_included": [],
+    "source": "description"
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "missing"
+  },
+  "features": [
+    "embrague de seguridad",
+    "velocidad variable"
+  ],
+  "usage": [],
+  "specs": {
+    "Modos de operación": "Taladro, Percutor",
+    "Sistema de encastre": "SDS Plus",
+    "Golpes por minuto": "5100",
+    "Velocidad máxima de rotación": "1,150 rpm",
+    "Velocidad mínima de rotación": "0 rpm"
+  },
+  "raw_attributes": {
+    "Marca": "Atverce",
+    "Modelo": "BD1",
+    "Color": "Rojo",
+    "Voltaje": "110V - 127V",
+    "Potencia": "850 W",
+    "Es inalámbrico": "No",
+    "Golpes por minuto": "5100",
+    "Sistema de encastre": "SDS Plus",
+    "Modos de operación": "Taladro, Percutor",
+    "Con embrague de seguridad": "Sí",
+    "Con posicionamiento Vario-lock": "No",
+    "Es sin escobillas": "No",
+    "Velocidad mínima de rotación": "0 rpm",
+    "Velocidad máxima de rotación": "1,150 rpm",
+    "Con velocidad variable": "Sí",
+    "Accesorios incluidos": "Martillo eléctrico de 850 W*1 Llave de mandril * 1 Portabrocas de acero inoxidable* 1 Biela de broca * 1 Medidor de prof"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 1286.9,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 280269,
+      "sha256": "ffd4d7fc4a11fb99dfab401cc5e862aac8417a6f9a2a400d3ea22c7b6b59a099",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 299178,
+      "sha256": "f98ae2c2c7112a3801264c8e8e949b3dee3f86f2073a6a006cc0448a18e2628f",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 452412,
+      "sha256": "4ee8ac6d9fdaea2824800fd065bc693a509947e782dcabd8a1fcdb60d91cf65e",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 226352,
+      "sha256": "6f98214224173b4d0a31ead7b7c1ef172b7d3a4ef5c61dcf78edea89dd565bf4",
+      "main": false
+    },
+    {
+      "file": "img/05.jpg",
+      "bytes": 164188,
+      "sha256": "b9e037b544f922ce7156619eb7bd367293ec34767df1bdb0d1f3dc134313e1ae",
+      "main": false
+    },
+    {
+      "file": "img/06.jpg",
+      "bytes": 305373,
+      "sha256": "c2df2d47521031616aceff781f75859d634dada094501c2482720e575a51164c",
+      "main": false
+    },
+    {
+      "file": "img/07.jpg",
+      "bytes": 277877,
+      "sha256": "45b7aa569ec3070f633736553201e2e9fa37f4a5999ce232ec79aa9677f85bfe",
+      "main": false
+    },
+    {
+      "file": "img/08.jpg",
+      "bytes": 243029,
+      "sha256": "98c528fbf4a5f35ab948a2873f9be53f14576c516ed8370947cee4fcb42bab7b",
+      "main": false
+    },
+    {
+      "file": "img/09.jpg",
+      "bytes": 396350,
+      "sha256": "4355fd9850f3df1bba779cef080009e29b68ea01fc9d87e25b8c74c3cc187cec",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-21T15:37:15",
+    "built_from": [
+      "input/ABU6000008/input.json",
+      "input/ABU6000008/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "cbb64d2862fa181b06202a9bee98c61742f878c03ee950661ba39c622daf0163",
+      "item.json": "b944c236af4b61af14984a7ad74406ac2281d4ff22eb62f82a4e15663e7b0439"
+    },
+    "verified_by": null,
+    "verified_at": null
+  }
+}

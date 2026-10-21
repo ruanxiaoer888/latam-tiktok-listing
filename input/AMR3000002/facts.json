@@ -1,0 +1,189 @@
+{
+  "schema": "facts/v1",
+  "product_id": "AMR3000002",
+  "category": "家电",
+  "status": "quarantined",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": [
+      "充电器输入电压未提供（Listing 不写充电器电压）",
+      "电池电压 18V 为用户口述（“一般是18V”），未见电池标签/铭牌，建议补图确认"
+    ]
+  },
+  "identity": {
+    "brand": "Merion",
+    "brand_aliases": [],
+    "model": "MER+FSD+01",
+    "title_raw": "Ventilador Portátil Piso Recargable Inalámbrico Y Lámpara"
+  },
+  "power": {
+    "type": "battery",
+    "voltage_v": null,
+    "battery_v": 18,
+    "charger_v": null,
+    "w": 30.0,
+    "claimed_w": 30,
+    "rated_claimed_w": null,
+    "claims_w": [
+      30
+    ],
+    "basis": "description",
+    "state_power": true,
+    "listing_policy": "state_verified_only",
+    "device_v": null,
+    "listing_voltage_v": 18,
+    "battery_v_basis": "user_estimate"
+  },
+  "size": {
+    "length_cm": null,
+    "width_cm": 23.0,
+    "height_cm": 32.0,
+    "diameter_cm": null,
+    "raw": []
+  },
+  "weight_kg": null,
+  "capacity": "",
+  "pieces": null,
+  "material": [
+    "Hierro"
+  ],
+  "material_basis": "attribute",
+  "extras": {
+    "lift_range_mm": null,
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-3517481458-ventilador-portatil-piso-recargable-inalambrico-y-lampara-_JM",
+    "store_id": "CNMERION-MXF2",
+    "core_keyword": "ventilador portatil recargable"
+  },
+  "package": {
+    "included": [
+      "Luz de 4 pulgadas*1",
+      "Ventilador de 9 pulgadas*1",
+      "Batería (12000 mAh)*1",
+      "Batería (12000 mAh)*1",
+      "Cargador*1",
+      "Manguito*1",
+      "Llave* 1"
+    ],
+    "not_included": [],
+    "source": "description"
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "missing"
+  },
+  "features": [
+    "función turbo"
+  ],
+  "usage": [],
+  "specs": {
+    "Velocidad máxima de rotación": "4,500 rpm",
+    "Nivel de ruido": "30 dB",
+    "Cantidad de velocidades": "2"
+  },
+  "raw_attributes": {
+    "Marca": "Merion",
+    "Modelo": "MER+FSD+01",
+    "Tipo de ventilador": "De mesa",
+    "Tipo de alimentación": "Batería",
+    "Cantidad de velocidades": "2",
+    "Incluye control remoto": "No",
+    "Velocidad máxima de rotación": "4,500 rpm",
+    "Altura": "32 cm",
+    "Ancho": "23 cm",
+    "Color de la estructura": "Negro",
+    "Material de la rejilla": "Hierro",
+    "Con luz": "No",
+    "Cantidad de lámparas": "1",
+    "Con función turbo": "Sí",
+    "Nivel de ruido": "30 dB"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 1069.94,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 627907,
+      "sha256": "f3f2b2267b5739e1a6558bda542a14950e0b1ea60c7d5d1973c91cb741438017",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 418344,
+      "sha256": "4869d7f7afb40cf632eba78b473092649e645ba2fb1d91948d1ef309ee19fa05",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 233693,
+      "sha256": "360049cd98bcfa3731fd8f571c7fa360dfb7f98d1738bfc9dae36b69494f5939",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 641216,
+      "sha256": "e244777221007b828ff9301ec57a764f6555e288fceed3e4c1b9c3d111be5b7c",
+      "main": false
+    },
+    {
+      "file": "img/05.jpg",
+      "bytes": 778455,
+      "sha256": "8a922433c34d86c498a363695a9c7faeb9e3b0065b4daa105fde4eadd1be44e2",
+      "main": false
+    },
+    {
+      "file": "img/06.jpg",
+      "bytes": 814219,
+      "sha256": "4e01a42ac9c1c650f0599a5c9d447564ce078c17600da18575e0b0cc2c17eea0",
+      "main": false
+    },
+    {
+      "file": "img/07.jpg",
+      "bytes": 953376,
+      "sha256": "35458e32b66a79f7f78c6d649bd7fe5c652d27600764c1b816f48f33139033a4",
+      "main": false
+    },
+    {
+      "file": "img/08.jpg",
+      "bytes": 756475,
+      "sha256": "624683a5928d69cdd509b430fe5ec01dd39a4d24f8b31c7d1805a4a0c2478de5",
+      "main": false
+    },
+    {
+      "file": "img/09.jpg",
+      "bytes": 828067,
+      "sha256": "75cf009ae9be66f527ae7330b12ac887d59c7389d6605131bfcba868a1f4e710",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-21T15:37:15",
+    "built_from": [
+      "input/AMR3000002/input.json",
+      "input/AMR3000002/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "27988ae7ab35b3fa1f9e15fa8b22463612f0dab14bd3da5d1cc1d71c4582e595",
+      "item.json": "38ca38fcdd84409b5dcbd559827a58821b1945f4ceddd974dfa6b84cf5327a8d"
+    },
+    "verified_by": null,
+    "verified_at": null,
+    "quarantine": {
+      "reason": "电池电压 18V 仅为口述估计，无电池标签/铭牌，移出本批生成",
+      "by": "用户",
+      "at": "2026-10-21"
+    },
+    "overrides": "input/AMR3000002/overrides.json",
+    "overrides_note": "用户口述 2026-10-21：电池电压一般是 18V（未见实物标签）"
+  }
+}

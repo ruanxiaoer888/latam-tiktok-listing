@@ -1,0 +1,174 @@
+{
+  "schema": "facts/v1",
+  "product_id": "ABU600000T",
+  "category": "五金工具",
+  "status": "draft",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": [
+      "充电器输入电压未提供（Listing 不写充电器电压）"
+    ]
+  },
+  "identity": {
+    "brand": "Atverce",
+    "brand_aliases": [],
+    "model": "ATV+DYJ+01",
+    "title_raw": "Sierra Circular Electrica Inalámbrica + 6 Discos 2 Baterías"
+  },
+  "power": {
+    "type": "battery",
+    "voltage_v": null,
+    "battery_v": 21.0,
+    "charger_v": null,
+    "w": null,
+    "claimed_w": null,
+    "rated_claimed_w": null,
+    "claims_w": [],
+    "basis": null,
+    "state_power": false,
+    "listing_policy": "state_verified_only",
+    "device_v": null,
+    "listing_voltage_v": 21.0
+  },
+  "size": {
+    "length_cm": null,
+    "width_cm": null,
+    "height_cm": null,
+    "diameter_cm": null,
+    "raw": []
+  },
+  "weight_kg": null,
+  "capacity": "",
+  "pieces": null,
+  "material": [],
+  "material_basis": null,
+  "extras": {
+    "lift_range_mm": null,
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-3572923766-sierra-circular-electrica-inalambrica-6-discos-2-baterias-_JM",
+    "store_id": "ATVERCE-MX",
+    "core_keyword": "sierra circular inalambrica"
+  },
+  "package": {
+    "included": [
+      "Sierra circular *1",
+      "Batería *2(3.0AH)",
+      "Cargador *1",
+      "Sierra Corte Seco *2",
+      "Sierra Gruesos 24T *2",
+      "Sierra Gruesos 30T *2",
+      "Gafas *1",
+      "Kit de herramientas *1",
+      "Llave *2"
+    ],
+    "not_included": [],
+    "source": "description"
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "missing"
+  },
+  "features": [],
+  "usage": [],
+  "specs": {
+    "Tipo de tecnología del motor": "Sin escobillas",
+    "Diámetro del disco": "125 mm",
+    "Profundidad de corte 90 grados": "5.1 cm",
+    "Profundidad de corte 45 grados": "3.35 cm"
+  },
+  "raw_attributes": {
+    "Marca": "Atverce",
+    "Línea": "Professional",
+    "Modelo": "ATV+DYJ+01",
+    "Tipo de alimentación": "Batería",
+    "Voltaje": "21V",
+    "Diámetro del disco": "125 mm",
+    "Es inalámbrico": "Sí",
+    "Tipo de tecnología del motor": "Sin escobillas",
+    "Orientación de la mano": "Ambidiestro",
+    "Profundidad de corte 45 grados": "3.35 cm",
+    "Profundidad de corte 90 grados": "5.1 cm",
+    "Accesorios incluidos": "Batería *2 Cargador *1 Sierra Corte Seco *2    Sierra Gruesos 24T *2 Sierra Gruesos 30T *2 Gafas *1 Kit de herramientas"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 2600.77,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 674730,
+      "sha256": "7e91f13ec0032691ec0ecc7d52a0117eb9cb5cecf864c506f01394bc2426c943",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 686396,
+      "sha256": "553d6a6c3323986a51ae3cd0ba4ebd820f8d565775aa6b2ec46c4f07eb7b5b7d",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 928161,
+      "sha256": "18b6eb2984c5d5f60dc1a0f3fbd7c0f09e43b1652c0ccedf8c2f07193c4f273a",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 1086622,
+      "sha256": "69fa96a2663326e08f3f70fb9891f19ffb9aec807823baaa1899d16ba37f153a",
+      "main": false
+    },
+    {
+      "file": "img/05.jpg",
+      "bytes": 783097,
+      "sha256": "6a7713e09e6329e1cf8c020ad7333c2fc64de1beafaa12db6e24cff94c459011",
+      "main": false
+    },
+    {
+      "file": "img/06.jpg",
+      "bytes": 806046,
+      "sha256": "866393c06bc1dc3a49ad274d54a911ba7f920ddc47c371af7acae0f515e87f5e",
+      "main": false
+    },
+    {
+      "file": "img/07.jpg",
+      "bytes": 737415,
+      "sha256": "088b6b7eeab720d8723e7017dd24c115df4d83a2ec04650cb69c51705130cd4c",
+      "main": false
+    },
+    {
+      "file": "img/08.jpg",
+      "bytes": 764493,
+      "sha256": "c925468af3a074414557d3bae80661f6e055dd0f0bba7c87f97e91a875b50daa",
+      "main": false
+    },
+    {
+      "file": "img/09.jpg",
+      "bytes": 834778,
+      "sha256": "23a836c8523694b6f6c5bfe1552e617560aff8b0615c0df6d51036d713100401",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-21T15:37:15",
+    "built_from": [
+      "input/ABU600000T/input.json",
+      "input/ABU600000T/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "3c4fdee17846bad9272bf1aa41d5e8bee3333992089f65b5360bb3e3a332c3bf",
+      "item.json": "ce137a16b48e6ecde2a603f75bd16e1849222954245ff9c53b810d06f2a35736"
+    },
+    "verified_by": null,
+    "verified_at": null
+  }
+}

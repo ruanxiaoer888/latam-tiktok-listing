@@ -1,0 +1,173 @@
+{
+  "schema": "facts/v1",
+  "product_id": "AMU3CI0000",
+  "category": "五金工具",
+  "status": "draft",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": [
+      "材质取自描述推断（acero），需人工核实"
+    ]
+  },
+  "identity": {
+    "brand": "Merion",
+    "brand_aliases": [],
+    "model": "MER-TTGJ-46",
+    "title_raw": "Juego De Herramientas Dados Llave Mecánicas Autocle 46pcs"
+  },
+  "power": {
+    "type": "manual",
+    "voltage_v": null,
+    "battery_v": null,
+    "charger_v": null,
+    "w": null,
+    "claimed_w": null,
+    "rated_claimed_w": null,
+    "claims_w": [],
+    "basis": null,
+    "state_power": false,
+    "listing_policy": "state_verified_only",
+    "device_v": null,
+    "listing_voltage_v": null
+  },
+  "size": {
+    "length_cm": 23.0,
+    "width_cm": 12.0,
+    "height_cm": 4.0,
+    "diameter_cm": null,
+    "raw": []
+  },
+  "weight_kg": null,
+  "capacity": "",
+  "pieces": 46.0,
+  "material": [
+    "acero"
+  ],
+  "material_basis": "description",
+  "extras": {
+    "lift_range_mm": null,
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-2262602649-juego-de-herramientas-dados-llave-mecanicas-autocle-46pcs-_JM",
+    "store_id": "CNMERION-MXF2",
+    "core_keyword": "juego de herramientas"
+  },
+  "package": {
+    "included": [
+      "6* Destornilladores hexagonales internos tipo flor: T10 / T15 / T20 / T25 / T30 / T40",
+      "6* Destornilladores hexagonales internos de cabeza plana: H3 / H4 / H5 / H6 / H7 / H8",
+      "3* Destornilladores de pala plana: S4 / S5.5 / S7",
+      "3* Destornilladores de cruz: PH1 / PH2 / PH3",
+      "3* Destornilladores tipo Pozidriv: PZ1 / PZ2 / PZ3",
+      "1* Junta multidireccional de 1/4",
+      "1* Llave de trinquete de 1/4",
+      "1* Barra de extensión corta de 1/4 (50 mm)",
+      "1* Barra de extensión larga de 1/4 (100 mm)",
+      "1* Barra cuadrada pequeña de 1/4 (140 mm)",
+      "1* Barra de conexión flexible de 1/4 (140 mm)",
+      "3* Llaves Allen (1.5 - 2 - 2.5 mm)",
+      "1* Barra deslizante de 1/4 (140 mm)",
+      "1* Adaptador para taladro de 1/4",
+      "1* Caja de herramientas"
+    ],
+    "not_included": [],
+    "source": "description"
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "not_applicable"
+  },
+  "features": [],
+  "usage": [],
+  "specs": {},
+  "raw_attributes": {
+    "Marca": "Merion",
+    "Modelo": "MER-TTGJ-46",
+    "Largo": "23 cm",
+    "Ancho": "12 cm",
+    "Altura": "4 cm",
+    "Tipo de envase": "Caja",
+    "Cantidad de piezas": "46",
+    "Es un kit de fábrica": "Sí"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 215.28,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 237184,
+      "sha256": "0025ca0ab6040a33bbaf10615437591bd7dd5b1117f2ec2f26e4f7531b02ca59",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 230358,
+      "sha256": "c11f27a7ca38ab09ce3e7d305abe53416ee1586e333d89ee5f69bb2017492298",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 205789,
+      "sha256": "06cfc1c2e97dae02b3c67ee74d1eca25dc4cb4dd57ca51d22f8d6272474743f8",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 213480,
+      "sha256": "77ba4226913a2e7670e6f326f01243785055eee64feb5d8f8b183069a9cd3f23",
+      "main": false
+    },
+    {
+      "file": "img/05.jpg",
+      "bytes": 163407,
+      "sha256": "f23ce42d3731800ba0433e6edd89be4f8c7d157f33137163f5c5fa90d64bc748",
+      "main": false
+    },
+    {
+      "file": "img/06.jpg",
+      "bytes": 245023,
+      "sha256": "b99d3e7beea917a1509657afe2b8c25e0c7bfce13e1bde88135cbcd1be4a4e3a",
+      "main": false
+    },
+    {
+      "file": "img/07.jpg",
+      "bytes": 178646,
+      "sha256": "b6f38a22c1de1c0f79c5fddcb84dec67219d390a4c7a653fb2af05b949c4fc60",
+      "main": false
+    },
+    {
+      "file": "img/08.jpg",
+      "bytes": 166249,
+      "sha256": "88713bca59f9cc108bf692d050b56659ef9e40d951841464f605e33328bb26cc",
+      "main": false
+    },
+    {
+      "file": "img/09.jpg",
+      "bytes": 248417,
+      "sha256": "e226888ef6d536cf95f2649e847c060a073752811cff4455fc14d677f179a5e8",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-21T15:37:15",
+    "built_from": [
+      "input/AMU3CI0000/input.json",
+      "input/AMU3CI0000/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "0a5fc28f19d8d1757a35270d1602c8b8588dc38910d647577e6b6ba409ab9902",
+      "item.json": "accc1089645e0f0c46d64c0f5834adcf593a7f4b493d517c71e0cfeee0086199"
+    },
+    "verified_by": null,
+    "verified_at": null
+  }
+}
