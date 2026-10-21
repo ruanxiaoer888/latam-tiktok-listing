@@ -1,0 +1,166 @@
+{
+  "schema": "facts/v1",
+  "product_id": "ABU600000V",
+  "category": "五金工具",
+  "status": "verified",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": [
+      "充电器输入电压未提供（Listing 不写充电器电压）"
+    ]
+  },
+  "identity": {
+    "brand": "Atverce",
+    "brand_aliases": [],
+    "model": "ATV+JMJ+115",
+    "title_raw": "Esmeriladora Angular Inalámbrica 125mm Pulidora 2 Baterías"
+  },
+  "power": {
+    "type": "battery",
+    "voltage_v": null,
+    "battery_v": 21.0,
+    "charger_v": null,
+    "w": null,
+    "claimed_w": null,
+    "rated_claimed_w": null,
+    "claims_w": [],
+    "basis": null,
+    "state_power": false,
+    "listing_policy": "state_verified_only",
+    "device_v": null,
+    "listing_voltage_v": 21.0
+  },
+  "size": {
+    "length_cm": null,
+    "width_cm": null,
+    "height_cm": null,
+    "diameter_cm": null,
+    "raw": []
+  },
+  "weight_kg": null,
+  "capacity": "",
+  "pieces": null,
+  "material": [],
+  "material_basis": null,
+  "extras": {
+    "lift_range_mm": null,
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-3585127970-esmeriladora-angular-inalambrica-125mm-pulidora-2-baterias-_JM",
+    "store_id": "BARNEYMX",
+    "core_keyword": "esmeriladora angular inalambrica"
+  },
+  "package": {
+    "included": [
+      "Amoladora angular*1",
+      "Batería*2 (1300MAH)",
+      "Cargador*1",
+      "Papel de lija*10",
+      "4-1/2 disco de lijado*5",
+      "Esponja*1",
+      "Cubierta protectora *1",
+      "Hoja de sierra de aleación*1",
+      "Disco de pulido*1",
+      "Placa de lana*1",
+      "Gafas * 1",
+      "Mango auxiliar *1",
+      "Llave* 1",
+      "Juego de herramientas*1"
+    ],
+    "not_included": [],
+    "source": "description"
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "missing"
+  },
+  "features": [],
+  "usage": [],
+  "specs": {
+    "Diámetro del disco": "125 mm"
+  },
+  "raw_attributes": {
+    "Tipo de alimentación": "Batería",
+    "Marca": "Atverce",
+    "Modelo": "ATV+JMJ+115",
+    "Voltaje": "21V",
+    "Tipo de esmeriladora": "Angular",
+    "Es mini esmeriladora": "Sí",
+    "Diámetro del disco": "125 mm",
+    "Profundidad máxima de corte": "3.4 cm"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 1656.9,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 634250,
+      "sha256": "a55c213cefd8d9cedb82ceced42dde002e8eb1dc4610254e7e648a8a7838ce6b",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 781411,
+      "sha256": "3f2268d743d031a50c96664f318c723fdfe315d04a2ecdc4db3014c8fe4efeb8",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 965708,
+      "sha256": "36036fed50f1ca7189b3cb643b2a9a1ec41e425d8db1b99fac25038e66268a42",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 736835,
+      "sha256": "9cec8e3b61be144e39b977bfe323df85b3528ca8945939273f9c4703d14129ca",
+      "main": false
+    },
+    {
+      "file": "img/05.jpg",
+      "bytes": 710254,
+      "sha256": "4505282ab3741efb75ba2c30b65dc1d519ad4d0ddc0770c9dcd04ff8b9c990c4",
+      "main": false
+    },
+    {
+      "file": "img/06.jpg",
+      "bytes": 880508,
+      "sha256": "92f7b853c15d698f75a5861ca19b1f4b9110ac606dc51ed7d0024bff76384d4c",
+      "main": false
+    },
+    {
+      "file": "img/07.jpg",
+      "bytes": 721499,
+      "sha256": "dffbae62abb26270ee73f8ef3cb58ce7cd9c200d412ef2dfeadc2d607a558183",
+      "main": false
+    },
+    {
+      "file": "img/08.jpg",
+      "bytes": 924671,
+      "sha256": "57c9474b978e9a78a4c5187a5eaf0903d8a2b280c00bb4022876d150237db319",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-22T00:07:03",
+    "built_from": [
+      "input/ABU600000V/input.json",
+      "input/ABU600000V/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "9075ba04f9e6238baad2b3d5216aff67063d4c4f9cc9843d75906870ffa63c57",
+      "item.json": "73a704e5da760f92d0e971e03e809f179f6842b0202d01295c220c27ef3a9d58"
+    },
+    "verified_by": "DSH 自动核验（可追溯性检查，待人工抽查）",
+    "verified_at": "2026-10-22T00:08:46"
+  }
+}

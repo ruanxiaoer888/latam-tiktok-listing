@@ -1,0 +1,155 @@
+{
+  "schema": "facts/v1",
+  "product_id": "ZK26050816",
+  "category": "汽车摩托",
+  "status": "verified",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": [
+      "材质取自描述推断（acero），需人工核实"
+    ]
+  },
+  "identity": {
+    "brand": "Atverce",
+    "brand_aliases": [],
+    "model": "BD1",
+    "title_raw": "Gato Hidráulico De Botella Soldado Capacidad De 10 Toneladas"
+  },
+  "power": {
+    "type": "manual",
+    "voltage_v": null,
+    "battery_v": null,
+    "charger_v": null,
+    "w": null,
+    "claimed_w": null,
+    "rated_claimed_w": null,
+    "claims_w": [],
+    "basis": null,
+    "state_power": false,
+    "listing_policy": "state_verified_only",
+    "device_v": null,
+    "listing_voltage_v": null
+  },
+  "size": {
+    "length_cm": null,
+    "width_cm": null,
+    "height_cm": null,
+    "diameter_cm": null,
+    "raw": []
+  },
+  "weight_kg": 4.6,
+  "capacity": "10 t",
+  "pieces": null,
+  "material": [
+    "acero"
+  ],
+  "material_basis": "description",
+  "extras": {
+    "lift_range_mm": [
+      195.0,
+      380.0
+    ],
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-4518380464-gato-hidraulico-de-botella-soldado-capacidad-de-10-toneladas-_JM",
+    "store_id": "ATVERCE",
+    "core_keyword": "gato hidraulico"
+  },
+  "package": {
+    "included": [
+      "10T Top de gato vertical*1",
+      "Manejar*2"
+    ],
+    "not_included": [],
+    "source": "description"
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "not_applicable"
+  },
+  "features": [],
+  "usage": [],
+  "specs": {},
+  "raw_attributes": {
+    "Marca": "Atverce",
+    "Modelo": "BD1",
+    "Formato del gato": "Botella",
+    "Peso máximo soportado": "10 t",
+    "Mínima altura levantada - Máxima altura levantada": "19.5 cm - 38 cm",
+    "Largo de la palanca": "17.5 cm"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 553.88,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 189664,
+      "sha256": "e166acb8cc277cfdcda82dfeb380cdc959cafcd365eaf4780a3afc83cbcbe765",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 318768,
+      "sha256": "630b5b404c77946ca997565331e990f735542a9a74c437ce5ba0b8a8db45cc01",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 405192,
+      "sha256": "baf48366b9f2da7263c273c087473b385813ccd69ea7a9d7e0e77c9da637c97a",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 535945,
+      "sha256": "613946ec33aec53e52517715ec03e1574a615f1787cf8bafc47d29bd26437a00",
+      "main": false
+    },
+    {
+      "file": "img/05.jpg",
+      "bytes": 698470,
+      "sha256": "0835cc8e44e1f2827fbac8f9f6c18f9f74685509d64f3bba0a8a440b847276c9",
+      "main": false
+    },
+    {
+      "file": "img/06.jpg",
+      "bytes": 602804,
+      "sha256": "0e9da35bdcf5ea974261f804d1c15b28ebaa3b63451ee38da3671cadb7f874a6",
+      "main": false
+    },
+    {
+      "file": "img/07.jpg",
+      "bytes": 377724,
+      "sha256": "7b06f6e96c58095fe9242ff71188ddf5da9ac7acd9fa22298634f04c5f6b7f29",
+      "main": false
+    },
+    {
+      "file": "img/08.jpg",
+      "bytes": 670846,
+      "sha256": "00f8c85e2c5d44b1005388eaab0e1648cd9c2800b016340d61d82f171f6f224b",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-22T00:07:04",
+    "built_from": [
+      "input/ZK26050816/input.json",
+      "input/ZK26050816/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "3ff8f8aa9cfbd2a88aa6bfca20581bc92a1b36745fe38e395dde7f07a31bd20e",
+      "item.json": "383741c50fee5a005652494687b2f71eb1e3b22d62248015b569da82e501782b"
+    },
+    "verified_by": "DSH 自动核验（可追溯性检查，待人工抽查）",
+    "verified_at": "2026-10-22T00:08:46"
+  }
+}

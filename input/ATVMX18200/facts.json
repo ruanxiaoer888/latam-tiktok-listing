@@ -2,7 +2,7 @@
   "schema": "facts/v1",
   "product_id": "ATVMX18200",
   "category": "汽车摩托",
-  "status": "draft",
+  "status": "verified",
   "gates": {
     "hard_blocks": [],
     "warnings": []
@@ -138,7 +138,7 @@
   "unknowns": [],
   "_meta": {
     "rules_version": "v1.3",
-    "built_at": "2026-10-21T15:37:16",
+    "built_at": "2026-10-22T00:07:04",
     "built_from": [
       "input/ATVMX18200/input.json",
       "input/ATVMX18200/item.json"
@@ -147,7 +147,7 @@
       "input.json": "2029c5188506d08f6afb897ddbafd43a01b0c5864413e82b54fccb5ba7f148c9",
       "item.json": "4d9acfa4ad647f9acd3eed41eee33f8bf81f58a593ad1db20097f38999fcbbf5"
     },
-    "verified_by": null,
-    "verified_at": null
+    "verified_by": "DSH 自动核验（可追溯性检查，待人工抽查）",
+    "verified_at": "2026-10-22T00:08:46"
   }
 }

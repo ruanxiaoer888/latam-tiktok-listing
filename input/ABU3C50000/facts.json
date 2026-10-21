@@ -1,0 +1,168 @@
+{
+  "schema": "facts/v1",
+  "product_id": "ABU3C50000",
+  "category": "五金工具",
+  "status": "verified",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": [
+      "材质取自描述推断（acero），需人工核实"
+    ]
+  },
+  "identity": {
+    "brand": "Atverce",
+    "brand_aliases": [],
+    "model": "ATV+TT+46",
+    "title_raw": "Juego De Herramientas Dados Llave Mecánicas Autocle 46pcs"
+  },
+  "power": {
+    "type": "manual",
+    "voltage_v": null,
+    "battery_v": null,
+    "charger_v": null,
+    "w": null,
+    "claimed_w": null,
+    "rated_claimed_w": null,
+    "claims_w": [],
+    "basis": null,
+    "state_power": false,
+    "listing_policy": "state_verified_only",
+    "device_v": null,
+    "listing_voltage_v": null
+  },
+  "size": {
+    "length_cm": 23.0,
+    "width_cm": 1200.0,
+    "height_cm": 4.0,
+    "diameter_cm": null,
+    "raw": []
+  },
+  "weight_kg": null,
+  "capacity": "",
+  "pieces": 46.0,
+  "material": [
+    "acero"
+  ],
+  "material_basis": "description",
+  "extras": {
+    "lift_range_mm": null,
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-2262700791-juego-de-herramientas-dados-llave-mecanicas-autocle-46pcs-_JM",
+    "store_id": "BARNEYMX",
+    "core_keyword": "juego de herramientas"
+  },
+  "package": {
+    "included": [
+      "6* Destornilladores hexagonales internos tipo flor: T10 / T15 / T20 / T25 / T30 / T40",
+      "6* Destornilladores hexagonales internos de cabeza plana: H3 / H4 / H5 / H6 / H7 / H8",
+      "3* Destornilladores de pala plana: S4 / S5.5 / S7",
+      "3* Destornilladores de cruz: PH1 / PH2 / PH3",
+      "3* Destornilladores tipo Pozidriv: PZ1 / PZ2 / PZ3",
+      "1* Junta multidireccional de 1/4",
+      "1* Llave de trinquete de 1/4",
+      "1* Barra de extensión corta de 1/4 (50 mm)",
+      "1* Barra de extensión larga de 1/4 (100 mm)",
+      "1* Barra cuadrada pequeña de 1/4 (140 mm)",
+      "1* Barra de conexión flexible de 1/4 (140 mm)",
+      "3* Llaves Allen (1.5 - 2 - 2.5 mm)",
+      "1* Barra deslizante de 1/4 (140 mm)",
+      "1* Adaptador para taladro de 1/4",
+      "1* Caja de herramientas"
+    ],
+    "not_included": [],
+    "source": "description"
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "not_applicable"
+  },
+  "features": [],
+  "usage": [],
+  "specs": {},
+  "raw_attributes": {
+    "Marca": "Atverce",
+    "Modelo": "ATV+TT+46",
+    "Color": "Rojo",
+    "Largo": "23 cm",
+    "Ancho": "12 m",
+    "Altura": "4 cm",
+    "Tipo de envase": "Caja",
+    "Cantidad de piezas": "46",
+    "Es un kit de fábrica": "Sí"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 215.64,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 378188,
+      "sha256": "1f4cb6fb69fea44dae148fb411663c98ffc0ef9f5f06b5d3cbd9a56a81c59a69",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 238582,
+      "sha256": "3847cbadc4a1569b5f07dd2511be9cb26d738492e5f8137294c6dd64ee32ffe7",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 223670,
+      "sha256": "bf3e094a31d34a3c915b8c37f05cc3c49e7107ff6ac83a9ddde609235b06d898",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 186888,
+      "sha256": "5c89cac84afff79f65498ed77adf6d086a1c80da2604746e3beb1af79b44d1f9",
+      "main": false
+    },
+    {
+      "file": "img/05.jpg",
+      "bytes": 175115,
+      "sha256": "ceb4b813acaf7b36c6bef10757a52f4b17657596f0f124e786deda8716e398a4",
+      "main": false
+    },
+    {
+      "file": "img/06.jpg",
+      "bytes": 193482,
+      "sha256": "b4a299521edb166e606bf4ece25fcd25cc56231d3ad243feefb8e07da402cbaa",
+      "main": false
+    },
+    {
+      "file": "img/07.jpg",
+      "bytes": 217682,
+      "sha256": "554e1445e4ce7bc52d5a5bb80940f5a6654b5b354b7458633d715fe01ff887ac",
+      "main": false
+    },
+    {
+      "file": "img/08.jpg",
+      "bytes": 234203,
+      "sha256": "26ae81a3ad92f9c74db9954570aaef929a0a001e423dcd8aadab486977dbd970",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-22T00:07:03",
+    "built_from": [
+      "input/ABU3C50000/input.json",
+      "input/ABU3C50000/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "791136430d3f8f430210249f01deb56428fb663ca75e83b9e3417a7beb6aafaf",
+      "item.json": "079e074f764b6745a16257b037e441131a6c96a352ee868f2d5073088d2aa323"
+    },
+    "verified_by": "DSH 自动核验（可追溯性检查，待人工抽查）",
+    "verified_at": "2026-10-22T00:08:46"
+  }
+}

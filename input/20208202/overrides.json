@@ -1,0 +1,11 @@
+{
+  "source": "数据质量哨兵 2026-10-22：美客多属性字段互换（Marca=ED-02 是型号、Modelo=ATVERCE 是品牌）。标题含 Atverce，品牌应以 Atverce 为准，ED-02 归为型号",
+  "set": {
+    "identity.brand": "Atverce",
+    "identity.model": "ED-02"
+  },
+  "resolve_blocks": ["品牌冲突：属性「ED-02」/ 描述出现 Atverce"],
+  "add_warnings": [
+    "美客多 Marca/Modelo 两字段互换，已按标题校正：品牌 Atverce，型号 ED-02"
+  ]
+}

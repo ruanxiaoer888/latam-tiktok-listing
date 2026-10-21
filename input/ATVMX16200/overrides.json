@@ -1,0 +1,5 @@
+{
+  "source": "数据质量哨兵 2026-10-22：属性 Marca=Merion，描述/标题出现 Atverce。Atverce 与 Merion 均为同公司自有品牌，不构成品牌冲突；主品牌用属性值 Merion",
+  "brand_aliases": ["Atverce", "Fanny"],
+  "resolve_blocks": ["品牌冲突：属性「Merion」/ 描述出现 Atverce"]
+}

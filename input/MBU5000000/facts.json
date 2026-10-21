@@ -1,0 +1,171 @@
+{
+  "schema": "facts/v1",
+  "product_id": "MBU5000000",
+  "category": "五金工具",
+  "status": "quarantined",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": [
+      "未找到电池电压（电池工具必须写清，如 21V）",
+      "电池类标 1000W 偏高（多为等效/峰值功率，不是持续功率）；Listing 不写瓦数"
+    ]
+  },
+  "identity": {
+    "brand": "Atverce",
+    "brand_aliases": [],
+    "model": "ATV-SHLDGFJ",
+    "title_raw": "Soplador De Mano Aire Inalambrica Hojas Electrica Jardineria"
+  },
+  "power": {
+    "type": "battery",
+    "voltage_v": null,
+    "battery_v": null,
+    "charger_v": 220.0,
+    "w": null,
+    "claimed_w": 1000,
+    "rated_claimed_w": null,
+    "claims_w": [
+      1000
+    ],
+    "basis": "attribute",
+    "state_power": false,
+    "listing_policy": "do_not_state_power",
+    "device_v": null,
+    "listing_voltage_v": null
+  },
+  "size": {
+    "length_cm": null,
+    "width_cm": null,
+    "height_cm": null,
+    "diameter_cm": null,
+    "raw": []
+  },
+  "weight_kg": null,
+  "capacity": "1.5 Ah",
+  "pieces": null,
+  "material": [],
+  "material_basis": null,
+  "extras": {
+    "lift_range_mm": null,
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-2677633621-soplador-de-mano-aire-inalambrica-hojas-electrica-jardineria-_JM",
+    "store_id": "ATVERCE",
+    "core_keyword": "sopladora de aire inalambrica"
+  },
+  "package": {
+    "included": [
+      "Host de soplador de hojas*1",
+      "Batería*2",
+      "Cargador*1",
+      "Boquilla*1",
+      "Capacidad de la batería: 1500 mAh",
+      "Voltaje de la batería: 21 V",
+      "Velocidad del aire: 120 km/h",
+      "Velocidad de rotación: 40.000 rpm"
+    ],
+    "not_included": [],
+    "source": "description"
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "missing"
+  },
+  "features": [],
+  "usage": [],
+  "specs": {
+    "Velocidad de soplado": "120 km/h"
+  },
+  "raw_attributes": {
+    "Marca": "Atverce",
+    "Modelo": "ATV-SHLDGFJ",
+    "Voltaje": "127/220V",
+    "Potencia": "1,000 W",
+    "Tipo de alimentación": "Batería",
+    "Velocidad de soplado": "120 km/h",
+    "Capacidad de la batería": "1.5 Ah",
+    "Accesorios incluidos": "Batería*2 Cargador*1 Boquilla*1",
+    "Incluye batería": "Sí"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 413.31,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 664054,
+      "sha256": "2e5671c3ceed277d5b7cfce0a197e0c1d1982ef9a6678b2e462b998ba80e2b30",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 612881,
+      "sha256": "be57a438cf4ea6512902fe27e7c20eee5f7bfd0a696e4d6a5fe0dd4cebc67063",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 764799,
+      "sha256": "c694aee1e5d4d93f12666d2c76ea2f30d22eaf51d7815dc15d7c6874e4fd2f3a",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 1087549,
+      "sha256": "28792eac38e7e4ed4387dbca897d49537f91d756cab5c1ae5eb06542cdce5499",
+      "main": false
+    },
+    {
+      "file": "img/05.jpg",
+      "bytes": 1224954,
+      "sha256": "38ca96460665ff62f8b8d95d9e95eaf2a60a28898b5b6a9cd8420931aa9f35eb",
+      "main": false
+    },
+    {
+      "file": "img/06.jpg",
+      "bytes": 1090535,
+      "sha256": "1c23bf410304438da75a05c16f4a785ee2f6a748ebfeb3aa74fa0ba33f45548e",
+      "main": false
+    },
+    {
+      "file": "img/07.jpg",
+      "bytes": 616686,
+      "sha256": "f584fa55c51942adaa3dee2423975e0ce917ac93f19a38a6fb18e5f6103cc71f",
+      "main": false
+    },
+    {
+      "file": "img/08.jpg",
+      "bytes": 678820,
+      "sha256": "39cc6e052521c56200a6a6d27e7b0a64e81bad942cce3421ce87d7cb9fd58742",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-22T00:07:51",
+    "built_from": [
+      "input/MBU5000000/input.json",
+      "input/MBU5000000/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "f60c18a6b21e0cb7494ad2c5e6fdc1c9bf46f90486cd256399319827faede25e",
+      "item.json": "eef94ceca73e966b1d0bfe2fdc47c7b42c19a69057d029c06005c95a72ccaea4"
+    },
+    "verified_by": null,
+    "verified_at": null,
+    "quarantine": {
+      "reason": "电池工具缺电池电压属性，Listing 无法写电压；补齐铭牌或供应商参数后可解封",
+      "by": "数据质量哨兵",
+      "at": "2026-10-22"
+    },
+    "overrides": "input/MBU5000000/overrides.json",
+    "overrides_note": "数据质量哨兵 2026-10-22：电池工具无电池电压（battery_v / listing_voltage_v 均为空），无法确定电压口径，移出本批生成"
+  }
+}

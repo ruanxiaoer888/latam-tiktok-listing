@@ -1,0 +1,31 @@
+{
+  "schema": "category-schema/v1",
+  "category": "运动户外",
+  "version": "1.0",
+  "updated": "2026-10-22",
+  "description": "运动户外事实卡字段。品牌/供电类型/包装清单是硬门槛；承重或容量、尺寸、材质、净重是软提醒。",
+  "required": [
+    { "path": "identity.brand", "label": "品牌" },
+    { "path": "power.type", "label": "供电类型（corded/battery/manual）" },
+    { "path": "package.included", "label": "包装清单", "non_empty": true }
+  ],
+  "recommended": [
+    { "any_of": ["capacity", "size.length_cm", "size.width_cm", "size.height_cm", "size.raw"], "label": "承重或容量/尺寸" },
+    { "path": "material", "label": "材质", "non_empty": true },
+    { "path": "weight_kg", "label": "净重" },
+    { "path": "power.w", "label": "可写功率（若 state_power=true）" }
+  ],
+  "power_rules": {
+    "corded_max_w": 3500,
+    "battery_max_w": 600,
+    "voltage_required": {
+      "corded": "power.voltage_v",
+      "battery": "power.battery_v"
+    }
+  },
+  "notes": [
+    "承重取保守值，不写极限用法。",
+    "防水/防尘宣称必须有等级依据（IPX / mm 水柱），否则删。",
+    "认证状态 missing 时，Listing 不得出现 NOM/INMETRO/ANATEL 字样。"
+  ]
+}

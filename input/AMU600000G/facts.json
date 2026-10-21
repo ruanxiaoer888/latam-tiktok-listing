@@ -1,0 +1,177 @@
+{
+  "schema": "facts/v1",
+  "product_id": "AMU600000G",
+  "category": "五金工具",
+  "status": "verified",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": [
+      "描述出现 ['110V']，与属性 127V 不一致"
+    ]
+  },
+  "identity": {
+    "brand": "Merion",
+    "brand_aliases": [],
+    "model": "Mer-01",
+    "title_raw": "Termofusor Herramient Kit Con 3 Dados 20-32mm Y Tijera 1000w"
+  },
+  "power": {
+    "type": "corded",
+    "voltage_v": 127.0,
+    "battery_v": null,
+    "charger_v": null,
+    "w": 1000.0,
+    "claimed_w": 1000,
+    "rated_claimed_w": null,
+    "claims_w": [
+      1000
+    ],
+    "basis": "attribute",
+    "state_power": true,
+    "listing_policy": "state_verified_only",
+    "device_v": null,
+    "listing_voltage_v": 127.0
+  },
+  "size": {
+    "length_cm": null,
+    "width_cm": null,
+    "height_cm": null,
+    "diameter_cm": null,
+    "raw": []
+  },
+  "weight_kg": null,
+  "capacity": "",
+  "pieces": null,
+  "material": [],
+  "material_basis": null,
+  "extras": {
+    "lift_range_mm": null,
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-3474973608-termofusor-herramient-kit-con-3-dados-20-32mm-y-tijera-1000w-_JM",
+    "store_id": "CNMERION-MXF2",
+    "core_keyword": "termofusor kit"
+  },
+  "package": {
+    "included": [
+      "Termofusor kit 1000w * 1,",
+      "Dados de troquel de oro *3 (par) (20mm-25mm-32mm),",
+      "Caja de hierro*1,",
+      "Tijeras profesionales*1,",
+      "Tornillos largos*3,",
+      "Tornillo corto * 1,",
+      "Llave hexagonal*1,",
+      "Manual * 1,",
+      "Guantes* 1 (par)"
+    ],
+    "not_included": [],
+    "source": "description"
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "missing"
+  },
+  "features": [],
+  "usage": [],
+  "specs": {
+    "Tiempo de calentamiento": "1 m"
+  },
+  "raw_attributes": {
+    "Marca": "Merion",
+    "Modelo": "Mer-01",
+    "Voltaje": "127V",
+    "Potencia": "1 kW",
+    "Tipo de alimentación": "Corriente eléctrica",
+    "Cantidad de boquillas": "3",
+    "Incluye estuche": "Sí",
+    "Incluye accesorios": "Sí",
+    "Tiempo de calentamiento": "1 m",
+    "Temperatura máxima de trabajo": "260 °C"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 451.95,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 388632,
+      "sha256": "d612e544c25283120ec48269b3ecf7831460e6e7f5431118f455603e93e207bc",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 382106,
+      "sha256": "484982c76c9abdc0d2397130b3f9e9c4343cf22fbfed2c0049bd951925604ed5",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 302492,
+      "sha256": "4afbf5fa4c30d78009f4c83e399ddf69b59ebf29ce0b7dd3c6ed6846cb77363d",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 265522,
+      "sha256": "56af54b208a4f930bb9d625170e07f160b36e3cdfdf56cc9af9a1ec45f9637d2",
+      "main": false
+    },
+    {
+      "file": "img/05.jpg",
+      "bytes": 242937,
+      "sha256": "58ae4f74e9a1ccfc51461485f3bb2c4b557cd486985a7c1765f45d2ca01b810c",
+      "main": false
+    },
+    {
+      "file": "img/06.jpg",
+      "bytes": 308885,
+      "sha256": "0cd07b64eefedf70b46210427677835a1c57302dd135ed4c8ab08dd8affd26f5",
+      "main": false
+    },
+    {
+      "file": "img/07.jpg",
+      "bytes": 230078,
+      "sha256": "c02e3ff5dee2ee924797b5c707e61c822b1dcb55fc912cbb2ffc46d0f6e55244",
+      "main": false
+    },
+    {
+      "file": "img/08.jpg",
+      "bytes": 361345,
+      "sha256": "e5983b783a0e63725637c58f2fbf100962707e622cd748658c5782eb5a9de158",
+      "main": false
+    },
+    {
+      "file": "img/09.jpg",
+      "bytes": 335459,
+      "sha256": "24304af6e012b15a986ad74df882f31b4869e4164418e1069094c2fcef42eab5",
+      "main": false
+    },
+    {
+      "file": "img/10.jpg",
+      "bytes": 325070,
+      "sha256": "0b6105e28e12e511c427031bb4468d9f0b311668aef90755ef0a1dbc61be068a",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-22T00:07:03",
+    "built_from": [
+      "input/AMU600000G/input.json",
+      "input/AMU600000G/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "af666a64391725796c8fbde8bd6ffd84af178b3a267d4e3a85a0a95558b5eba2",
+      "item.json": "0c4690b810e930dfc9ec6e673762f780043db000e9a4d48e5df1723f190fb09f"
+    },
+    "verified_by": "DSH 自动核验（可追溯性检查，待人工抽查）",
+    "verified_at": "2026-10-22T00:08:46"
+  }
+}

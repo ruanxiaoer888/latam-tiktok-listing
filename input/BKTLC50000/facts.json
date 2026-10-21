@@ -1,0 +1,168 @@
+{
+  "schema": "facts/v1",
+  "product_id": "BKTLC50000",
+  "category": "汽车摩托",
+  "status": "verified",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": [
+      "材质取自描述推断（acero），需人工核实"
+    ]
+  },
+  "identity": {
+    "brand": "Atverce",
+    "brand_aliases": [],
+    "model": "F+F+1",
+    "title_raw": "Porto Power Hidráulico Automotriz De 10 Ton Portátil Caja"
+  },
+  "power": {
+    "type": "manual",
+    "voltage_v": null,
+    "battery_v": null,
+    "charger_v": null,
+    "w": null,
+    "claimed_w": null,
+    "rated_claimed_w": null,
+    "claims_w": [],
+    "basis": null,
+    "state_power": false,
+    "listing_policy": "state_verified_only",
+    "device_v": null,
+    "listing_voltage_v": null
+  },
+  "size": {
+    "length_cm": null,
+    "width_cm": null,
+    "height_cm": null,
+    "diameter_cm": null,
+    "raw": []
+  },
+  "weight_kg": 25.0,
+  "capacity": "10 t",
+  "pieces": null,
+  "material": [
+    "acero"
+  ],
+  "material_basis": "description",
+  "extras": {
+    "lift_range_mm": [
+      360.0,
+      512.0
+    ],
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-3553550076-porto-power-hidraulico-automotriz-de-10-ton-portatil-caja-_JM",
+    "store_id": "FANNY6688",
+    "core_keyword": "porto power hidraulico"
+  },
+  "package": {
+    "included": [
+      "Jack*1",
+      "Presione la boca*1",
+      "Plataforma*1",
+      "Cabeza en forma de cuña*1",
+      "Toe extendido*1",
+      "Hierro en forma de V*1",
+      "Articulación de dos vías*1",
+      "Pelota de goma*1",
+      "Asiento de tableta*1",
+      "Asiento redondo*1",
+      "Cilindro de aceite*1",
+      "Tubo extensor (52.5cm)*1",
+      "Tubo de extensión (60.5 cm)*1",
+      "Caja de plástico*1"
+    ],
+    "not_included": [],
+    "source": "description"
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "not_applicable"
+  },
+  "features": [],
+  "usage": [],
+  "specs": {},
+  "raw_attributes": {
+    "Marca": "Atverce",
+    "Modelo": "F+F+1",
+    "Formato del gato": "De piso",
+    "Peso": "25 kg",
+    "Peso máximo soportado": "10 t",
+    "Mínima altura levantada - Máxima altura levantada": "36 cm - 51.2 cm",
+    "Largo de la palanca": "54 cm"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 2773,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 64935,
+      "sha256": "f7b82f18d258cb46c9d4a6e2468857648c7728a0380ba1a0ed50cfdc7a7f075a",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 47078,
+      "sha256": "3e944e3de087658fdf1b8f0d4d8e2f9fe27b4a025a113608328ab96f6022fe19",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 65208,
+      "sha256": "a3c42b747ba147dcfbf2ce4e8570beb8c54319d5ec4e8372e59258bead86410b",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 81095,
+      "sha256": "72ecef3a681806757ae3dfeac3116d1c96061e069ae7f2b42769e4e0a6eafccf",
+      "main": false
+    },
+    {
+      "file": "img/05.jpg",
+      "bytes": 60480,
+      "sha256": "f08047ec9a9c03eadcf03f26cc904ece1fb926875e2fe59d544dd5bc1c7fcb11",
+      "main": false
+    },
+    {
+      "file": "img/06.jpg",
+      "bytes": 60874,
+      "sha256": "390994a3b7e167abf9b36fe32d2532973773262c81507332c13b98aee105913b",
+      "main": false
+    },
+    {
+      "file": "img/07.jpg",
+      "bytes": 55154,
+      "sha256": "c17b16973faaf3a8973d503c08194663fae5ad352a0ffb2bcbe8ef049afcc04d",
+      "main": false
+    },
+    {
+      "file": "img/08.jpg",
+      "bytes": 71396,
+      "sha256": "39c8dcff2f7d39c50701cf8e48b5ed903164ae8a9d9370704bf4957c56d9b383",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-22T00:07:04",
+    "built_from": [
+      "input/BKTLC50000/input.json",
+      "input/BKTLC50000/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "e7c116cf6e71b66b94f4c96b9a530dda1b31414c108ae4b4791cad3736b576c4",
+      "item.json": "50b6cad7e531100611aae90aa4683b197f6d9b3ecfb0011ae1671d39381af01e"
+    },
+    "verified_by": "DSH 自动核验（可追溯性检查，待人工抽查）",
+    "verified_at": "2026-10-22T00:08:46"
+  }
+}

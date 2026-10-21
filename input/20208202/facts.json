@@ -1,0 +1,194 @@
+{
+  "schema": "facts/v1",
+  "product_id": "20208202",
+  "category": "五金工具",
+  "status": "draft",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": [
+      "充电器输入电压未提供（Listing 不写充电器电压）",
+      "材质取自描述推断（acero），需人工核实",
+      "美客多 Marca/Modelo 两字段互换，已按标题校正：品牌 Atverce，型号 ED-02"
+    ]
+  },
+  "identity": {
+    "brand": "Atverce",
+    "brand_aliases": [],
+    "model": "ED-02",
+    "title_raw": "Kit De Taladro Eléctrico Atverce Atornillador Inalámbrico"
+  },
+  "power": {
+    "type": "battery",
+    "voltage_v": null,
+    "battery_v": 21.0,
+    "charger_v": null,
+    "w": null,
+    "claimed_w": null,
+    "rated_claimed_w": null,
+    "claims_w": [],
+    "basis": null,
+    "state_power": false,
+    "listing_policy": "state_verified_only",
+    "device_v": null,
+    "listing_voltage_v": 21.0
+  },
+  "size": {
+    "length_cm": null,
+    "width_cm": null,
+    "height_cm": null,
+    "diameter_cm": null,
+    "raw": []
+  },
+  "weight_kg": null,
+  "capacity": "",
+  "pieces": null,
+  "material": [
+    "acero"
+  ],
+  "material_basis": "description",
+  "extras": {
+    "lift_range_mm": null,
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-2536890334-kit-de-taladro-electrico-atverce-atornillador-inalambrico-_JM",
+    "store_id": "BARNEYMX",
+    "core_keyword": "kit taladro atornillador inalambrico"
+  },
+  "package": {
+    "included": [],
+    "not_included": [],
+    "source": null
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "missing"
+  },
+  "features": [
+    "luz LED",
+    "velocidad variable",
+    "función destornillador",
+    "función reversa"
+  ],
+  "usage": [],
+  "specs": {
+    "Golpes por minuto": "60",
+    "Velocidad máxima de rotación": "1,350 rpm",
+    "Velocidad mínima de rotación": "0 rpm",
+    "Amperaje de la bateria": "1.3 Ah"
+  },
+  "raw_attributes": {
+    "Marca": "ED-02",
+    "Modelo": "ATVERCE",
+    "Presentación": "Carrying case + 2 1.3Ah batteries and charger",
+    "Voltaje": "21V",
+    "Tamaño del mandril": "10 mm",
+    "Golpes por minuto": "60",
+    "Es inalámbrico": "Sí",
+    "Es de mango tipo espada": "No",
+    "Es angular": "No",
+    "Con luz LED": "Sí",
+    "Torque máximo": "25 Nm",
+    "Cantidad de baterías": "2",
+    "Amperaje de la bateria": "1.3 Ah",
+    "Incluye cargador": "Sí",
+    "Voltaje de la batería": "21V",
+    "Incluye batería": "Sí",
+    "Tipo de batería": "Ion de litio",
+    "Tiempo de carga de la batería": "2 h",
+    "Velocidad mínima de rotación": "0 rpm",
+    "Velocidad máxima de rotación": "1,350 rpm",
+    "Con velocidad variable": "Sí",
+    "Con función destornillador": "Sí",
+    "Con función percutor": "No",
+    "Con función reversa": "Sí",
+    "Otros accesorios incluidos": "Como se muestra en la Figura 2"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 897.58,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 486190,
+      "sha256": "d96b114c95e88e855ea097460c68b88de030d39e5470d2edd156a126b625ea93",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 284231,
+      "sha256": "2a7e1a7dbd0be59de7de27af6509c1178e59b3f60ca783789a3f8d53490c1fae",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 586042,
+      "sha256": "3930936f36931b23b8601590fc9b04ee2919c646ad5a95208fe1498a159f82cf",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 491352,
+      "sha256": "41d500809180243ef9d4c43ffec93bdfd3c900f1a48dd15226dbb9129e5e6cdb",
+      "main": false
+    },
+    {
+      "file": "img/05.jpg",
+      "bytes": 760449,
+      "sha256": "aca724ae2ed531591c0b6b01ed2fae027193dc8ec503cf52523dbcb271f6959e",
+      "main": false
+    },
+    {
+      "file": "img/06.jpg",
+      "bytes": 538937,
+      "sha256": "a9461c10c691387f874c01b14cbb72015adf3a05a6485379ce7cfd09f733ff95",
+      "main": false
+    },
+    {
+      "file": "img/07.jpg",
+      "bytes": 300231,
+      "sha256": "009a97ee081d4801fd59493527327701007ae1d772b7b3e87f87b4e7d05a38f1",
+      "main": false
+    },
+    {
+      "file": "img/08.jpg",
+      "bytes": 274026,
+      "sha256": "540a9d4c5640143dfa36c76528870a702d240fc712b8cdda105a5b2c5bfd297e",
+      "main": false
+    },
+    {
+      "file": "img/09.jpg",
+      "bytes": 310688,
+      "sha256": "475c2e11f943b09259d4d2d47629a043cd6affce6bb1f7a0ec35abc7cbb3f897",
+      "main": false
+    },
+    {
+      "file": "img/10.jpg",
+      "bytes": 264224,
+      "sha256": "3a83e87705fcc1643e011f235c6cc6c0f252521ce6ab4c7e74ab9c8eb9b98e3f",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-22T00:08:33",
+    "built_from": [
+      "input/20208202/input.json",
+      "input/20208202/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "8bdf2031cf896bcebe25fa2ef0a98491ba935dcd191cf7b46c3f33645dc9ae16",
+      "item.json": "ddc7ca25f9415cd09bdf20ab03faf01c0cdaad54ef5204954b52d51c6a3ba847"
+    },
+    "verified_by": null,
+    "verified_at": null,
+    "overrides": "input/20208202/overrides.json",
+    "overrides_note": "数据质量哨兵 2026-10-22：美客多属性字段互换（Marca=ED-02 是型号、Modelo=ATVERCE 是品牌）。标题含 Atverce，品牌应以 Atverce 为准，ED-02 归为型号"
+  }
+}

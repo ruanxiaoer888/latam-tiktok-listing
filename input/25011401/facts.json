@@ -1,0 +1,161 @@
+{
+  "schema": "facts/v1",
+  "product_id": "25011401",
+  "category": "汽车摩托",
+  "status": "verified",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": [
+      "材质取自描述推断（acero），需人工核实"
+    ]
+  },
+  "identity": {
+    "brand": "Atverce",
+    "brand_aliases": [],
+    "model": "M+Q+1",
+    "title_raw": "Gato Hidraulico De Patín Portátil Para Carro 2 Toneladas"
+  },
+  "power": {
+    "type": "manual",
+    "voltage_v": null,
+    "battery_v": null,
+    "charger_v": null,
+    "w": null,
+    "claimed_w": null,
+    "rated_claimed_w": null,
+    "claims_w": [],
+    "basis": null,
+    "state_power": false,
+    "listing_policy": "state_verified_only",
+    "device_v": null,
+    "listing_voltage_v": null
+  },
+  "size": {
+    "length_cm": null,
+    "width_cm": null,
+    "height_cm": null,
+    "diameter_cm": null,
+    "raw": []
+  },
+  "weight_kg": 6.5,
+  "capacity": "2 t",
+  "pieces": null,
+  "material": [
+    "acero"
+  ],
+  "material_basis": "description",
+  "extras": {
+    "lift_range_mm": [
+      135.0,
+      320.0
+    ],
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-2563313969-gato-hidraulico-de-patin-portatil-para-carro-2-toneladas-_JM",
+    "store_id": "ATVERCE",
+    "core_keyword": "gato hidraulico"
+  },
+  "package": {
+    "included": [
+      "Conector 2T*1"
+    ],
+    "not_included": [],
+    "source": "description"
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "not_applicable"
+  },
+  "features": [],
+  "usage": [],
+  "specs": {},
+  "raw_attributes": {
+    "Marca": "Atverce",
+    "Modelo": "M+Q+1",
+    "Formato del gato": "De piso",
+    "Peso": "6.5 kg",
+    "Peso máximo soportado": "2 t",
+    "Mínima altura levantada - Máxima altura levantada": "13.5 cm - 32 cm",
+    "Largo de la palanca": "38 cm"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 791.18,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 207501,
+      "sha256": "0792da5c15d76fe18abb6e1ab7bdc380f68ab74e53699a3ebf79a7d6f142b18d",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 408522,
+      "sha256": "c677cfe6cd5d473076da3ae22334710dd0b6cc4fcf2aee8b9f21b160c6e8097e",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 471984,
+      "sha256": "bd4e880c89004ddf29c796350967b843abe3517733428f8b1ae6b45d4d7ff009",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 555703,
+      "sha256": "3707b99bc8ddb72bb61f5e46d46b2209bc78732df985d9a164d800e8188a9d85",
+      "main": false
+    },
+    {
+      "file": "img/05.jpg",
+      "bytes": 441597,
+      "sha256": "09c2640fc16f393964aa5ff9d5ee8641b1fcda84992e086e1b22b2bb619ac153",
+      "main": false
+    },
+    {
+      "file": "img/06.jpg",
+      "bytes": 745566,
+      "sha256": "e3ce0783a5bf8afd194e0d96d85c99c1c901a837250145ac2cc64051a9d349ec",
+      "main": false
+    },
+    {
+      "file": "img/07.jpg",
+      "bytes": 704342,
+      "sha256": "9970dc22cfbdc24e8ae322609a488e1c2faae4bf08663cd9456e79feae47c95e",
+      "main": false
+    },
+    {
+      "file": "img/08.jpg",
+      "bytes": 668362,
+      "sha256": "b88c22b7e6eefdfa27669e24d0aa1c4d16a381be14223fb0193368191d3f86bf",
+      "main": false
+    },
+    {
+      "file": "img/09.jpg",
+      "bytes": 473263,
+      "sha256": "2cf792eb2b8c986805c5173367bf631b28db7e28f9e053de59d364c5dbae7351",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-22T00:07:03",
+    "built_from": [
+      "input/25011401/input.json",
+      "input/25011401/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "d3d1e57c83ae30ff526fa59b475fd66ab9579072444dd7ecc44b916c0583544e",
+      "item.json": "60bebdafb5bdf9714a746dc7685bc841330e30d08f7cc08d538d78a610bf5368"
+    },
+    "verified_by": "DSH 自动核验（可追溯性检查，待人工抽查）",
+    "verified_at": "2026-10-22T00:08:46"
+  }
+}

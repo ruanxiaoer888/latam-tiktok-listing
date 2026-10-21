@@ -1,0 +1,182 @@
+{
+  "schema": "facts/v1",
+  "product_id": "ABU6000013",
+  "category": "五金工具",
+  "status": "verified",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": []
+  },
+  "identity": {
+    "brand": "Atverce",
+    "brand_aliases": [],
+    "model": "ATV+QXJ+03",
+    "title_raw": "Hidrolavadora Electrica 1400w 1600psi 6l/min Con Accesorios"
+  },
+  "power": {
+    "type": "corded",
+    "voltage_v": 127.0,
+    "battery_v": null,
+    "charger_v": null,
+    "w": 1400.0,
+    "claimed_w": 1400,
+    "rated_claimed_w": null,
+    "claims_w": [
+      1400
+    ],
+    "basis": "attribute",
+    "state_power": true,
+    "listing_policy": "state_verified_only",
+    "device_v": null,
+    "listing_voltage_v": 127.0
+  },
+  "size": {
+    "length_cm": null,
+    "width_cm": null,
+    "height_cm": null,
+    "diameter_cm": null,
+    "raw": []
+  },
+  "weight_kg": null,
+  "capacity": "",
+  "pieces": null,
+  "material": [],
+  "material_basis": null,
+  "extras": {
+    "lift_range_mm": null,
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-3589674858-hidrolavadora-electrica-1400w-1600psi-6lmin-con-accesorios-_JM",
+    "store_id": "BARNEYMX",
+    "core_keyword": "hidrolavadora electrica"
+  },
+  "package": {
+    "included": [
+      "Máquina de limpieza*1",
+      "Mango de pistola*1",
+      "Cabezal de pistola*1",
+      "Tubo de entrada de agua de 1.5 m*1",
+      "Tubo de salida de agua de 5 m*1",
+      "Recipiente de espuma*1",
+      "Conector rápido*1",
+      "Conector universal*1",
+      "Boquilla de entrada de agua*1"
+    ],
+    "not_included": [],
+    "source": "description"
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "missing"
+  },
+  "features": [
+    "diferentes tipos de chorros",
+    "mango para transportar"
+  ],
+  "usage": [
+    "Balcones y pasillos, Bicicleta, Muebles y artículos de jardín, Pisos y paredes de patios, Terrazas, Vehículos"
+  ],
+  "specs": {
+    "Presión máxima": "110.32 bar",
+    "Caudal de agua": "6 l/min"
+  },
+  "raw_attributes": {
+    "Marca": "Atverce",
+    "Modelo": "ATV+QXJ+03",
+    "Color": "Negro",
+    "Voltaje": "127V",
+    "Potencia": "1.4 kW",
+    "Tipo de alimentación": "Corriente eléctrica",
+    "Presión máxima": "110.32 bar",
+    "Caudal de agua": "6 l/min",
+    "Usos recomendados": "Balcones y pasillos, Bicicleta, Muebles y artículos de jardín, Pisos y paredes de patios, Terrazas, Vehículos",
+    "Temperatura máxima de agua": "50 °C",
+    "Con diferentes tipos de chorros": "Sí",
+    "Accesorios incluidos": "Máquina de limpieza*1 Mango de pistola*1 Cabezal de pistola*1 Tubo de entrada de agua de 1, 5 m*1 Tubo de salida de agua",
+    "Con ruedas": "No",
+    "Con mango para transportar": "Sí",
+    "Incluye dosificador de detergente": "Sí",
+    "Incluye manguera": "Sí",
+    "Es portátil": "Sí"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 1874.63,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 458348,
+      "sha256": "92f0ee51924efb47be747bb97ae269eac1076f848330eee07c1aaa5b6de1e496",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 529536,
+      "sha256": "008459e342a5bd8ff60431bbf46a22906c458875c46d0ba2c5f22b474cb15747",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 558578,
+      "sha256": "063144faa8a84c34d1a6f1c6f66d0d1874df7a47c8cba243f79aa2f3d6247037",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 849306,
+      "sha256": "306d4262279c145b2773f7db0dad3644894c04c97735e0a8fef0e0717d3ca372",
+      "main": false
+    },
+    {
+      "file": "img/05.jpg",
+      "bytes": 625071,
+      "sha256": "54a5947421276019001948b3fe8152589b3aa25c221f4d9ceb39bd0189396fc4",
+      "main": false
+    },
+    {
+      "file": "img/06.jpg",
+      "bytes": 501401,
+      "sha256": "feb3c7b60059bcf7dc2ea63413f1ea6a8d2c0e1696ff2e5019caf93545be6842",
+      "main": false
+    },
+    {
+      "file": "img/07.jpg",
+      "bytes": 404759,
+      "sha256": "a61515553860333ae06cf5d20e0aac374839b04401d6efc8a2afd1e6d5f6298a",
+      "main": false
+    },
+    {
+      "file": "img/08.jpg",
+      "bytes": 619144,
+      "sha256": "6796d03fdaa6af56be194bba1f255abbf2e434251c335bea15f0fa9aa5cb73d0",
+      "main": false
+    },
+    {
+      "file": "img/09.jpg",
+      "bytes": 1076429,
+      "sha256": "4f3ea59ae19c6537b1b090d4e51c6907f01afa680b080cad7280bb2eca62a8d3",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-22T00:07:03",
+    "built_from": [
+      "input/ABU6000013/input.json",
+      "input/ABU6000013/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "f2c647e35fc1a3e78cafc8273f2b663229455170c392d6b494cc217109fe6686",
+      "item.json": "b1b07e3ca4a9ea3e7d9db39605b99224ee1d6ecf241ab0ac19ab5c6b1dd4304f"
+    },
+    "verified_by": "DSH 自动核验（可追溯性检查，待人工抽查）",
+    "verified_at": "2026-10-22T00:08:46"
+  }
+}

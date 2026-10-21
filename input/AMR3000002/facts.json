@@ -167,7 +167,7 @@
   "unknowns": [],
   "_meta": {
     "rules_version": "v1.3",
-    "built_at": "2026-10-21T15:37:15",
+    "built_at": "2026-10-22T00:07:03",
     "built_from": [
       "input/AMR3000002/input.json",
       "input/AMR3000002/item.json"

@@ -1,0 +1,182 @@
+{
+  "schema": "facts/v1",
+  "product_id": "MBU5000004",
+  "category": "五金工具",
+  "status": "verified",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": [
+      "充电器输入电压未提供（Listing 不写充电器电压）",
+      "电池类标 1600W 偏高（多为等效/峰值功率，不是持续功率）；Listing 不写瓦数"
+    ]
+  },
+  "identity": {
+    "brand": "Atverce",
+    "brand_aliases": [],
+    "model": "ATV-DLJ02-12",
+    "title_raw": "Motosierra Eléctrica Inalámbrica 12inch Portatil 3 Cadenas"
+  },
+  "power": {
+    "type": "battery",
+    "voltage_v": null,
+    "battery_v": 21.0,
+    "charger_v": null,
+    "w": null,
+    "claimed_w": 1600,
+    "rated_claimed_w": null,
+    "claims_w": [
+      1600
+    ],
+    "basis": "description",
+    "state_power": false,
+    "listing_policy": "do_not_state_power",
+    "device_v": null,
+    "listing_voltage_v": 21.0
+  },
+  "size": {
+    "length_cm": null,
+    "width_cm": null,
+    "height_cm": null,
+    "diameter_cm": null,
+    "raw": []
+  },
+  "weight_kg": null,
+  "capacity": "",
+  "pieces": null,
+  "material": [],
+  "material_basis": null,
+  "extras": {
+    "lift_range_mm": null,
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-2677597899-motosierra-electrica-inalambrica-12inch-portatil-3-cadenas-_JM",
+    "store_id": "ATVERCE",
+    "core_keyword": "motosierra electrica inalambrica"
+  },
+  "package": {
+    "included": [
+      "Motosierra de 12 pulgadas * 1",
+      "Batería (4,0 Ah)*2",
+      "Cadena de motosierra de 12 pulgadas*3",
+      "Placa guía de 12 pulgadas*1",
+      "Cargador*1",
+      "Llave de vaso * 1",
+      "Guantes*1",
+      "Gafas protectoras*1"
+    ],
+    "not_included": [],
+    "source": "description"
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "missing"
+  },
+  "features": [
+    "arranque fácil",
+    "lubricación automática",
+    "ajuste automático de la cadena",
+    "freno de seguridad"
+  ],
+  "usage": [],
+  "specs": {
+    "Largo de la barra": "30.48 cm",
+    "Nivel de presión sonora": "72 dBA"
+  },
+  "raw_attributes": {
+    "Marca": "Atverce",
+    "Modelo": "ATV-DLJ02-12",
+    "Color": "Rojo",
+    "Voltaje": "21V",
+    "Tipo de alimentación": "Batería",
+    "Con arranque fácil": "Sí",
+    "Largo de la barra": "30.48 cm",
+    "Con lubricación automática": "Sí",
+    "Nivel de presión sonora": "72 dBA",
+    "Incluye accesorios": "Sí",
+    "Accesorios incluidos": "Motosierra de 12 pulgadas * 1 Batería (4, 0 Ah)*2 Cadena de motosierra de 12 pulgadas*3 Placa guía de 12 pulgadas*1 Carg",
+    "Voltaje de la batería": "21V",
+    "Con ajuste automático de la cadena": "Sí",
+    "Incluye batería": "Sí",
+    "Con freno de seguridad": "Sí"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 988.35,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 286322,
+      "sha256": "ff80da8a00b4ac606f200e98b63a1833062d0baf841b900073ea897fd63ce864",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 587206,
+      "sha256": "f1f9dad902510ab0231149cf2cc9d1fd5982883dca59fcdae99e48add02be903",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 490223,
+      "sha256": "b997322fdd112fd50cdcd0165882ba403b6d1aaf7b629e15ef026aec23de236d",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 918806,
+      "sha256": "240f7fb3b4a6f7c907a2835434ae8d21bb2895c8b3488c3b5b0dc3c3d7241100",
+      "main": false
+    },
+    {
+      "file": "img/05.jpg",
+      "bytes": 570623,
+      "sha256": "6e4fd6fcaacb7214ef47246f2d6bb81ebcd77bd473631e55d24c87edbd12cc92",
+      "main": false
+    },
+    {
+      "file": "img/06.jpg",
+      "bytes": 483184,
+      "sha256": "6ee3abb4126eee24b18ab9a370495df5eb673d3833c22530d1d6f5ca67549ff7",
+      "main": false
+    },
+    {
+      "file": "img/07.jpg",
+      "bytes": 625804,
+      "sha256": "4e456c8e98c78c95e256a66d42b931383d9ddf801f8ba11dab6cf31b9a89b556",
+      "main": false
+    },
+    {
+      "file": "img/08.jpg",
+      "bytes": 675310,
+      "sha256": "1fda25ff87dde7d0066cf3718ec352771b29df0c41304aa4ebb2241766e3d0b0",
+      "main": false
+    },
+    {
+      "file": "img/09.jpg",
+      "bytes": 1142910,
+      "sha256": "96f4eac9196ce41b9bbf058dd7e7d4d8cd9b0b048ac06d4928132f2d414828d7",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-22T00:07:04",
+    "built_from": [
+      "input/MBU5000004/input.json",
+      "input/MBU5000004/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "478a319c566183dcde9a68ffcd974434a267d6039a3a343ea4e9d061423b90da",
+      "item.json": "36b9b37e1184335877e489ffea00ba5d689c7fbdcd9f150f261db6abd895414c"
+    },
+    "verified_by": "DSH 自动核验（可追溯性检查，待人工抽查）",
+    "verified_at": "2026-10-22T00:08:46"
+  }
+}

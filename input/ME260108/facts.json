@@ -1,0 +1,174 @@
+{
+  "schema": "facts/v1",
+  "product_id": "ME260108",
+  "category": "汽车摩托",
+  "status": "draft",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": [
+      "描述尺寸「Tamaño del producto: 28*22*7cm」未标单位，按 cm 处理，需核实",
+      "材质取自描述推断（acero inoxidable），需人工核实"
+    ]
+  },
+  "identity": {
+    "brand": "Merion",
+    "brand_aliases": [],
+    "model": "RY06",
+    "title_raw": "Medidor De Presión De Combustible Manómetro Gasolina 140 Psi"
+  },
+  "power": {
+    "type": "manual",
+    "voltage_v": null,
+    "battery_v": null,
+    "charger_v": null,
+    "w": null,
+    "claimed_w": null,
+    "rated_claimed_w": null,
+    "claims_w": [],
+    "basis": null,
+    "state_power": false,
+    "listing_policy": "state_verified_only",
+    "device_v": null,
+    "listing_voltage_v": null
+  },
+  "size": {
+    "length_cm": 28.0,
+    "width_cm": 22.0,
+    "height_cm": 7.0,
+    "diameter_cm": null,
+    "raw": [
+      "Tamaño del producto: 28*22*7cm"
+    ]
+  },
+  "weight_kg": null,
+  "capacity": "",
+  "pieces": null,
+  "material": [
+    "acero inoxidable"
+  ],
+  "material_basis": "description",
+  "extras": {
+    "lift_range_mm": null,
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-2655947227-medidor-de-presion-de-combustible-manometro-gasolina-140-psi-_JM",
+    "store_id": "MXMERION",
+    "core_keyword": "medidor de presion de combustible"
+  },
+  "package": {
+    "included": [],
+    "not_included": [],
+    "source": null
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "not_applicable"
+  },
+  "features": [
+    "adaptador intercambiable"
+  ],
+  "usage": [],
+  "specs": {
+    "Presión máxima": "140 psi"
+  },
+  "raw_attributes": {
+    "Marca": "Merion",
+    "Modelo": "RY06",
+    "Tipo de motor": "Gasolina",
+    "Tipo de vehículo": "Carro/Camioneta",
+    "Materiales": "Metal",
+    "Largo de la manguera": "32 cm",
+    "Con manómetro doble": "No",
+    "Diámetro del manómetro": "9.91 cm",
+    "Con display digital": "No",
+    "Con adaptador intercambiable": "Sí",
+    "Cantidad de adaptadores": "11",
+    "Presión máxima": "140 psi"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 399.81,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 256656,
+      "sha256": "30824085e188d607f474966a18dd8140b20a8681ad9fb66ea9332de083058e7a",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 219061,
+      "sha256": "271931da11a7116168386498a46e80eb708f6a05e8d0575e0b68f78ca28391a4",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 97796,
+      "sha256": "a61dba3ad69066a4dd6332bce4ae67c7e947e54b743d02e7cb76308c63f03bd5",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 104177,
+      "sha256": "84876ded75beb4bc19f537df83fea21f0a3b2ffd6244291e437b5fbe187eab2a",
+      "main": false
+    },
+    {
+      "file": "img/05.jpg",
+      "bytes": 181653,
+      "sha256": "8d568ba3823b015e828127ff27da0d890e53021559a7cd3eede2436e115c44d4",
+      "main": false
+    },
+    {
+      "file": "img/06.jpg",
+      "bytes": 174831,
+      "sha256": "3d4bb4246cc6c1bb0c05729a818ac9e14c325b462f7d1874eb2ea4770a6a5246",
+      "main": false
+    },
+    {
+      "file": "img/07.jpg",
+      "bytes": 288792,
+      "sha256": "dcd7ad9749c8f2cf67822d5f5a053e77a8dce7c5eae47774baee868a3eb5f396",
+      "main": false
+    },
+    {
+      "file": "img/08.jpg",
+      "bytes": 310861,
+      "sha256": "6efa2079aed15208ce53fa847d5d1a19dddba612f78538baf015c663c6cffb8b",
+      "main": false
+    },
+    {
+      "file": "img/09.jpg",
+      "bytes": 221958,
+      "sha256": "0911c6e68fa75f59ab2025cdc71d81823de0c2f3533c1c266c6f952a3b336f8c",
+      "main": false
+    },
+    {
+      "file": "img/10.jpg",
+      "bytes": 198758,
+      "sha256": "9f20a4caa3539f03bbf39a3d412ad2ef425dd865a15f7c2be02ec3f0a13af8eb",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-22T00:07:04",
+    "built_from": [
+      "input/ME260108/input.json",
+      "input/ME260108/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "e9d010a2fb37769a0ad7d9dbc8c17557430dcf2dea1e9389f18e86aaba655fd2",
+      "item.json": "a30e06e8393a9328bfd313437dae74d926038983fdbcab0f65fb54b59d0b430e"
+    },
+    "verified_by": null,
+    "verified_at": null
+  }
+}

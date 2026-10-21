@@ -1,0 +1,149 @@
+{
+  "schema": "facts/v1",
+  "product_id": "AHT0000000",
+  "category": "汽车摩托",
+  "status": "draft",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": []
+  },
+  "identity": {
+    "brand": "Merion",
+    "brand_aliases": [],
+    "model": "",
+    "title_raw": "Set 22 Opresor Piston Caliper Cambiar Balatas Auto Universal"
+  },
+  "power": {
+    "type": "manual",
+    "voltage_v": null,
+    "battery_v": null,
+    "charger_v": null,
+    "w": null,
+    "claimed_w": null,
+    "rated_claimed_w": null,
+    "claims_w": [],
+    "basis": null,
+    "state_power": false,
+    "listing_policy": "state_verified_only",
+    "device_v": null,
+    "listing_voltage_v": null
+  },
+  "size": {
+    "length_cm": 32.0,
+    "width_cm": 22.0,
+    "height_cm": 5.5,
+    "diameter_cm": null,
+    "raw": [
+      "- Medidas: 32 x 22 x 5,5 cm. (aprox.)."
+    ]
+  },
+  "weight_kg": 5.0,
+  "capacity": "",
+  "pieces": null,
+  "material": [],
+  "material_basis": null,
+  "extras": {
+    "lift_range_mm": null,
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-3192948100-set-22-opresor-piston-caliper-cambiar-balatas-auto-universal-_JM",
+    "store_id": "CNHYHL-MXF",
+    "core_keyword": "opresor de piston caliper"
+  },
+  "package": {
+    "included": [
+      "22 piezas * reinicio del pistón Prake",
+      "1pc * Estuche de transportel"
+    ],
+    "not_included": [],
+    "source": "description"
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "not_applicable"
+  },
+  "features": [],
+  "usage": [],
+  "specs": {},
+  "raw_attributes": {
+    "Marca": "Merion",
+    "Número de parte": "HS1",
+    "Sellos incluidos": "No",
+    "Origen": "HYHL",
+    "Tipo de vehículo": "Carro/Camioneta"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 575.13,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 357802,
+      "sha256": "5cb6b454e21feb21f21759acb6e1612823c3216ed7dd5381b284a23aeaaf227f",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 352684,
+      "sha256": "13bfa62d1b4a18fe2a1512041bdb360a1d9c4e1875a85bcbb2c212f9e85b5cba",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 420647,
+      "sha256": "6dc8c36d3a8250b1668fde9eaa9f4510f988672378c48c6acfc3a8e9a83f5fd5",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 463120,
+      "sha256": "aad60ac0d49a3beb2fa4bc71600450f9fdee1de65266ab025abd9798d56a0d09",
+      "main": false
+    },
+    {
+      "file": "img/05.jpg",
+      "bytes": 331983,
+      "sha256": "fc0235aff73f4993b38bf8d8b80b3269641552ac3c2d55a725fbed96d17deac5",
+      "main": false
+    },
+    {
+      "file": "img/06.jpg",
+      "bytes": 410256,
+      "sha256": "44bf138180e4130be66feba8c5cd029b7f99c712c911bf9ed71d67e4c8db48bc",
+      "main": false
+    },
+    {
+      "file": "img/07.jpg",
+      "bytes": 403558,
+      "sha256": "d15263bf86d1c23e6e30ec00ee708af4b0eaa572bcb3d82b823d88b674770041",
+      "main": false
+    },
+    {
+      "file": "img/08.jpg",
+      "bytes": 425183,
+      "sha256": "0242b2d5962402026b8b31aa3cffd3323bfb4eb8d5adf83c9f02c356c0bd3ee4",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-22T00:07:03",
+    "built_from": [
+      "input/AHT0000000/input.json",
+      "input/AHT0000000/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "5e2748a016c3ba307070d13c9cc680177fe0ff59fe1e0a682f1883f952ebacf3",
+      "item.json": "5877d1f75c6fa1f6b252a0f84f55ece7cb2bf1dc7963a3c4a50f53cec852c030"
+    },
+    "verified_by": null,
+    "verified_at": null
+  }
+}

@@ -1,0 +1,193 @@
+{
+  "schema": "facts/v1",
+  "product_id": "37267001",
+  "category": "五金工具",
+  "status": "quarantined",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": [
+      "未找到电池电压（电池工具必须写清，如 21V）",
+      "电池类标 700W 偏高（多为等效/峰值功率，不是持续功率）；Listing 不写瓦数",
+      "描述尺寸「el motor sin carbono de alto rendimiento ofrece un」未标单位，按 cm 处理，需核实",
+      "材质取自描述推断（aluminio），需人工核实"
+    ]
+  },
+  "identity": {
+    "brand": "Atverce",
+    "brand_aliases": [],
+    "model": "EW03",
+    "title_raw": "Pistola Impacto Llave Taladro Inalámbrica Sincarbono Atverce"
+  },
+  "power": {
+    "type": "battery",
+    "voltage_v": null,
+    "battery_v": null,
+    "charger_v": 127.0,
+    "w": null,
+    "claimed_w": 700,
+    "rated_claimed_w": null,
+    "claims_w": [
+      700
+    ],
+    "basis": "attribute",
+    "state_power": false,
+    "listing_policy": "do_not_state_power",
+    "device_v": null,
+    "listing_voltage_v": null
+  },
+  "size": {
+    "length_cm": 300.0,
+    "width_cm": 10.0,
+    "height_cm": 50.0,
+    "diameter_cm": null,
+    "raw": [
+      "el motor sin carbono de alto rendimiento ofrece un par de hasta 300 nm para aflo"
+    ]
+  },
+  "weight_kg": null,
+  "capacity": "",
+  "pieces": null,
+  "material": [
+    "aluminio"
+  ],
+  "material_basis": "description",
+  "extras": {
+    "lift_range_mm": null,
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-905561882-pistola-impacto-llave-taladro-inalambrica-sincarbono-atverce-_JM",
+    "store_id": "BARNEYMX",
+    "core_keyword": "llave de impacto inalambrica"
+  },
+  "package": {
+    "included": [],
+    "not_included": [],
+    "source": null
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "missing"
+  },
+  "features": [
+    "función destornillador",
+    "empuñadura soft grip",
+    "indicador de carga de batería"
+  ],
+  "usage": [],
+  "specs": {
+    "Tipo de tecnología del motor": "Sin escobillas",
+    "Velocidad máxima de rotación": "3,600 rpm",
+    "Velocidad mínima de rotación": "0 rpm",
+    "Amperaje de la bateria": "21 Ah"
+  },
+  "raw_attributes": {
+    "Marca": "Atverce",
+    "Modelo": "EW03",
+    "Voltaje": "127V",
+    "Potencia": "700 W",
+    "Es inalámbrico": "Sí",
+    "Es de mango tipo espada": "No",
+    "Es angular": "No",
+    "Torque máximo": "300 Nm",
+    "Cantidad de baterías": "1",
+    "Amperaje de la bateria": "21 Ah",
+    "Incluye cargador": "Sí",
+    "Incluye batería": "Sí",
+    "Tipo de batería": "Li-ion",
+    "Velocidad mínima de rotación": "0 rpm",
+    "Velocidad máxima de rotación": "3,600 rpm",
+    "Con función destornillador": "Sí",
+    "Con función percutor": "No",
+    "Tipos de alimentación": "Batería",
+    "Con empuñadura soft grip": "Sí",
+    "Tipo de tecnología del motor": "Sin escobillas",
+    "Con indicador de carga de batería": "Sí"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 1482.4,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 480486,
+      "sha256": "6574063bef5019c6fbca6c945bf4cd3031f60c5b64af239dca4e7862d246d4d6",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 497993,
+      "sha256": "29c989d0e764efcb4a5fbc3ac623893a65fc6aa51d3f46651e6987cc6e196ab1",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 849683,
+      "sha256": "ebc10533339724c9327766b5dd6aa42c6c9ec602226909a737818b0c1792e9a7",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 750772,
+      "sha256": "ed3d98227d531ca73965c60124bc081ded51758246508a5f0d1d26eb0fc1eb94",
+      "main": false
+    },
+    {
+      "file": "img/05.jpg",
+      "bytes": 550708,
+      "sha256": "7c66e514fa4bda63edf052d01140212c0599ae96f60f24fdef63064bab4091d0",
+      "main": false
+    },
+    {
+      "file": "img/06.jpg",
+      "bytes": 617858,
+      "sha256": "268d29473b31bde8ad2e3a81ae60b9ebe67325d475e5ccdf1df6a24a74d285f5",
+      "main": false
+    },
+    {
+      "file": "img/07.jpg",
+      "bytes": 540407,
+      "sha256": "bd24dc146c74a6c74d82f07f6e8b7a383dc4b893a638739a17a511a24b739b3f",
+      "main": false
+    },
+    {
+      "file": "img/08.jpg",
+      "bytes": 708117,
+      "sha256": "938977c1c725ebb388951a7e41fcad939615e57396cf0d13075ece9c1c0c9f70",
+      "main": false
+    },
+    {
+      "file": "img/09.jpg",
+      "bytes": 538228,
+      "sha256": "053d667ab06cdc657713b34bdcf8c791614eebcb3c15c61ea70619fda6bba572",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-22T00:07:51",
+    "built_from": [
+      "input/37267001/input.json",
+      "input/37267001/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "25d482847bcfb6669cab166de533dff3fca44064051a802d04163d1443ba0278",
+      "item.json": "cb433b28e8625b57814a517939f83ffafcc878ed7d599651ac52c26acfbd407c"
+    },
+    "verified_by": null,
+    "verified_at": null,
+    "quarantine": {
+      "reason": "电池工具缺电池电压属性，Listing 无法写电压；补齐铭牌或供应商参数后可解封",
+      "by": "数据质量哨兵",
+      "at": "2026-10-22"
+    },
+    "overrides": "input/37267001/overrides.json",
+    "overrides_note": "数据质量哨兵 2026-10-22：电池工具无电池电压（battery_v / listing_voltage_v 均为空），无法确定电压口径，移出本批生成"
+  }
+}

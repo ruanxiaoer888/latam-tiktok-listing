@@ -1,0 +1,185 @@
+{
+  "schema": "facts/v1",
+  "product_id": "AMU5CI0000",
+  "category": "五金工具",
+  "status": "verified",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": [
+      "充电器输入电压未提供（Listing 不写充电器电压）",
+      "电池类标 600W 偏高（多为等效/峰值功率，不是持续功率）；Listing 不写瓦数"
+    ]
+  },
+  "identity": {
+    "brand": "Merion",
+    "brand_aliases": [],
+    "model": "M+W+1",
+    "title_raw": "Sopladora Aire Inalambrica  Eléctrica Portátil 2 4.0batería"
+  },
+  "power": {
+    "type": "battery",
+    "voltage_v": null,
+    "battery_v": 21.0,
+    "charger_v": null,
+    "w": null,
+    "claimed_w": 600,
+    "rated_claimed_w": null,
+    "claims_w": [
+      600
+    ],
+    "basis": "attribute",
+    "state_power": false,
+    "listing_policy": "do_not_state_power",
+    "device_v": null,
+    "listing_voltage_v": 21.0
+  },
+  "size": {
+    "length_cm": null,
+    "width_cm": null,
+    "height_cm": null,
+    "diameter_cm": null,
+    "raw": []
+  },
+  "weight_kg": 2.0,
+  "capacity": "4 Ah",
+  "pieces": null,
+  "material": [],
+  "material_basis": null,
+  "extras": {
+    "lift_range_mm": null,
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-3272937070-sopladora-aire-inalambrica-electrica-portatil-2-40bateria-_JM",
+    "store_id": "CNMERION-MXF2",
+    "core_keyword": "sopladora de aire inalambrica"
+  },
+  "package": {
+    "included": [
+      "Soplador*1",
+      "Batería (4,0 Ah)*2",
+      "Cargador*1",
+      "Tubo largo*1",
+      "Tubo plano*1"
+    ],
+    "not_included": [],
+    "source": "description"
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "missing"
+  },
+  "features": [],
+  "usage": [],
+  "specs": {
+    "Caudal de aire": "849.48 m³/h",
+    "Velocidad de soplado": "200 km/h",
+    "Frecuencia": "50 Hz x 60 Hz"
+  },
+  "raw_attributes": {
+    "Marca": "Merion",
+    "Modelo": "M+W+1",
+    "Voltaje": "21V DC",
+    "Frecuencia": "50 Hz x 60 Hz",
+    "Potencia": "600 W",
+    "Tipo de alimentación": "Batería",
+    "Caudal de aire": "849.48 m³/h",
+    "Velocidad de soplado": "200 km/h",
+    "Con sistema de reducción de ruido": "No",
+    "Con sistema antivibración": "No",
+    "Con función aspiradora": "No",
+    "Con función trituradora": "No",
+    "Peso": "2 kg",
+    "Capacidad de la batería": "4 Ah",
+    "Voltaje de la batería": "21V",
+    "Autonomía de la batería": "30 m",
+    "Accesorios incluidos": "Blower*1 Battery (4.0Ah)*2 Charger*1 Long Tube*1 Flat Tube*1",
+    "Incluye batería": "Sí",
+    "Largo total": "94 cm"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 1797,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 251914,
+      "sha256": "0f172492dd5ca0641b98888adaa6169ebc41e955e641199d94fc1fad00401c8d",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 444084,
+      "sha256": "260aed875d2c6f703d25edb16cf3fbc81aaa9d98f3f663b795868f83653e5d10",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 426720,
+      "sha256": "0cbaa75d5351cbd279fc3dda3e3d0560650197b13a2e4c4c0d16d80065a0b7f9",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 639503,
+      "sha256": "10bc76d782cdfafc414f7d70eadedf0cdc82350f7110c73c95b7343dbc3342be",
+      "main": false
+    },
+    {
+      "file": "img/05.jpg",
+      "bytes": 413228,
+      "sha256": "603e7b62f309ae03fc288136c2706f5aa16347820013e96e16dd2bb532fff52a",
+      "main": false
+    },
+    {
+      "file": "img/06.jpg",
+      "bytes": 719968,
+      "sha256": "608a6db53a96535e006b9e6fe2cde5709a9f605d4b97fd26f2042bcffc653067",
+      "main": false
+    },
+    {
+      "file": "img/07.jpg",
+      "bytes": 507806,
+      "sha256": "c3c3c66d6a3b777e5fccb807a6821bf02476a24f4ed49b494a664eff4a3254b3",
+      "main": false
+    },
+    {
+      "file": "img/08.jpg",
+      "bytes": 454205,
+      "sha256": "5fe3def87cc1a6bea3c9a748b4a2e93a2dfd23bd6367e767f852806408d9a26a",
+      "main": false
+    },
+    {
+      "file": "img/09.jpg",
+      "bytes": 630768,
+      "sha256": "6f467934c8c69b886898a70e4902059f7a8d33bf37621d52db831391c0bb822a",
+      "main": false
+    },
+    {
+      "file": "img/10.jpg",
+      "bytes": 733482,
+      "sha256": "7b26e802c83d2e46eec240d445cc5a1846a3629de51430135b4054696dbd646a",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-22T00:07:03",
+    "built_from": [
+      "input/AMU5CI0000/input.json",
+      "input/AMU5CI0000/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "41b9c12bbd28aa730bb2f0e9c636701b1805475cfdb8278d8ba9d82a5906b96a",
+      "item.json": "e1aade5ab45bcf37dff724078c1abbc800fcba3e04a7da147a538b893be3767b"
+    },
+    "verified_by": "DSH 自动核验（可追溯性检查，待人工抽查）",
+    "verified_at": "2026-10-22T00:08:46"
+  }
+}

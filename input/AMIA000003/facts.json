@@ -1,0 +1,170 @@
+{
+  "schema": "facts/v1",
+  "product_id": "AMIA000003",
+  "category": "家电",
+  "status": "quarantined",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": [
+      "未找到电池电压（电池工具必须写清，如 21V）",
+      "充电器输入电压未提供（Listing 不写充电器电压）",
+      "材质取自描述推断（aluminio），需人工核实"
+    ]
+  },
+  "identity": {
+    "brand": "Merion",
+    "brand_aliases": [],
+    "model": "M+C+1",
+    "title_raw": "Lámpara Led Recargable Portátil Para Campamento Con Batería"
+  },
+  "power": {
+    "type": "battery",
+    "voltage_v": null,
+    "battery_v": null,
+    "charger_v": null,
+    "w": 100.0,
+    "claimed_w": 100,
+    "rated_claimed_w": null,
+    "claims_w": [
+      100
+    ],
+    "basis": "attribute",
+    "state_power": true,
+    "listing_policy": "state_verified_only",
+    "device_v": null,
+    "listing_voltage_v": null
+  },
+  "size": {
+    "length_cm": null,
+    "width_cm": null,
+    "height_cm": null,
+    "diameter_cm": null,
+    "raw": []
+  },
+  "weight_kg": null,
+  "capacity": "",
+  "pieces": null,
+  "material": [
+    "aluminio"
+  ],
+  "material_basis": "description",
+  "extras": {
+    "lift_range_mm": null,
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-3357920758-lampara-led-recargable-portatil-para-campamento-con-bateria-_JM",
+    "store_id": "CNMERION-MXF2",
+    "core_keyword": "lampara led recargable"
+  },
+  "package": {
+    "included": [
+      "Luz*1",
+      "Cargador*1",
+      "Batería(4000mAh)*1"
+    ],
+    "not_included": [],
+    "source": "description"
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "missing"
+  },
+  "features": [],
+  "usage": [],
+  "specs": {},
+  "raw_attributes": {
+    "Marca": "Merion",
+    "Modelo": "M+C+1",
+    "Potencia": "100 W",
+    "Tipo de lámpara": "Halógena",
+    "Con sensor de movimiento": "No",
+    "Es inalámbrico": "Sí"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 1482.4,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 204282,
+      "sha256": "2f9d91513f173114e2ecd31c6a8c5da5d93f7b780fd75f9d0e56901b913afc53",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 224437,
+      "sha256": "a180ec8b884075313de9490ff136af45b17e7debb75cd53ad8d16efd8435b165",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 744339,
+      "sha256": "ee4255729d451c9fe28c03d78b7ebb9462544cd3ed07154f5902cfe872841d85",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 279752,
+      "sha256": "48bffb8e2a6a7caf40759a6c3899035fe44b0cd09b3379fc2622c3227d0bfa1a",
+      "main": false
+    },
+    {
+      "file": "img/05.jpg",
+      "bytes": 197810,
+      "sha256": "8ced473299143062e4efa49514711a1b8a2de6b6801a56ddbb7583f4d16be0fb",
+      "main": false
+    },
+    {
+      "file": "img/06.jpg",
+      "bytes": 705189,
+      "sha256": "425a303171b7caa203d18230a262a627d03e5a7b40a4d1c495658601444e2c9f",
+      "main": false
+    },
+    {
+      "file": "img/07.jpg",
+      "bytes": 215607,
+      "sha256": "972aa718f1d7a78b12782a8f25b9721b2fd8a4ab387910257db8958a1c6f26f5",
+      "main": false
+    },
+    {
+      "file": "img/08.jpg",
+      "bytes": 168985,
+      "sha256": "c880399fac6d8b982780c67c4afe808670b6adb8406e4605e289b760582ca6b1",
+      "main": false
+    },
+    {
+      "file": "img/09.jpg",
+      "bytes": 759684,
+      "sha256": "95fc9e211c70e30993a6bd573de97a14b9e6735c1c9eaeb86a605613e56633a5",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-22T00:07:51",
+    "built_from": [
+      "input/AMIA000003/input.json",
+      "input/AMIA000003/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "1745e51df301b98a2cce81fc887ac6722c4623c7bab4d9b7c2cd17a37f745533",
+      "item.json": "43bcba8d207c630f6f73a5bbb9e497043d4bc6d689d79f82e7cd5c85c4a567f5"
+    },
+    "verified_by": null,
+    "verified_at": null,
+    "quarantine": {
+      "reason": "电池工具缺电池电压属性，Listing 无法写电压；补齐铭牌或供应商参数后可解封",
+      "by": "数据质量哨兵",
+      "at": "2026-10-22"
+    },
+    "overrides": "input/AMIA000003/overrides.json",
+    "overrides_note": "数据质量哨兵 2026-10-22：电池工具无电池电压（battery_v / listing_voltage_v 均为空），无法确定电压口径，移出本批生成"
+  }
+}

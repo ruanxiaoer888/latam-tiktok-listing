@@ -2,7 +2,7 @@
   "schema": "facts/v1",
   "product_id": "MBU6000001",
   "category": "五金工具",
-  "status": "draft",
+  "status": "verified",
   "gates": {
     "hard_blocks": [],
     "warnings": []
@@ -161,7 +161,7 @@
   "unknowns": [],
   "_meta": {
     "rules_version": "v1.3",
-    "built_at": "2026-10-21T15:37:16",
+    "built_at": "2026-10-22T00:07:04",
     "built_from": [
       "input/MBU6000001/input.json",
       "input/MBU6000001/item.json"
@@ -170,7 +170,7 @@
       "input.json": "254ec932e7157bde66ef75b92e39f07927c045f3e47ec7b83c0ede604849cc2a",
       "item.json": "0bd97c2c0d9c8f5fa2676173c9f432500ddf2aafdeb00f956f62a457d002ffb9"
     },
-    "verified_by": null,
-    "verified_at": null
+    "verified_by": "DSH 自动核验（可追溯性检查，待人工抽查）",
+    "verified_at": "2026-10-22T00:08:46"
   }
 }

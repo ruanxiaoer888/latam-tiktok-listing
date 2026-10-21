@@ -1,0 +1,177 @@
+{
+  "schema": "facts/v1",
+  "product_id": "ABTLC50000",
+  "category": "汽车摩托",
+  "status": "verified",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": [
+      "插电类缺电压属性",
+      "材质取自描述推断（acero），需人工核实",
+      "供电为 12V 直流（点烟器/电瓶夹），不是 127V 市电；Listing 不要写 127V"
+    ]
+  },
+  "identity": {
+    "brand": "Atverce",
+    "brand_aliases": [],
+    "model": "ATVERCE",
+    "title_raw": "Gato Hidráulico Eléctrico Para Automóviles 12v 5 Ton 3 En 1"
+  },
+  "power": {
+    "type": "corded",
+    "voltage_v": 12,
+    "battery_v": null,
+    "charger_v": null,
+    "w": null,
+    "claimed_w": null,
+    "rated_claimed_w": null,
+    "claims_w": [],
+    "basis": null,
+    "state_power": false,
+    "listing_policy": "state_verified_only",
+    "device_v": null,
+    "listing_voltage_v": null,
+    "voltage_basis": "title"
+  },
+  "size": {
+    "length_cm": 32.0,
+    "width_cm": 15.5,
+    "height_cm": 15.0,
+    "diameter_cm": null,
+    "raw": [
+      "Tamaño: 32 × 15,5 × 15 cm"
+    ]
+  },
+  "weight_kg": null,
+  "capacity": "5 t",
+  "pieces": null,
+  "material": [
+    "acero"
+  ],
+  "material_basis": "description",
+  "extras": {
+    "lift_range_mm": [
+      155.0,
+      450.0
+    ],
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-3057072082-gato-hidraulico-electrico-para-automoviles-12v-5-ton-3-en-1-_JM",
+    "store_id": "BARNEYMX",
+    "core_keyword": "gato hidraulico"
+  },
+  "package": {
+    "included": [
+      "1* Gato hidráulico eléctrico",
+      "1* Abrazadera de batería",
+      "1* Cable de enchufe del encendedor de cigarrillos(3.5m)",
+      "2* Fusible (15 A)",
+      "2* Boquillas de inflado",
+      "1* Martillo de seguridad",
+      "1 par de guantes",
+      "1* Llave eléctrica (par de torsión: 350 N/M)",
+      "2* Llaves de vaso de doble extremo: (17/19 mm, 21/23 mm)",
+      "1* Llave hexagonal",
+      "2* Manual de instrucciones"
+    ],
+    "not_included": [],
+    "source": "description"
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "missing"
+  },
+  "features": [],
+  "usage": [],
+  "specs": {},
+  "raw_attributes": {
+    "Marca": "Atverce",
+    "Modelo": "ATVERCE",
+    "Formato del gato": "Floor",
+    "Peso máximo soportado": "5 t",
+    "Mínima altura levantada - Máxima altura levantada": "15.5 cm - 45 cm",
+    "Largo de la palanca": "45 cm"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 3579.84,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 663289,
+      "sha256": "94ebb2450b3b54aa904fa559e68a9fca6527c6c40714825431679d6270995691",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 85494,
+      "sha256": "ca116fb09e5ea64d079edc4b1c1c71c7df9756e13ef511c28122849b2030ca77",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 341184,
+      "sha256": "a3fc2819c362ed0b046f4b16ba50f5bb23e38fab29d262170e4cc620df2fb159",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 337265,
+      "sha256": "75e7b0c042c00cc8f9ed807cffe28e30532cb580607e4988525dcd6c19a66ca6",
+      "main": false
+    },
+    {
+      "file": "img/05.jpg",
+      "bytes": 352521,
+      "sha256": "431be1c91ee42218249a826f87c744c3f21510baab0e02e95de6e9c610c89892",
+      "main": false
+    },
+    {
+      "file": "img/06.jpg",
+      "bytes": 372020,
+      "sha256": "6098696eb2165ed2afdc245b88b0ef2f73f219f8b9cde33bd1373225bf8865da",
+      "main": false
+    },
+    {
+      "file": "img/07.jpg",
+      "bytes": 287314,
+      "sha256": "3804cb8f95f4caf6adba11c42a5788c3fa36363affe23cadc1cb2e813388bf4c",
+      "main": false
+    },
+    {
+      "file": "img/08.jpg",
+      "bytes": 430059,
+      "sha256": "35fc5e58839653bce84115654d64f29fda06542291bde10cd7c3f5eb9ade62eb",
+      "main": false
+    },
+    {
+      "file": "img/09.jpg",
+      "bytes": 610769,
+      "sha256": "e613f18c8563347f513c5cedda0c687a4789c8bcc5ea3970198ac0115ce9a18c",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-22T00:10:22",
+    "built_from": [
+      "input/ABTLC50000/input.json",
+      "input/ABTLC50000/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "16f1687f9f257cdb1774b74d0a010991135a7386885e5d999ae257ce8e4e0bee",
+      "item.json": "3b0c2a908206d4dabb281cea03d84c8a9a36b172ce6f10f12af9cab29859b1e3"
+    },
+    "verified_by": "DSH 自动核验（可追溯性检查，待人工抽查）",
+    "verified_at": "2026-10-22T00:10:23",
+    "overrides": "input/ABTLC50000/overrides.json",
+    "overrides_note": "数据质量哨兵 2026-10-22：标题写明 12v（车充 12V 供电的电动作业千斤顶），属性缺 Voltaje 字段导致电压为空。电压取自标题，口径为 12V 直流（点烟器供电），不是 127V 市电"
+  }
+}

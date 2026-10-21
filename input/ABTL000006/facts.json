@@ -2,7 +2,7 @@
   "schema": "facts/v1",
   "product_id": "ABTL000006",
   "category": "汽车摩托",
-  "status": "draft",
+  "status": "verified",
   "gates": {
     "hard_blocks": [],
     "warnings": [
@@ -140,7 +140,7 @@
   "unknowns": [],
   "_meta": {
     "rules_version": "v1.3",
-    "built_at": "2026-10-21T15:37:15",
+    "built_at": "2026-10-22T00:07:03",
     "built_from": [
       "input/ABTL000006/input.json",
       "input/ABTL000006/item.json"
@@ -149,7 +149,7 @@
       "input.json": "5b4d2ea9137fa1cdb874d15bb5818db097b1a5a2078f5499fc9ef96ef6bd80a8",
       "item.json": "ebf6deabc4177a5117d662c1a622843558bdf7b9c063ed75bb72d1309ce2d8a3"
     },
-    "verified_by": null,
-    "verified_at": null
+    "verified_by": "DSH 自动核验（可追溯性检查，待人工抽查）",
+    "verified_at": "2026-10-22T00:08:46"
   }
 }

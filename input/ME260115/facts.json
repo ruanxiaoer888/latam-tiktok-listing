@@ -1,0 +1,196 @@
+{
+  "schema": "facts/v1",
+  "product_id": "ME260115",
+  "category": "五金工具",
+  "status": "verified",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": [
+      "电池类标 900W 偏高（多为等效/峰值功率，不是持续功率）；Listing 不写瓦数",
+      "材质取自描述推断（aluminio），需人工核实"
+    ]
+  },
+  "identity": {
+    "brand": "Merion",
+    "brand_aliases": [],
+    "model": "Brushless Wrench",
+    "title_raw": "Llave De Impacto Inalámbrica Electrica 21v 1/2 520 Nm 2 En 1"
+  },
+  "power": {
+    "type": "battery",
+    "voltage_v": null,
+    "battery_v": 21.0,
+    "charger_v": 127.0,
+    "w": null,
+    "claimed_w": 900,
+    "rated_claimed_w": null,
+    "claims_w": [
+      900
+    ],
+    "basis": "attribute",
+    "state_power": false,
+    "listing_policy": "do_not_state_power",
+    "device_v": null,
+    "listing_voltage_v": 21.0
+  },
+  "size": {
+    "length_cm": null,
+    "width_cm": null,
+    "height_cm": null,
+    "diameter_cm": null,
+    "raw": []
+  },
+  "weight_kg": null,
+  "capacity": "",
+  "pieces": null,
+  "material": [
+    "aluminio"
+  ],
+  "material_basis": "description",
+  "extras": {
+    "lift_range_mm": null,
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-2656129629-llave-de-impacto-inalambrica-electrica-21v-12-520-nm-2-en-1-_JM",
+    "store_id": "MXMERION",
+    "core_keyword": "llave de impacto inalambrica"
+  },
+  "package": {
+    "included": [
+      "1 × Llave de impacto inalámbrica",
+      "1 × Adaptador de corriente",
+      "2 × Batería",
+      "5 × El pasador",
+      "5 × Junta tórica",
+      "2 × Broca de carpintero",
+      "5 × Llaves de vaso ( 17mm 18mm 19mm 21mm 22mm )",
+      "14 ×enchufe pequeño",
+      "1 × Bolsa",
+      "1 × Llave para portabrocas",
+      "4 ×Taladro para carpintería de 3/4/5/6 mm",
+      "4 ×Taladro helicoidal de 3/4/5/6 mm",
+      "1 × Guante",
+      "1 x Portabrocas"
+    ],
+    "not_included": [],
+    "source": "description"
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "missing"
+  },
+  "features": [
+    "luz LED",
+    "velocidad variable",
+    "función percutor",
+    "función reversa"
+  ],
+  "usage": [],
+  "specs": {
+    "Velocidad máxima de rotación": "3,200 rpm",
+    "Amperaje de la bateria": "3 Ah"
+  },
+  "raw_attributes": {
+    "Marca": "Merion",
+    "Línea": "Power Tools",
+    "Modelo": "Brushless Wrench",
+    "Color": "Verde",
+    "Voltaje": "127V",
+    "Potencia": "900 W",
+    "Es inalámbrico": "Sí",
+    "Es de mango tipo espada": "No",
+    "Es angular": "No",
+    "Con luz LED": "Sí",
+    "Cantidad de baterías": "2",
+    "Amperaje de la bateria": "3 Ah",
+    "Incluye cargador": "Sí",
+    "Incluye batería": "Sí",
+    "Tipo de batería": "Ion de litio",
+    "Velocidad máxima de rotación": "3,200 rpm",
+    "Con velocidad variable": "Sí",
+    "Con función destornillador": "No",
+    "Con función percutor": "Sí",
+    "Con función reversa": "Sí",
+    "Otros accesorios incluidos": "0 ah, 1 llave de impacto inalámbrica, 1 × Adaptador de corriente 2 baterías de 3, 2 broc, 5 juntas tóricas, 5 pestillos"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 791.37,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 268305,
+      "sha256": "cfcedc5de2963e4216b230477d61c86b689ec7e6ceec3edf87e33b868ab56b3b",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 612631,
+      "sha256": "b69b6f2bfe6c6e380350aa757e3ca13582e71e30eb0375847d7cae432a73b829",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 450966,
+      "sha256": "c558463a7232fde6c96fda8e35333093f059b97abda7b27ecad62fd69c2a4f7d",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 523922,
+      "sha256": "f4c058d6429250f64019eae0770c900a3b9ad69a403461860763d766006f369f",
+      "main": false
+    },
+    {
+      "file": "img/05.jpg",
+      "bytes": 600799,
+      "sha256": "3730a4ff9a3f3ad9c2c56d5213e7ec3a4db9879d100c2501e16eff2e71f6065c",
+      "main": false
+    },
+    {
+      "file": "img/06.jpg",
+      "bytes": 543265,
+      "sha256": "9b0f0a6acde5aa9a4574c4c5114301fe5f8e04283bfa53cddf5e758915882a1d",
+      "main": false
+    },
+    {
+      "file": "img/07.jpg",
+      "bytes": 510529,
+      "sha256": "f22293af0896fba156492bc068ac37c8e35025cb479652434001e4b65cb810c4",
+      "main": false
+    },
+    {
+      "file": "img/08.jpg",
+      "bytes": 524680,
+      "sha256": "aecd47baafd9f87bed79a05c02bfbe8f6541f2545dd6b5a74315e494cc2e92e0",
+      "main": false
+    },
+    {
+      "file": "img/09.jpg",
+      "bytes": 615370,
+      "sha256": "b4c49ffa822e10e00890a168fc17c85c0bbd5167f1ded0fd37316fa1ab67b383",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-22T00:07:04",
+    "built_from": [
+      "input/ME260115/input.json",
+      "input/ME260115/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "d01f82afb05c584e2fd25323cf3a5d61487927656f9756881ffad69c24d14b4e",
+      "item.json": "02ac60beb8641b0e54f336b1d19a910dea3b7c0fd5159e20f032a41c31e04d3a"
+    },
+    "verified_by": "DSH 自动核验（可追溯性检查，待人工抽查）",
+    "verified_at": "2026-10-22T00:08:46"
+  }
+}

@@ -1,0 +1,161 @@
+{
+  "schema": "facts/v1",
+  "product_id": "AMU5000000",
+  "category": "五金工具",
+  "status": "verified",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": []
+  },
+  "identity": {
+    "brand": "Merion",
+    "brand_aliases": [],
+    "model": "M+G+1",
+    "title_raw": "Ventilador Turbo Mini Jet De 130000 Rpm Sopladora , 52 M/s"
+  },
+  "power": {
+    "type": "corded",
+    "voltage_v": 127.0,
+    "battery_v": null,
+    "charger_v": null,
+    "w": 200.0,
+    "claimed_w": 200,
+    "rated_claimed_w": null,
+    "claims_w": [
+      200
+    ],
+    "basis": "attribute",
+    "state_power": true,
+    "listing_policy": "state_verified_only",
+    "device_v": null,
+    "listing_voltage_v": 127.0
+  },
+  "size": {
+    "length_cm": null,
+    "width_cm": null,
+    "height_cm": null,
+    "diameter_cm": null,
+    "raw": []
+  },
+  "weight_kg": null,
+  "capacity": "4 Ah",
+  "pieces": null,
+  "material": [],
+  "material_basis": null,
+  "extras": {
+    "lift_range_mm": null,
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-3338290766-ventilador-turbo-mini-jet-de-130000-rpm-sopladora-52-ms-_JM",
+    "store_id": "CNMERION-MXF2",
+    "core_keyword": "sopladora de aire inalambrica"
+  },
+  "package": {
+    "included": [
+      "Mini soplador*1",
+      "Cable de carga TIPO C*1"
+    ],
+    "not_included": [],
+    "source": "description"
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "missing"
+  },
+  "features": [],
+  "usage": [],
+  "specs": {
+    "Velocidad de soplado": "187.2 km/h"
+  },
+  "raw_attributes": {
+    "Marca": "Merion",
+    "Modelo": "M+G+1",
+    "Voltaje": "127V",
+    "Potencia": "200 W",
+    "Velocidad de soplado": "187.2 km/h",
+    "Con función aspiradora": "No",
+    "Capacidad de la batería": "4 Ah",
+    "Accesorios incluidos": "Mini soplador*1 Cable de carga TIPO C*1",
+    "Incluye batería": "No"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 744.17,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 488230,
+      "sha256": "a924f83e3a359317cf2a3380aac8f5235a9403826fde19278643741f1a29d593",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 607910,
+      "sha256": "79ce92c32bf40a5520dc4579917ee3b713be1659c4fe513350b9e36349dc169d",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 655526,
+      "sha256": "3938cd978f7219a3351deeeeab97f73def2cee378d634597dc2f9ffb874e2e57",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 599233,
+      "sha256": "d3ea8c307b7983eef224c3159c77ef5bb79355cd7882f4dab06d1479637fe85c",
+      "main": false
+    },
+    {
+      "file": "img/05.jpg",
+      "bytes": 640021,
+      "sha256": "59c61c6bbd90ab7272716fdcaeed565272d710757bd8ae86dcc90d09e38b1451",
+      "main": false
+    },
+    {
+      "file": "img/06.jpg",
+      "bytes": 998830,
+      "sha256": "64f030f5089f356463f28e16a279260c5b47a1b3e0a906daf520ccaea304d90e",
+      "main": false
+    },
+    {
+      "file": "img/07.jpg",
+      "bytes": 711119,
+      "sha256": "0450f531d5fc87de73719928dff294e9bb291977a05a3394a89b2866ac3e5e9b",
+      "main": false
+    },
+    {
+      "file": "img/08.jpg",
+      "bytes": 689658,
+      "sha256": "f4b22ec86bb6b67bf5ba549444fa6273744757632acb063dd39862a6ea459085",
+      "main": false
+    },
+    {
+      "file": "img/09.jpg",
+      "bytes": 966309,
+      "sha256": "fe9f502f9c0e7abee3b32dcd8f88432182c605a5b9beec3806e2052b68083034",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-22T00:07:03",
+    "built_from": [
+      "input/AMU5000000/input.json",
+      "input/AMU5000000/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "c37dee7e06b857ef402b929ef28310f1fb7a20b08fe03f4c09c37262efe9e0cf",
+      "item.json": "6c511ef669c2194464659f98ae4ed36474d5e170dd91810fef7a4bc2eeb8d0a7"
+    },
+    "verified_by": "DSH 自动核验（可追溯性检查，待人工抽查）",
+    "verified_at": "2026-10-22T00:08:46"
+  }
+}

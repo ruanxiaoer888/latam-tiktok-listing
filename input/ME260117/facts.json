@@ -1,0 +1,183 @@
+{
+  "schema": "facts/v1",
+  "product_id": "ME260117",
+  "category": "运动户外",
+  "status": "verified",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": [
+      "充电器输入电压未提供（Listing 不写充电器电压）"
+    ]
+  },
+  "identity": {
+    "brand": "Merion",
+    "brand_aliases": [],
+    "model": "M+L+1",
+    "title_raw": "Linterna Lamparas Led Recargable Luz Trabajo Y Camping 9inch"
+  },
+  "power": {
+    "type": "battery",
+    "voltage_v": null,
+    "battery_v": 21.0,
+    "charger_v": null,
+    "w": 84.0,
+    "claimed_w": 84,
+    "rated_claimed_w": null,
+    "claims_w": [
+      84
+    ],
+    "basis": "description",
+    "state_power": true,
+    "listing_policy": "state_verified_only",
+    "device_v": null,
+    "listing_voltage_v": 21.0
+  },
+  "size": {
+    "length_cm": 22.5,
+    "width_cm": null,
+    "height_cm": null,
+    "diameter_cm": null,
+    "raw": []
+  },
+  "weight_kg": 0.5,
+  "capacity": "",
+  "pieces": null,
+  "material": [
+    "Plástico"
+  ],
+  "material_basis": "attribute",
+  "extras": {
+    "lift_range_mm": null,
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-2656145387-linterna-lamparas-led-recargable-luz-trabajo-y-camping-9inch-_JM",
+    "store_id": "MXMERION",
+    "core_keyword": "lampara led recargable"
+  },
+  "package": {
+    "included": [
+      "Iluminación de 9 pulgadas * 1",
+      "Batería*2",
+      "Cargador*1",
+      "Llave* 1"
+    ],
+    "not_included": [],
+    "source": "description"
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "missing"
+  },
+  "features": [],
+  "usage": [
+    "Pesca nocturna, Camping al aire libre, car repair, construction site emergency"
+  ],
+  "specs": {},
+  "raw_attributes": {
+    "Marca": "Merion",
+    "Modelo": "M+L+1",
+    "Color de la luz": "Blanco",
+    "Color de la linterna": "Negro",
+    "Largo": "22.5 cm",
+    "Peso": "0.5 g",
+    "Tipo de linterna": "LED",
+    "Usos recomendados": "Pesca nocturna, Camping al aire libre, car repair, construction site emergency",
+    "Tipo de alimentación": "Batería",
+    "Tipo de pila": "Li-ion",
+    "Tipo de batería": "Ion de litio",
+    "Tipo de luz": "LED",
+    "Cantidad de modos de cambio de luz": "1",
+    "Potencia": "6,000 lm",
+    "Duración máxima": "2 h",
+    "Incluye pilas": "Sí",
+    "Es recargable": "Sí",
+    "Con carga USB": "No",
+    "Es resistente al polvo": "Sí",
+    "Es a prueba de agua": "No",
+    "Con zoom": "No",
+    "Con láser": "No",
+    "Voltaje de la batería": "21V",
+    "Accesorios incluidos": "Adaptador",
+    "Material": "Plástico"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 476.84,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 833380,
+      "sha256": "5b67e66030cf853418aecf9131e5c812a13b38dd1a9971cc43c04b315756f728",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 643575,
+      "sha256": "24c14b3b182dc0390c72f7d470df63d221993e888ed452a136de63c43902e193",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 723030,
+      "sha256": "5c2be23b5a3e5dae7669edcc18d88dd1cf2e037e9398b6c14e59c8d7ea09758c",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 773303,
+      "sha256": "b0a6a6b922f868f1379c885687470b2624b1e0a0290683d78c813b40e816d4e5",
+      "main": false
+    },
+    {
+      "file": "img/05.jpg",
+      "bytes": 751193,
+      "sha256": "72d222d4be4819a2c322475418629d7b6e3294109e3be72f44fa903f60005ae5",
+      "main": false
+    },
+    {
+      "file": "img/06.jpg",
+      "bytes": 1034191,
+      "sha256": "f8d9d0ed91d69d5d9cb2ff3d47798ac3d608fda4133cb2a901b20e61912fd96d",
+      "main": false
+    },
+    {
+      "file": "img/07.jpg",
+      "bytes": 928332,
+      "sha256": "d9526ed94ca93e358166bd801f362234fa9bdacb225a355e89b98cb89eab5bd5",
+      "main": false
+    },
+    {
+      "file": "img/08.jpg",
+      "bytes": 727086,
+      "sha256": "040e78b53bc39393dd7bdb11ad6b5e7f47e493e58b08e233c06ffe60473124c4",
+      "main": false
+    },
+    {
+      "file": "img/09.jpg",
+      "bytes": 906021,
+      "sha256": "749edbb836f3fccc8ac99f45970ea828c3fac06b9c17fab7f15c22cc002741b1",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-22T00:07:04",
+    "built_from": [
+      "input/ME260117/input.json",
+      "input/ME260117/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "d53f00b426ad1c21bfd569a6a4d5477d4c1c178b1e1072ae7c6172dffa1b206d",
+      "item.json": "fd1740709ff0f529c803e061073782ba162cd5a9d571d55ad7ffc91cd1154302"
+    },
+    "verified_by": "DSH 自动核验（可追溯性检查，待人工抽查）",
+    "verified_at": "2026-10-22T00:08:46"
+  }
+}

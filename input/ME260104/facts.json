@@ -1,0 +1,194 @@
+{
+  "schema": "facts/v1",
+  "product_id": "ME260104",
+  "category": "五金工具",
+  "status": "verified",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": [
+      "充电器输入电压未提供（Listing 不写充电器电压）",
+      "材质取自描述推断（acero），需人工核实"
+    ]
+  },
+  "identity": {
+    "brand": "Merion",
+    "brand_aliases": [],
+    "model": "M+W+1",
+    "title_raw": "Taladro Atornillador Eléctrico Inalámbrico Sin Escobillas"
+  },
+  "power": {
+    "type": "battery",
+    "voltage_v": null,
+    "battery_v": 16.8,
+    "charger_v": null,
+    "w": 500.0,
+    "claimed_w": 500,
+    "rated_claimed_w": null,
+    "claims_w": [
+      500
+    ],
+    "basis": "attribute",
+    "state_power": true,
+    "listing_policy": "state_verified_only",
+    "device_v": null,
+    "listing_voltage_v": 16.8
+  },
+  "size": {
+    "length_cm": null,
+    "width_cm": null,
+    "height_cm": null,
+    "diameter_cm": null,
+    "raw": []
+  },
+  "weight_kg": null,
+  "capacity": "",
+  "pieces": null,
+  "material": [
+    "acero"
+  ],
+  "material_basis": "description",
+  "extras": {
+    "lift_range_mm": null,
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-4623292464-taladro-atornillador-electrico-inalambrico-sin-escobillas-_JM",
+    "store_id": "MXMERION",
+    "core_keyword": "kit taladro atornillador inalambrico"
+  },
+  "package": {
+    "included": [
+      "Broca*6",
+      "Batería*1 (16.8V)",
+      "Eje flexible (200 mm)*1",
+      "Cargador*1",
+      "Bit de lote*6",
+      "Manga*9",
+      "Caja de papel*1",
+      "Varilla de extensión*1",
+      "Adaptador*1"
+    ],
+    "not_included": [],
+    "source": "description"
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "missing"
+  },
+  "features": [
+    "luz LED",
+    "velocidad variable",
+    "función destornillador",
+    "función reversa"
+  ],
+  "usage": [],
+  "specs": {
+    "Velocidad máxima de rotación": "1,650 rpm",
+    "Velocidad mínima de rotación": "450 rpm"
+  },
+  "raw_attributes": {
+    "Marca": "Merion",
+    "Línea": "Power Tools",
+    "Modelo": "M+W+1",
+    "Color": "Verde",
+    "Voltaje": "16.8V",
+    "Potencia": "500 W",
+    "Tamaño del mandril": "10 mm",
+    "Es inalámbrico": "Sí",
+    "Es de mango tipo espada": "No",
+    "Es angular": "No",
+    "Con luz LED": "Sí",
+    "Torque máximo": "36 Nm",
+    "Cantidad de baterías": "1",
+    "Incluye cargador": "Sí",
+    "Incluye batería": "Sí",
+    "Tipo de batería": "Ion de litio",
+    "Tiempo de carga de la batería": "5 h",
+    "Velocidad mínima de rotación": "450 rpm",
+    "Velocidad máxima de rotación": "1,650 rpm",
+    "Con velocidad variable": "Sí",
+    "Con función destornillador": "Sí",
+    "Con función percutor": "No",
+    "Con función reversa": "Sí",
+    "Otros accesorios incluidos": "Brocas"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 381.36,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 415689,
+      "sha256": "11f8af24e40e41cdac5a0661ddafbbd9d3ba81169d2f0d0bda888c56d6c19bd1",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 457596,
+      "sha256": "8e13777fcb8b5729021b1b2d2d4219744bc2179ae7587a93f2a40868291fbf6f",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 845574,
+      "sha256": "cb82664ff2fa30e77733226fcd8ac63806dc04789a593e941f284438c68619f5",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 595982,
+      "sha256": "2083b3766eef93a53c07907018b2dbb0cd6fb89f18689c7bab94b5cb0a231408",
+      "main": false
+    },
+    {
+      "file": "img/05.jpg",
+      "bytes": 564230,
+      "sha256": "7110405de4952e1e651662dc17234b028ea981aa31cff503684a55863bdc3a17",
+      "main": false
+    },
+    {
+      "file": "img/06.jpg",
+      "bytes": 651265,
+      "sha256": "4f558535868580b4aafc7cd76610fa0dce1e05a846fefa68693cab5626c2927a",
+      "main": false
+    },
+    {
+      "file": "img/07.jpg",
+      "bytes": 623882,
+      "sha256": "2a3a49ec353f4e2cd4119831b951e811cd67d2ad72f5a25e6af66ddbce6519c7",
+      "main": false
+    },
+    {
+      "file": "img/08.jpg",
+      "bytes": 641833,
+      "sha256": "159969bbb6bac07cf8dd88b7375d6287336939aacf57d6195de87f0e3a216b70",
+      "main": false
+    },
+    {
+      "file": "img/09.jpg",
+      "bytes": 635302,
+      "sha256": "5d30147523398e0027155bc8456b74ccb0e04f4075dd4794f00490944c43bc5d",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-22T00:07:04",
+    "built_from": [
+      "input/ME260104/input.json",
+      "input/ME260104/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "c3f1a7e6e0259d8fff443a0dd73a674f2f255456c82a01f5e160b61b132b5f7a",
+      "item.json": "8a14852675551c91f9df91fc58cac0e08b8836cc6d2aebaba39c6fb68ad8e9c9"
+    },
+    "verified_by": "DSH 自动核验（可追溯性检查，待人工抽查）",
+    "verified_at": "2026-10-22T00:08:46"
+  }
+}

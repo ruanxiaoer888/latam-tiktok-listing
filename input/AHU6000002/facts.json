@@ -1,0 +1,187 @@
+{
+  "schema": "facts/v1",
+  "product_id": "AHU6000002",
+  "category": "五金工具",
+  "status": "verified",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": [
+      "描述出现 ['110V']，与属性 127V 不一致",
+      "描述尺寸「- Tamaño del paquete (L x W x H): 26 x 17 x 6cm」未标单位，按 cm 处理，需核实"
+    ]
+  },
+  "identity": {
+    "brand": "Merion",
+    "brand_aliases": [],
+    "model": "MH1",
+    "title_raw": "Kit De Soldador Eléctrico De Temperatura Regulable 60w"
+  },
+  "power": {
+    "type": "corded",
+    "voltage_v": 127.0,
+    "battery_v": null,
+    "charger_v": null,
+    "w": 60.0,
+    "claimed_w": 60,
+    "rated_claimed_w": null,
+    "claims_w": [
+      60
+    ],
+    "basis": "attribute",
+    "state_power": true,
+    "listing_policy": "state_verified_only",
+    "device_v": null,
+    "listing_voltage_v": 127.0
+  },
+  "size": {
+    "length_cm": 26.0,
+    "width_cm": 17.0,
+    "height_cm": 6.0,
+    "diameter_cm": null,
+    "raw": [
+      "- Tamaño del paquete (L x W x H): 26 x 17 x 6cm"
+    ]
+  },
+  "weight_kg": null,
+  "capacity": "",
+  "pieces": null,
+  "material": [],
+  "material_basis": null,
+  "extras": {
+    "lift_range_mm": null,
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-2786869841-kit-de-soldador-electrico-de-temperatura-regulable-60w-_JM",
+    "store_id": "CNHYHL-MXF",
+    "core_keyword": "kit de soldador electrico"
+  },
+  "package": {
+    "included": [
+      "1 * Batería",
+      "1 * multímetro digital",
+      "1 * juego de destornilladores",
+      "2 * cable de prueba",
+      "1 * soldador (temperatura ajustable)",
+      "1 * soporte de soldador",
+      "5 * punta de soldador",
+      "1 * cable de estaño",
+      "1 * pelacables",
+      "2 * alambres delgados",
+      "1 * bomba de desoldar",
+      "1*Pinzas curvas",
+      "1*Pinzas rectas",
+      "1 * pinzas de punta de aguja",
+      "1 * esponja"
+    ],
+    "not_included": [],
+    "source": "description"
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "missing"
+  },
+  "features": [
+    "luz LED",
+    "punta removible"
+  ],
+  "usage": [],
+  "specs": {},
+  "raw_attributes": {
+    "Marca": "Merion",
+    "Modelo": "MH1",
+    "Color": "Azul claro",
+    "Voltaje": "127V",
+    "Tipo de soldador eléctrico": "Lápiz",
+    "Potencia": "60 W",
+    "Diámetro de la punta": "4 mm",
+    "Material de la punta": "Acero inoxidable",
+    "Con luz LED": "Sí",
+    "Con punta removible": "Sí"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 726.4,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 684100,
+      "sha256": "7ecfe116696a9681658b76781501c44a985e1c6c64575e26576ad30269bdbf06",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 139990,
+      "sha256": "e5e689bb3c6f7634fec79924c3f6c87c9265b1518428dd3a91f02b1c5736eda0",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 277517,
+      "sha256": "241935f624fe3e1d5727e6c0c2844e554ddb198316ecbc5acc8e6ef9f17b0105",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 337543,
+      "sha256": "fb3486217816983ace2961f3f199794178e09835d35c04da1efaf425d87080f8",
+      "main": false
+    },
+    {
+      "file": "img/05.jpg",
+      "bytes": 272208,
+      "sha256": "5b75c7907a90c87f849a952905b5ed3d0ee1ed05bf52fdb12e6e456f9c5acdd5",
+      "main": false
+    },
+    {
+      "file": "img/06.jpg",
+      "bytes": 246415,
+      "sha256": "8946dfda55a75d90ad96808c6f9516afb53757b016eabdd686dd6834ffa7d78a",
+      "main": false
+    },
+    {
+      "file": "img/07.jpg",
+      "bytes": 223413,
+      "sha256": "084369a4f7831680cc18aee1ead8fa4b2caddd8e8f6c7c53176f6645ec8bdbbd",
+      "main": false
+    },
+    {
+      "file": "img/08.jpg",
+      "bytes": 224600,
+      "sha256": "4d1936b4bc3b29c983194ea6024efbfe39ae5ed605b77abc45e618fa89014791",
+      "main": false
+    },
+    {
+      "file": "img/09.jpg",
+      "bytes": 268257,
+      "sha256": "fc797ef3f26fd28285888a39cd842e917398412118448d4db5cce99e8c4b8a9b",
+      "main": false
+    },
+    {
+      "file": "img/10.jpg",
+      "bytes": 172904,
+      "sha256": "b8907eb0798c4f7ad36e50c6627dc92df6275596e1088e1bcdab81129f7b1df7",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-22T00:07:03",
+    "built_from": [
+      "input/AHU6000002/input.json",
+      "input/AHU6000002/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "5d8f914c97f7b76d2c6c556946afff602427deec80c3e3de9d5fa3786e7188d5",
+      "item.json": "86f2f3a3877a26bd39ed9a1e5eeb050f01a219e5af8b03fcbeefe8cca821d367"
+    },
+    "verified_by": "DSH 自动核验（可追溯性检查，待人工抽查）",
+    "verified_at": "2026-10-22T00:08:46"
+  }
+}

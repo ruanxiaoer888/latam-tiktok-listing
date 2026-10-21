@@ -1,0 +1,183 @@
+{
+  "schema": "facts/v1",
+  "product_id": "A2220808M1",
+  "category": "汽车摩托",
+  "status": "draft",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": [
+      "描述尺寸「3 tamaños de tubo receptor: 2-3 / 4x 3」未标单位，按 cm 处理，需核实"
+    ]
+  },
+  "identity": {
+    "brand": "Merion",
+    "brand_aliases": [],
+    "model": "Merion",
+    "title_raw": "Kit De Prensa De Junta Esférica Y Herramienta De Extracción"
+  },
+  "power": {
+    "type": "manual",
+    "voltage_v": null,
+    "battery_v": null,
+    "charger_v": null,
+    "w": null,
+    "claimed_w": null,
+    "rated_claimed_w": null,
+    "claims_w": [],
+    "basis": null,
+    "state_power": false,
+    "listing_policy": "state_verified_only",
+    "device_v": null,
+    "listing_voltage_v": null
+  },
+  "size": {
+    "length_cm": 3.0,
+    "width_cm": 2.0,
+    "height_cm": 3.0,
+    "diameter_cm": null,
+    "raw": [
+      "3 tamaños de tubo receptor: 2-3 / 4x 3"
+    ]
+  },
+  "weight_kg": 24.0,
+  "capacity": "",
+  "pieces": 10.0,
+  "material": [
+    "Acero"
+  ],
+  "material_basis": "attribute",
+  "extras": {
+    "lift_range_mm": null,
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-1816105170-kit-de-prensa-de-junta-esferica-y-herramienta-de-extraccion-_JM",
+    "store_id": "CNMERION-MXF2",
+    "core_keyword": "kit prensa de junta esferica"
+  },
+  "package": {
+    "included": [
+      "Abrazadera en forma de C",
+      "Tubo de recepción*3",
+      "Cabeza de instalación",
+      "Cabeza de desmontaje",
+      "Tornillo",
+      "Plato de instalación",
+      "Plato receptor*2"
+    ],
+    "not_included": [],
+    "source": "attribute"
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "not_applicable"
+  },
+  "features": [],
+  "usage": [],
+  "specs": {},
+  "raw_attributes": {
+    "Marca": "Merion",
+    "Modelo": "Merion",
+    "Tipo de extractor": "Extractor de rulemanes",
+    "Cantidad de quijadas": "2",
+    "Formato de venta": "Pack",
+    "Unidades por pack": "10",
+    "Peso": "24 kg",
+    "Material": "Acero",
+    "Cantidad de piezas": "10",
+    "Es reversible": "Sí",
+    "Es hidráulico": "No",
+    "Con tornillos extractores": "No",
+    "Largo del tornillo": "42 cm",
+    "Largo de las quijadas": "2.75 cm",
+    "Apertura mínima del extractor": "5 cm",
+    "Apertura máxima del extractor": "10 cm",
+    "Capacidad de fuerza del extractor": "1 t",
+    "Accesorios incluidos": "Abrazadera en forma de C, Tubo de recepción*3, Cabeza de instalación, Cabeza de desmontaje, Tornillo, Plato de instalación, Plato receptor*2"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 1102.8,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 429545,
+      "sha256": "4be77d57f190b93e1ed03b0c74399aed14cddda8f66af827e484a85eaf0c0248",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 153433,
+      "sha256": "9794b5fc04ffe9c89592be8bab13cad1703d916e871f8fc089f2c001090f1829",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 162703,
+      "sha256": "e1775a3cffa6862410bf9ec668a7770737de9a8bcc5b5839f259c80091cb26b1",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 101108,
+      "sha256": "375b7b06908636735b46f848f27b1133af0de2d3dd2af1ea7af006e5ab7592ec",
+      "main": false
+    },
+    {
+      "file": "img/05.jpg",
+      "bytes": 123306,
+      "sha256": "ab4bcab6926811f8477b0c00982b91323550557b0d96582c055916d972e500af",
+      "main": false
+    },
+    {
+      "file": "img/06.jpg",
+      "bytes": 182901,
+      "sha256": "355f11bb9feabe262dd02384d954befb35fccf4a42118c49294f83d0cdd7d9ca",
+      "main": false
+    },
+    {
+      "file": "img/07.jpg",
+      "bytes": 182335,
+      "sha256": "df194a59b4d1fd93aed2687a2d432ccf079a81dadf1ec254d15fe86d456f3b90",
+      "main": false
+    },
+    {
+      "file": "img/08.jpg",
+      "bytes": 100212,
+      "sha256": "b3f6d9ff1d8d3e0a795cdd9aae05959aea2ae75436c7d2d0dd98aec5429e6cf8",
+      "main": false
+    },
+    {
+      "file": "img/09.jpg",
+      "bytes": 92497,
+      "sha256": "669a72ce2cb47ef9cbf101869684b3e907aa11bbbff652e6380c44be40fc95df",
+      "main": false
+    },
+    {
+      "file": "img/10.jpg",
+      "bytes": 185732,
+      "sha256": "7c7615c0bf9c8378f37e172fd81bca87ad2ae788e6ac9b0c25ebc7ed9cbe2da6",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-22T00:07:03",
+    "built_from": [
+      "input/A2220808M1/input.json",
+      "input/A2220808M1/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "3a979e01b2829fbd2b8c75609d2b204381c80857000e7611ead5bf15fd657ff7",
+      "item.json": "16cac96ca1f6e3da5f54570b4224a248109ad9563d4548d89460431cf722c1a6"
+    },
+    "verified_by": null,
+    "verified_at": null
+  }
+}

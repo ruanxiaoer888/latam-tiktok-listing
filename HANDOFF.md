@@ -252,3 +252,34 @@ listing-pipeline\            ← git 仓库根目录
 - **MercadoLibre**：只作为历史数据来源，本流水线不读写它；
 - **DSH**：技能加载与生成环境，版本不影响规则文件（纯文本 + Python）；
 - **Python**：3.9+，xlsx 输出需要 openpyxl（DSH 自带环境里有）。
+
+---
+
+## 9. 2026-10-22 批次记录（108 → 81）
+
+采集层扩到 **108 个 MX SKU**（`采集清单.md`：首批 15 + 公司新增 79 + 夜间补采 14），本批跑完整链路的结果：
+
+| 环节 | 结果 |
+|---|---|
+| `build_facts.py` | 108 个全部生成 `facts.json` + `img_manifest.csv` |
+| `check_facts.py` | READY=81 / PENDING=14 / QUARANTINED=13 |
+| `check_facts_quality.py --strict` | P0=0（8 条新 P0 → 隔离 8 个 + 修 2 个品牌字段互换）；P1=20 P2=52 仅提示 |
+| `check_certificates.py --strict` | 未登记 125 条（NOM-003 / UN38.3），**挡上架不挡生成** |
+| 生成 | 81 份 `output\批次20261022\listing-<SKU>.txt`（4 个执行者并行，同一份 `output\_batch\BRIEF-批次20261022.md`） |
+| `run_batch.py` 校验 | **P0=0 P1=0 P2-结构=50 P2-转化=0** |
+| 交付 | `批次结果.xlsx`（81 行含问题清单/待确认备注）、`待补数据清单.md`、`qa\报告\20261022\` md+csv |
+
+本批新增/修的东西：
+- `kb\_schemas\运动户外.schema.json`（第 4 个类目 schema）
+- `qa\facts_digest.py`（facts.json → 生成用摘要，Agent 批量写文案时读这个，不必读原图原描述）
+- `qa\make_review_notes.py`（事实卡 → `review_notes.json` + `待补数据清单.md`）
+- `qa\check_listing.py`：标题区间按类目取（汽摩 80–120）；分数英寸（`1/2 pulgada`）不再误报未换算；新增 `regex` 检查类型
+- `qa\denylist.json`：`teléfono/telefone` 从「站外导流」词表移除，改成 `MX/BR-P1-CONTACT` 正则（只抓"电话+数字"，不再误伤 `lámpara del teléfono`）
+
+数据层教训（补进 §5.3 的同类问题）：
+1. 美客多 `Marca` / `Modelo` 两个字段会互换（`20208202`：Marca=ED-02、Modelo=ATVERCE）→ 用 `overrides.json` 的 `set` 校正，不要当品牌冲突硬拦；
+2. 电池工具缺电压时**不要**拿充电器电压顶；
+3. 12V 车充类（电动千斤顶）不是 127V 市电，标题里的 `12v` 可作电压依据；
+4. 手工具（套筒/钻头套装）会被误判 `corded`，用 `overrides` 改 `power.type=manual` 即可解锁，不必补电压；
+5. 包装清单缺失是最高频硬缺（14 个 PENDING 里 9 个是它），补 `package.included` 后重跑 `build_facts --force` + `verify_facts` 就能进下一批。
+

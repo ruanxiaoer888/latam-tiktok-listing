@@ -1,0 +1,166 @@
+{
+  "schema": "facts/v1",
+  "product_id": "ZKU0422",
+  "category": "汽车摩托",
+  "status": "draft",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": [
+      "插电类缺电压属性",
+      "材质取自描述推断（acero inoxidable），需人工核实"
+    ]
+  },
+  "identity": {
+    "brand": "XPOLAR",
+    "brand_aliases": [],
+    "model": "X+D+4",
+    "title_raw": "Alarma Motocicle Bloqueo Freno Candados De Discos Seguridad"
+  },
+  "power": {
+    "type": "corded",
+    "voltage_v": null,
+    "battery_v": null,
+    "charger_v": null,
+    "w": null,
+    "claimed_w": null,
+    "rated_claimed_w": null,
+    "claims_w": [],
+    "basis": null,
+    "state_power": false,
+    "listing_policy": "state_verified_only",
+    "device_v": null,
+    "listing_voltage_v": null
+  },
+  "size": {
+    "length_cm": null,
+    "width_cm": 88.0,
+    "height_cm": 68.0,
+    "diameter_cm": null,
+    "raw": []
+  },
+  "weight_kg": 260.0,
+  "capacity": "",
+  "pieces": null,
+  "material": [
+    "acero inoxidable"
+  ],
+  "material_basis": "description",
+  "extras": {
+    "lift_range_mm": null,
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-4623819472-alarma-motocicle-bloqueo-freno-candados-de-discos-seguridad-_JM",
+    "store_id": "XPOLARMXF",
+    "core_keyword": "candado de disco moto"
+  },
+  "package": {
+    "included": [
+      "Batería de botón*6",
+      "Llave Hexagonal *1",
+      "bloqueo del panel de alarma*1",
+      "bolsa portátil*1",
+      "llave*2",
+      "línea de aviso*1"
+    ],
+    "not_included": [],
+    "source": "attribute"
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "missing"
+  },
+  "features": [
+    "alarma"
+  ],
+  "usage": [],
+  "specs": {},
+  "raw_attributes": {
+    "Marca": "XPOLAR",
+    "Modelo": "X+D+4",
+    "Altura": "68 cm",
+    "Ancho": "88 cm",
+    "Peso": "260 g",
+    "Tipo de candado": "De disco",
+    "Materiales": "carcasa de aleación de zinc",
+    "Accesorios incluidos": "Batería de botón*6, Llave Hexagonal *1, bloqueo del panel de alarma*1, bolsa portátil*1, llave*2, línea de aviso*1",
+    "Tipos de cierre": "Presión interna",
+    "Con alarma": "Sí",
+    "Con Bluetooth": "No",
+    "Con GPS": "No",
+    "Es smart": "No"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 217.92,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 322553,
+      "sha256": "3d262298dc5bf8b58175ca5de267e78717f596d5ab2e2ec2e9cb42a083250827",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 343627,
+      "sha256": "a883c689dd75a08b485c6a06077e39a227e8d9ba2c243dd78ef9512f3d5b4644",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 540990,
+      "sha256": "1200dfa0192458f4f5d4744549aa9074ce30263309862ea937e612f8ca194694",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 460498,
+      "sha256": "a709d5488d2b3b88a173c1ef07c60fe0fa8a7874cbf60b4a419dce23fa327569",
+      "main": false
+    },
+    {
+      "file": "img/05.jpg",
+      "bytes": 458202,
+      "sha256": "05fc5e32775b84dc5e2cee4d64e632b1ecc465a724859f4531d83821d32067ea",
+      "main": false
+    },
+    {
+      "file": "img/06.jpg",
+      "bytes": 660092,
+      "sha256": "194f4248019cb8fd84c8c32895783adc95aeff10825fb6958368098e1aa866fe",
+      "main": false
+    },
+    {
+      "file": "img/07.jpg",
+      "bytes": 487964,
+      "sha256": "e45ab722fee5bc11578278549dc6d433caab5389dfc83bf2253b62f8618fe171",
+      "main": false
+    },
+    {
+      "file": "img/08.jpg",
+      "bytes": 804973,
+      "sha256": "ed337dbaeaa841e82c684b923640513f66d9654a768bdd222141ab71743b0ddc",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-22T00:07:04",
+    "built_from": [
+      "input/ZKU0422/input.json",
+      "input/ZKU0422/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "3adc6ab98d9b81a37e3218f524ea04fcd41a7d5a23a710bd84864a74a15281fe",
+      "item.json": "257b502604664cfe430e953965a4aa5c603a5f851b7762c0d68897f90a1441c9"
+    },
+    "verified_by": null,
+    "verified_at": null
+  }
+}

@@ -200,7 +200,7 @@
   "unknowns": [],
   "_meta": {
     "rules_version": "v1.3",
-    "built_at": "2026-10-21T15:37:15",
+    "built_at": "2026-10-22T00:07:04",
     "built_from": [
       "input/ATVMX11700/input.json",
       "input/ATVMX11700/item.json"

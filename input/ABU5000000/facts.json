@@ -2,7 +2,7 @@
   "schema": "facts/v1",
   "product_id": "ABU5000000",
   "category": "五金工具",
-  "status": "draft",
+  "status": "verified",
   "gates": {
     "hard_blocks": [],
     "warnings": [
@@ -171,7 +171,7 @@
   "unknowns": [],
   "_meta": {
     "rules_version": "v1.3",
-    "built_at": "2026-10-21T15:37:15",
+    "built_at": "2026-10-22T00:07:03",
     "built_from": [
       "input/ABU5000000/input.json",
       "input/ABU5000000/item.json"
@@ -180,7 +180,7 @@
       "input.json": "5fc74749f8bb94a71a1383f809159dba5ad3fc5a696d0de72db47071059c35f5",
       "item.json": "86952b3c54ccb704942b5ecb194950e7339d22e68d7f6dad797b454df184fbc0"
     },
-    "verified_by": null,
-    "verified_at": null
+    "verified_by": "DSH 自动核验（可追溯性检查，待人工抽查）",
+    "verified_at": "2026-10-22T00:08:46"
   }
 }

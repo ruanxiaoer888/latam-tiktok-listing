@@ -1,0 +1,129 @@
+{
+  "schema": "facts/v1",
+  "product_id": "BKU0000002",
+  "category": "五金工具",
+  "status": "draft",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": [
+      "充电器输入电压未提供（Listing 不写充电器电压）"
+    ]
+  },
+  "identity": {
+    "brand": "Atverce",
+    "brand_aliases": [],
+    "model": "MT-5",
+    "title_raw": "Batería Repuesto Taladro Litio 21v 1500 Mah Atverce"
+  },
+  "power": {
+    "type": "battery",
+    "voltage_v": null,
+    "battery_v": 21.0,
+    "charger_v": null,
+    "w": null,
+    "claimed_w": null,
+    "rated_claimed_w": null,
+    "claims_w": [],
+    "basis": null,
+    "state_power": false,
+    "listing_policy": "state_verified_only",
+    "device_v": null,
+    "listing_voltage_v": 21.0
+  },
+  "size": {
+    "length_cm": 10.9,
+    "width_cm": 7.3,
+    "height_cm": 4.5,
+    "diameter_cm": null,
+    "raw": []
+  },
+  "weight_kg": null,
+  "capacity": "1,500 Ah",
+  "pieces": null,
+  "material": [],
+  "material_basis": null,
+  "extras": {
+    "lift_range_mm": null,
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-3691981544-bateria-repuesto-taladro-litio-21v-1500-mah-atverce-_JM",
+    "store_id": "FANNY6688",
+    "core_keyword": "bateria de repuesto taladro 21v"
+  },
+  "package": {
+    "included": [],
+    "not_included": [
+      "cargador"
+    ],
+    "source": null
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "missing"
+  },
+  "features": [],
+  "usage": [],
+  "specs": {},
+  "raw_attributes": {
+    "Marca": "Atverce",
+    "Modelo": "MT-5",
+    "Formato de venta": "Unidad",
+    "Altura": "4.5 cm",
+    "Ancho": "7.3 cm",
+    "Largo": "10.9 cm",
+    "Materiales de la batería": "Litio",
+    "Voltaje de la batería": "21V",
+    "Capacidad de la batería": "1,500 Ah",
+    "Herramientas eléctricas recomendadas": "Taladro"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 500,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 105510,
+      "sha256": "959cf5a721a9165e5b2217de2465f8affb853c7583ac3c8ecb043c2b3bae4752",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 66185,
+      "sha256": "0525e04e818b54c3abba191ff7a7a7b31a8cc4a8a227d03e85e550b8261b57da",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 171825,
+      "sha256": "e97eb32ce7e80a6fdd54b9152f4d9337f06e819870d99cbe242b7a8b30ad6285",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 129593,
+      "sha256": "5c0712dadeb4e87027a442c48f153ee38ccde4f235b9d9e185e485fbebbed8ab",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-22T00:07:04",
+    "built_from": [
+      "input/BKU0000002/input.json",
+      "input/BKU0000002/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "cbf724117c1706f3369b8b6d6233667f92b2bd93fa635e2984da8e8c1b561523",
+      "item.json": "05a119a67d608d2dedf2f0afae5c36b4deeb58661fde607cc6870fa9cc5c6536"
+    },
+    "verified_by": null,
+    "verified_at": null
+  }
+}

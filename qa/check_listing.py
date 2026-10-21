@@ -72,6 +72,9 @@ STOPWORDS = {"de", "del", "la", "el", "los", "las", "y", "o", "para", "con", "en
 # 英制单位残留（V3.2 要求全部换算公制）
 UNIT_RE = re.compile(r"\d+(?:[.,]\d+)?\s?(inch|pulgadas?|pulg\.?|lbs?|oz)\b", re.I)
 
+# 标题建议区间更宽的类目（汽配要放适配车型/年款/位置，骨架规定 80–120）
+AUTOPARTS_CATS = {"汽车摩托", "autoparts", "automotriz"}
+
 
 def die(msg, code=2):
     """统一报错出口：写 stderr（UTF-8）并给指定退出码。"""
@@ -218,6 +221,7 @@ def check_row(row, site, cfg, g, cats=None, default_cat=""):
     findings = []
     title, desc = row.get("title", ""), row.get("desc", "")
     body = f"{title}\n{desc}"
+    cat = (row.get("category") or default_cat or "").strip()
 
     def add(sev, cid, label, field, snip, fix="", pos=-1, conv=False):
         findings.append({"severity": sev, "id": cid, "label": label,
@@ -256,9 +260,13 @@ def check_row(row, site, cfg, g, cats=None, default_cat=""):
                 "标题", f"当前 {len(title)} 字符：{title}", "补充品类词与核心规格")
         else:
             lo, hi = tcfg["recommended"]
+            # 汽车摩托（汽配）标题建议区间更宽：适配车型/年款要占位
+            if cat in AUTOPARTS_CATS and tcfg.get("autoparts"):
+                lo, hi = tcfg["autoparts"]
             if not (lo <= len(title) <= hi):
                 add("P2", f"{site}-P2-TITLE-LEN", f"标题不在建议区间 {lo}-{hi}（移动端）",
-                    "标题", f"当前 {len(title)} 字符", "压缩到 60-80 更利于手机端展示")
+                    "标题", f"当前 {len(title)} 字符",
+                    f"压缩到 {lo}-{hi} 更利于手机端展示" + ("（汽配优先放适配信息）" if lo >= 80 else ""))
 
     # P2：核心词覆盖（不要求整句连续命中，按"词"判断；忽略重音和虚词）
     kw = (row.get("keyword") or "").strip()
@@ -296,12 +304,17 @@ def check_row(row, site, cfg, g, cats=None, default_cat=""):
 
     # P2：度量衡未换算（V3.2 硬规则：inch/lb/oz 必须转公制）
     # 例外：同一处已经同时给出 cm/mm 的，视为已换算（如 "12 Pulgadas (30.48 cm)"）
+    # 例外 2：分数英寸是套筒/批头的「规格代号」（1/2 pulgada、3/8"），不是待换算的测量值
     m = UNIT_RE.search(body)
-    if m:
+    while m:
         window = body[max(0, m.start() - 30): m.end() + 30]
-        if not re.search(r"\d+\s?(cm|mm)\b", window, re.I):
-            add("P2", f"{site}-P2-UNIT", "度量衡未换算成公制", "描述",
-                snippet(body, m.start()), "inch→cm、lb→kg、oz→ml；本地只认公制")
+        fractional = body[max(0, m.start() - 1):m.start()] == "/"
+        if fractional or re.search(r"\d+\s?(cm|mm)\b", window, re.I):
+            m = UNIT_RE.search(body, m.end())
+            continue
+        add("P2", f"{site}-P2-UNIT", "度量衡未换算成公制", "描述",
+            snippet(body, m.start()), "inch→cm、lb→kg、oz→ml；本地只认公制")
+        break
 
     # P2：价格未带币种（V3.2 硬规则）
     cur = cfg.get("currency", "")
@@ -335,6 +348,16 @@ def check_row(row, site, cfg, g, cats=None, default_cat=""):
                     field = "标题" if re.search(re.escape(term), title, re.I) else "描述"
                     add(c["severity"], c["id"], c["label"], field,
                         snippet(body, m.start()), c.get("fix", ""), m.start())
+        elif ctype == "regex":
+            if any(f["id"] == c["id"] for f in findings):
+                continue
+            for pat in c.get("patterns", []):
+                m = re.search(pat, body, re.I)
+                if m:
+                    add(c["severity"], c["id"], c["label"],
+                        "标题" if m.start() < len(title) else "描述",
+                        snippet(body, m.start()), c.get("fix", ""), m.start())
+                    break
         elif ctype == "foreign":
             if any(f["id"] == c["id"] for f in findings):
                 continue

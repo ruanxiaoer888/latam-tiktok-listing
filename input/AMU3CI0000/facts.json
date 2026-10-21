@@ -2,7 +2,7 @@
   "schema": "facts/v1",
   "product_id": "AMU3CI0000",
   "category": "五金工具",
-  "status": "draft",
+  "status": "verified",
   "gates": {
     "hard_blocks": [],
     "warnings": [
@@ -158,7 +158,7 @@
   "unknowns": [],
   "_meta": {
     "rules_version": "v1.3",
-    "built_at": "2026-10-21T15:37:15",
+    "built_at": "2026-10-22T00:07:03",
     "built_from": [
       "input/AMU3CI0000/input.json",
       "input/AMU3CI0000/item.json"
@@ -167,7 +167,7 @@
       "input.json": "0a5fc28f19d8d1757a35270d1602c8b8588dc38910d647577e6b6ba409ab9902",
       "item.json": "accc1089645e0f0c46d64c0f5834adcf593a7f4b493d517c71e0cfeee0086199"
     },
-    "verified_by": null,
-    "verified_at": null
+    "verified_by": "DSH 自动核验（可追溯性检查，待人工抽查）",
+    "verified_at": "2026-10-22T00:08:46"
   }
 }

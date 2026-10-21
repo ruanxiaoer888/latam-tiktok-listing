@@ -2,7 +2,7 @@
   "schema": "facts/v1",
   "product_id": "ZK2604270H",
   "category": "五金工具",
-  "status": "draft",
+  "status": "verified",
   "gates": {
     "hard_blocks": [],
     "warnings": [
@@ -184,7 +184,7 @@
   "unknowns": [],
   "_meta": {
     "rules_version": "v1.3",
-    "built_at": "2026-10-21T15:37:16",
+    "built_at": "2026-10-22T00:07:04",
     "built_from": [
       "input/ZK2604270H/input.json",
       "input/ZK2604270H/item.json"
@@ -193,7 +193,7 @@
       "input.json": "98fc71e0f88c819c38d84649755907082fc88278b9e52cab95829f92f4963a17",
       "item.json": "a5d7dd365a29b4555b9643fc9f4dd4d640f3d014e1e4699efad02abad10a998d"
     },
-    "verified_by": null,
-    "verified_at": null
+    "verified_by": "DSH 自动核验（可追溯性检查，待人工抽查）",
+    "verified_at": "2026-10-22T00:08:46"
   }
 }

@@ -1,0 +1,187 @@
+{
+  "schema": "facts/v1",
+  "product_id": "AMU6000003",
+  "category": "五金工具",
+  "status": "verified",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": [
+      "描述出现 ['110V']，与属性 127V 不一致"
+    ]
+  },
+  "identity": {
+    "brand": "Merion",
+    "brand_aliases": [],
+    "model": "MD1",
+    "title_raw": "28 En 1 Kit De Soldador Eléctrico De Temperatura Regulable"
+  },
+  "power": {
+    "type": "corded",
+    "voltage_v": 127.0,
+    "battery_v": null,
+    "charger_v": null,
+    "w": 60.0,
+    "claimed_w": 60,
+    "rated_claimed_w": null,
+    "claims_w": [
+      60
+    ],
+    "basis": "attribute",
+    "state_power": true,
+    "listing_policy": "state_verified_only",
+    "device_v": null,
+    "listing_voltage_v": 127.0
+  },
+  "size": {
+    "length_cm": 26.5,
+    "width_cm": 15.5,
+    "height_cm": 5.0,
+    "diameter_cm": null,
+    "raw": [
+      "- Tamaño del paquete (L x W x H): 26.5 x 15.5x 5.00 cm"
+    ]
+  },
+  "weight_kg": null,
+  "capacity": "",
+  "pieces": null,
+  "material": [],
+  "material_basis": null,
+  "extras": {
+    "lift_range_mm": null,
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-3283064370-28-en-1-kit-de-soldador-electrico-de-temperatura-regulable-_JM",
+    "store_id": "CNMERION-MXF2",
+    "core_keyword": "kit de soldador electrico"
+  },
+  "package": {
+    "included": [
+      "1*Soldador eléctrico,",
+      "1*Bolígrafo soporte de alambre de estaño,",
+      "1*Soporte para cautín,",
+      "1*Dispositivo de succión de soldadura,",
+      "1*Pinzas curvas",
+      "1*Pinzas rectas",
+      "2 *Cable de alimentación de PVC,",
+      "1*Pelacables,",
+      "1*Esponja de limpieza",
+      "1*Multímetro digital,",
+      "2*Bolígrafo de prueba universal,",
+      "8*Cabeza de destornillador",
+      "1*Bolsa de almacenamiento fotovoltaica.",
+      "5*Puntas para cautin",
+      "1*Tubo de soldadura"
+    ],
+    "not_included": [],
+    "source": "description"
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "missing"
+  },
+  "features": [
+    "luz LED",
+    "punta removible"
+  ],
+  "usage": [],
+  "specs": {},
+  "raw_attributes": {
+    "Marca": "Merion",
+    "Modelo": "MD1",
+    "Color": "Azul oscuro",
+    "Voltaje": "127V",
+    "Tipo de soldador eléctrico": "Lápiz",
+    "Potencia": "60 W",
+    "Diámetro de la punta": "4 mm",
+    "Material de la punta": "Acero inoxidable",
+    "Con luz LED": "Sí",
+    "Con punta removible": "Sí",
+    "Incluye soporte": "Sí"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 467.22,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 532714,
+      "sha256": "229efa54835a716fb4800cb884897444ab81614b8467d73a95e7a7a5d29c33f4",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 476481,
+      "sha256": "fe06ffa814dfb7e2ab3260dc3474c109280dfe2a8ac511d2c8e62254ae72c1bb",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 221202,
+      "sha256": "8e36c2cbbb9a2e8bff7a3c196b432ed1457e76a3dce6a44dca5a5c0fde5e4e8e",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 317419,
+      "sha256": "ff4889d2bde6deac5dc14595d8db5655cc7cc8a502d90e174e94a69f67f9a575",
+      "main": false
+    },
+    {
+      "file": "img/05.jpg",
+      "bytes": 156476,
+      "sha256": "aa108a8fa0fb9e9418cb26375390cc1e322aa60ccac8e662dd618a43899be982",
+      "main": false
+    },
+    {
+      "file": "img/06.jpg",
+      "bytes": 201096,
+      "sha256": "18d7957ec0e995d626065e3af5aa918f27c7d972d1ee4a504d7ac95c000fbd27",
+      "main": false
+    },
+    {
+      "file": "img/07.jpg",
+      "bytes": 232733,
+      "sha256": "847d7dc7f532b54aaf5275c0ccc72de52c61f5cef30756c4cdaa2ea8b8fe21f9",
+      "main": false
+    },
+    {
+      "file": "img/08.jpg",
+      "bytes": 415492,
+      "sha256": "eafe1680a5fe29175cb2eb66bdf129c5fad59a33b502c093b3600fb954939e35",
+      "main": false
+    },
+    {
+      "file": "img/09.jpg",
+      "bytes": 533195,
+      "sha256": "c434e040846bf0124caad1eb21f368cdf768aa60841ce89830faa5c856fd002d",
+      "main": false
+    },
+    {
+      "file": "img/10.jpg",
+      "bytes": 258613,
+      "sha256": "8569a5f7388b74c3de4e357f8a83c4b679536ed673d854e4eed87665a4cfc27b",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-22T00:07:03",
+    "built_from": [
+      "input/AMU6000003/input.json",
+      "input/AMU6000003/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "4302b60c89cdd57a869f56922bd4cf021bb31cd8363767923d76e820ad125d9c",
+      "item.json": "ef5c72e4cf63a1d47ce507347042d9b7b7510633846cc3a76467a4d4db2a9e2f"
+    },
+    "verified_by": "DSH 自动核验（可追溯性检查，待人工抽查）",
+    "verified_at": "2026-10-22T00:08:46"
+  }
+}

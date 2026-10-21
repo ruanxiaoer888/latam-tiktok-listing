@@ -1,0 +1,175 @@
+{
+  "schema": "facts/v1",
+  "product_id": "AHU6000000",
+  "category": "五金工具",
+  "status": "verified",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": [
+      "描述出现 ['110V']，与属性 127V 不一致"
+    ]
+  },
+  "identity": {
+    "brand": "Atverce",
+    "brand_aliases": [],
+    "model": "CM01",
+    "title_raw": "Mezcladora Eléctrica De Pintura/cemento Atverce 6 Velocidade"
+  },
+  "power": {
+    "type": "corded",
+    "voltage_v": 127.0,
+    "battery_v": null,
+    "charger_v": null,
+    "w": 2100.0,
+    "claimed_w": 2100,
+    "rated_claimed_w": null,
+    "claims_w": [
+      2100
+    ],
+    "basis": "attribute",
+    "state_power": true,
+    "listing_policy": "state_verified_only",
+    "device_v": null,
+    "listing_voltage_v": 127.0
+  },
+  "size": {
+    "length_cm": 29.0,
+    "width_cm": null,
+    "height_cm": null,
+    "diameter_cm": 0.6,
+    "raw": []
+  },
+  "weight_kg": null,
+  "capacity": "",
+  "pieces": null,
+  "material": [],
+  "material_basis": null,
+  "extras": {
+    "lift_range_mm": null,
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-3196148458-mezcladora-electrica-de-pinturacemento-atverce-6-velocidade-_JM",
+    "store_id": "CNHYHL-MXF",
+    "core_keyword": "mezcladora de pintura electrica"
+  },
+  "package": {
+    "included": [
+      "Mezclador"
+    ],
+    "not_included": [],
+    "source": "attribute"
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "missing"
+  },
+  "features": [],
+  "usage": [
+    "Cement mix, food mix, meat mix, paint mix"
+  ],
+  "specs": {
+    "Frecuencia": "50/60Hz",
+    "Cantidad de velocidades": "6",
+    "Máxima velocidad": "930 rpm"
+  },
+  "raw_attributes": {
+    "Marca": "Atverce",
+    "Modelo": "CM01",
+    "Tipo de mezclador": "Eléctrico",
+    "Voltaje": "127V",
+    "Diámetro": "0.6 cm",
+    "Largo": "29 cm",
+    "Frecuencia": "50/60Hz",
+    "Potencia": "2,100 W",
+    "Máxima velocidad": "930 rpm",
+    "Cantidad de velocidades": "6",
+    "Usos recomendados": "Cement mix, food mix, meat mix, paint mix",
+    "Accesorios incluidos": "Mezclador"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 1816,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 208519,
+      "sha256": "0f271b142e7a089a69cc9482af068f288bde48f985a83777ccada7370bf77070",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 155394,
+      "sha256": "6b4b4c68b0bee9f9e9c54dea079e098959dd16d84437c833e04b31bf621effa8",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 312497,
+      "sha256": "906d2e84533972b268bdb26a1a82a27db3ae8866fb9eeb4268aaa67fcd24cf1d",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 205204,
+      "sha256": "e8fbea3e94181500d1bb784fa71a862461a84b4fecdb2b0259bc2c356515a06a",
+      "main": false
+    },
+    {
+      "file": "img/05.jpg",
+      "bytes": 189173,
+      "sha256": "9037225ef9aa80835a4b9dea59510019c38ac7e93b23f47d7558413b7b5ef358",
+      "main": false
+    },
+    {
+      "file": "img/06.jpg",
+      "bytes": 282319,
+      "sha256": "6bfbbec98acdfb2cf806ae21c2ef61465f927e28c7bcd8222ed601a0fdaa9ac3",
+      "main": false
+    },
+    {
+      "file": "img/07.jpg",
+      "bytes": 237165,
+      "sha256": "904cf18fab90b8822c28f534ef8ceeb903f7e227f56c93554287bdca45d0843d",
+      "main": false
+    },
+    {
+      "file": "img/08.jpg",
+      "bytes": 477377,
+      "sha256": "c1353dec108fdde91bdbda50b49e06e2c21dd291307e925969e67526807a1dde",
+      "main": false
+    },
+    {
+      "file": "img/09.jpg",
+      "bytes": 548574,
+      "sha256": "d7cd4863ed87117f9c2b3000fffd4d33bc4ade29729600afce7e00e93e095def",
+      "main": false
+    },
+    {
+      "file": "img/10.jpg",
+      "bytes": 301344,
+      "sha256": "55a1096cf01e23d293334ba0cb0535764e6919f7801c2b9ac8183ec816124a07",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-22T00:07:03",
+    "built_from": [
+      "input/AHU6000000/input.json",
+      "input/AHU6000000/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "ac33a68deda25d6cb0929d911e37303551281630dac9c25b7a36276665768190",
+      "item.json": "c187492ef14372734d9bece0f565873dee060a2b51ebf58def8377090be4dcb2"
+    },
+    "verified_by": "DSH 自动核验（可追溯性检查，待人工抽查）",
+    "verified_at": "2026-10-22T00:08:46"
+  }
+}

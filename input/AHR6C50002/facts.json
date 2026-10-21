@@ -2,7 +2,7 @@
   "schema": "facts/v1",
   "product_id": "AHR6C50002",
   "category": "家电",
-  "status": "draft",
+  "status": "verified",
   "gates": {
     "hard_blocks": [],
     "warnings": [
@@ -178,7 +178,7 @@
   "unknowns": [],
   "_meta": {
     "rules_version": "v1.3",
-    "built_at": "2026-10-21T15:37:15",
+    "built_at": "2026-10-22T00:07:03",
     "built_from": [
       "input/AHR6C50002/input.json",
       "input/AHR6C50002/item.json"
@@ -187,7 +187,7 @@
       "input.json": "2324d0b8b53bd6041af576ac18403cb3ca278d200364b653733412c20fc4f1ea",
       "item.json": "b2d2defa5a910ece33130bed55c5880b972af8908c0ddb7385926e740db9318f"
     },
-    "verified_by": null,
-    "verified_at": null
+    "verified_by": "DSH 自动核验（可追溯性检查，待人工抽查）",
+    "verified_at": "2026-10-22T00:08:46"
   }
 }

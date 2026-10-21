@@ -157,8 +157,19 @@
           "severity": "P1",
           "type": "terms",
           "label": "站外导流",
-          "terms": ["whatsapp", "facebook", "instagram", "amazon", "mercado libre", "mercado pago", "teléfono", "telefono"],
+          "terms": ["whatsapp", "facebook", "instagram", "amazon", "mercado libre", "mercado pago"],
           "fix": "删除所有站外平台与联系方式"
+        },
+        {
+          "id": "MX-P1-CONTACT",
+          "severity": "P1",
+          "type": "regex",
+          "label": "站外联系方式（电话/加 WhatsApp）",
+          "patterns": [
+            "(?:tel[eé]fono|celular|whats(?:app)?|ll[aá]ma(?:nos|me)|cont[aá]cta(?:nos|me))\\s*(?:al|a|por)?\\s*[:：]?\\s*\\+?\\d{3,}",
+            "\\+52\\s*\\d[\\d\\s-]{6,}"
+          ],
+          "fix": "删除电话/联系引导；交易只在 TikTok Shop 内完成"
         },
         {
           "id": "MX-P1-UNVERIFIED",
@@ -221,8 +232,19 @@
           "severity": "P1",
           "type": "terms",
           "label": "站外导流",
-          "terms": ["whatsapp", "facebook", "instagram", "amazon", "mercado livre", "mercado pago", "telefone"],
+          "terms": ["whatsapp", "facebook", "instagram", "amazon", "mercado livre", "mercado pago"],
           "fix": "删除所有站外平台与联系方式"
+        },
+        {
+          "id": "BR-P1-CONTACT",
+          "severity": "P1",
+          "type": "regex",
+          "label": "站外联系方式（电话/加 WhatsApp）",
+          "patterns": [
+            "(?:telefone|celular|whats(?:app)?|ligue|liga(?:r)?|chama(?:r)?|fale\\s+com)\\s*(?:para|no|com)?\\s*[:：]?\\s*\\+?\\d{3,}",
+            "\\+55\\s*\\d[\\d\\s-]{6,}"
+          ],
+          "fix": "删除电话/联系引导；交易只在 TikTok Shop 内完成"
         },
         {
           "id": "BR-P1-UNVERIFIED",

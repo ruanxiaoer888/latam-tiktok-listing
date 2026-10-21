@@ -1,0 +1,182 @@
+{
+  "schema": "facts/v1",
+  "product_id": "ABU5000005",
+  "category": "五金工具",
+  "status": "verified",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": [
+      "充电器输入电压未提供（Listing 不写充电器电压）",
+      "电池类标 1800W 偏高（多为等效/峰值功率，不是持续功率）；Listing 不写瓦数",
+      "材质取自描述推断（acero），需人工核实"
+    ]
+  },
+  "identity": {
+    "brand": "Atverce",
+    "brand_aliases": [],
+    "model": "ATV-DLJ-61",
+    "title_raw": "Motosierra Eléctrica Inalámbrico Portátil  Podar 6in Atverce"
+  },
+  "power": {
+    "type": "battery",
+    "voltage_v": null,
+    "battery_v": 21.0,
+    "charger_v": null,
+    "w": null,
+    "claimed_w": 1800,
+    "rated_claimed_w": null,
+    "claims_w": [
+      1800
+    ],
+    "basis": "attribute",
+    "state_power": false,
+    "listing_policy": "do_not_state_power",
+    "device_v": null,
+    "listing_voltage_v": 21.0
+  },
+  "size": {
+    "length_cm": 30.0,
+    "width_cm": 12.0,
+    "height_cm": 11.0,
+    "diameter_cm": null,
+    "raw": [
+      "Tamaño del paquete: 300 * 120 * 110 mm / 11,81 * 4,72 * 4,33 pulgadas"
+    ]
+  },
+  "weight_kg": 1.5,
+  "capacity": "",
+  "pieces": null,
+  "material": [
+    "acero"
+  ],
+  "material_basis": "description",
+  "extras": {
+    "lift_range_mm": null,
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-3401419658-motosierra-electrica-inalambrico-portatil-podar-6in-atverce-_JM",
+    "store_id": "BARNEYMX",
+    "core_keyword": "motosierra electrica inalambrica"
+  },
+  "package": {
+    "included": [
+      "Tapa para espada"
+    ],
+    "not_included": [],
+    "source": "attribute"
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "missing"
+  },
+  "features": [
+    "arranque fácil",
+    "freno de seguridad"
+  ],
+  "usage": [],
+  "specs": {
+    "Largo de la barra": "6 cm",
+    "Nivel de presión sonora": "72 dBA"
+  },
+  "raw_attributes": {
+    "Marca": "Atverce",
+    "Modelo": "ATV-DLJ-61",
+    "Color": "Negro",
+    "Voltaje": "21V",
+    "Peso": "1.5 kg",
+    "Tipo de alimentación": "Batería",
+    "Potencia": "1.8 kW",
+    "Con arranque fácil": "Sí",
+    "Largo de la barra": "6 cm",
+    "Con lubricación automática": "No",
+    "Nivel de presión sonora": "72 dBA",
+    "Incluye accesorios": "Sí",
+    "Accesorios incluidos": "Tapa para espada",
+    "Voltaje de la batería": "21V",
+    "Velocidad máxima de la cadena": "5 m/s",
+    "Con ajuste automático de la cadena": "No",
+    "Incluye batería": "Sí",
+    "Con freno de seguridad": "Sí",
+    "Con sistema antivibración": "No"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 540.9,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 450449,
+      "sha256": "1f67b19e91294fd8eb6fcabc2f005a822e64b2a36d3837d20acc919c7fc9b26e",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 529728,
+      "sha256": "37d50dcca966318f19b1ad1bae760dc6b51fa0a9d2cd2246f7218776125a5dca",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 560373,
+      "sha256": "6c9f63b447613ba0de88fe92247338b2e3e167ff4c96977023f5e270733ba23d",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 736281,
+      "sha256": "0f93306b16642a8378aeeefaad66d1c0d505b478a3b51cf3527c07f7d5736dae",
+      "main": false
+    },
+    {
+      "file": "img/05.jpg",
+      "bytes": 980190,
+      "sha256": "1b925fb8bd1111f82051825812cc0785c101efad5f516ade0112a642100b7aa5",
+      "main": false
+    },
+    {
+      "file": "img/06.jpg",
+      "bytes": 502189,
+      "sha256": "fe84faf6968dbf65eb92c0d0aaa585ed1ec7b590836ad8603b74d4f8c5c2c1b3",
+      "main": false
+    },
+    {
+      "file": "img/07.jpg",
+      "bytes": 495079,
+      "sha256": "878d6ef112817d604b54585a47f00a93a81f0a5ffc73c0a8a322c324192587af",
+      "main": false
+    },
+    {
+      "file": "img/08.jpg",
+      "bytes": 709044,
+      "sha256": "8caf529ef56ca32d9faca0e7c694a02ef7eecb696a7d173ac6212ad5a9fe9878",
+      "main": false
+    },
+    {
+      "file": "img/09.jpg",
+      "bytes": 1006521,
+      "sha256": "99dac61d34ed33453f3f3b778e0e400cc12ef32214409d0a6ddc33e58279a8fd",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-22T00:07:03",
+    "built_from": [
+      "input/ABU5000005/input.json",
+      "input/ABU5000005/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "9cca2c6e427123796d834cf9f544fae391c7e5a43690a8a108b3cc574b6a3abd",
+      "item.json": "543743b93cff250971e5a827ea420ee8ed277c1743a785540897c61818201c3c"
+    },
+    "verified_by": "DSH 自动核验（可追溯性检查，待人工抽查）",
+    "verified_at": "2026-10-22T00:08:46"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "source": "数据质量哨兵 2026-10-22：标题写明 12v（车充 12V 供电的电动作业千斤顶），属性缺 Voltaje 字段导致电压为空。电压取自标题，口径为 12V 直流（点烟器供电），不是 127V 市电",
+  "set": {
+    "power.voltage_v": 12,
+    "power.voltage_basis": "title"
+  },
+  "add_warnings": [
+    "供电为 12V 直流（点烟器/电瓶夹），不是 127V 市电；Listing 不要写 127V"
+  ]
+}
