@@ -1,0 +1,14 @@
+# Line-ending policy: keep the repo stable across the home PC / office PC pair.
+# text=auto normalizes to LF in the index; Windows-only files get CRLF on checkout.
+* text=auto
+*.ps1 text eol=crlf
+*.cmd text eol=crlf
+*.sh text eol=lf
+.githooks/* text eol=lf
+
+# Never touch binary assets (git must not try to diff/normalize them).
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.xlsx binary
+*.zip binary

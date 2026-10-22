@@ -13,12 +13,28 @@
   python check_certificates.py --input-root ..\\input --site ALL --days 60
   python check_certificates.py --input-root ..\\input --strict   # 有缺失/过期时退出码 3
   python check_certificates.py --demo                            # 自检，不需要 input
+
+参数口径：
+  --site      auto（按 facts 的 site_profiles）/ MX / BR / ALL，大小写不敏感；
+              非法值直接参数错误（退出码 2），不再静默缩成"只查 GLOBAL 规则"
+  --today     覆盖今天日期，支持 YYYY-MM-DD / YYYY/MM/DD / YYYY.MM.DD / YYYY年MM月DD日；
+              非法日期报错退出 2，不静默回退成今天
+  --days      到期提醒窗口（天）
+
+认证要求里的 "min_voltage_v"：产品 power.voltage_v 存在且低于该值时，不判这条认证
+（用于 MX-NOM003 排除 12V 车载充电类；同一 SKU 的 UN38.3 等仍未受影响）。
+
+退出码：
+  0  正常
+  2  参数/台账/目录错误（含 --site 非法、--today 非法）
+  3  --strict 且存在阻断项（缺失/待确认/过期）
 """
 from __future__ import annotations
 
 import argparse
 import csv
 import json
+import re
 import sys
 from datetime import date, datetime, timedelta
 from pathlib import Path
@@ -48,6 +64,24 @@ WIRELESS_PAT = ("bluetooth", "bt ", "wifi", "wi-fi", "2.4g", "5.8g", "radio", "i
 # 因此只有在同时出现通信类词（bluetooth/wifi/2.4g/radio）时才算 ANATEL；
 # 单出现 inalambrico 不算，避免把电锯误判成无线模块。
 
+# has_battery（UN38.3）用：只认「有电池」的正面证据
+BATTERY_WORD = re.compile(r"bater[ií]a|bateria|battery|l[ií]tio|lithium|锂", re.I)
+# 和电池词出现在同一件包装物里，说明是"电瓶夹/搭电线/点烟器线/充电器"等配件，不是电池本体
+BATTERY_FAKE = ("pinza", "abrazadera", "cable", "encendedor", "cigarrillo", "cigarrillos",
+                "cargador", "charger", "fusible", "fuse", "manual", "instrucciones")
+# 否定值：Incluye batería = No / No incluye batería / sin batería / No aplica / 不含电池
+# 否定词只在「电池词附近」才算否定，避免 "sin escobillas … batería 21V" 这类误伤
+BATTERY_NEG_NEAR = re.compile(
+    r"(?:\bno\b|\bsin\b|\bnão\b|\bnao\b|\bnot\b|\bwithout\b|不包含|不含|无|未)\W+(?:\w+\W+){0,2}?"
+    r"(?:bater[ií]a|battery|litio|l[ií]tio|锂)"
+    r"|(?:bater[ií]a|battery|litio|l[ií]tio|锂)\W+(?:\w+\W+){0,2}?(?:\bno\b|\bnão\b|\bnao\b|\bnot\b|不|未)",
+    re.I)
+BATTERY_NEG_EXACT = {"no", "não", "nao", "false", "0", "ninguna", "ninguno", "n/a", "na",
+                     "no aplica", "no incluida", "no incluido", "not included", "none"}
+BATTERY_NEG_START = re.compile(r"^(no|sin|não|nao|not|without|不含|不包含|无|未)", re.I)
+BATTERY_AFFIRM = {"sí", "si", "yes", "true", "1", "incluida", "incluido", "incluye"}
+BATTERY_INCLUDE_HINT = ("incluye", "incluido", "incluida", "accesorios", "contenido", "contiene")
+
 
 def norm(s: str | None) -> str:
     return (s or "").strip().lower()
@@ -58,6 +92,22 @@ def is_placeholder(v) -> bool:
         return True
     s = str(v).strip()
     return s == "" or "待确认" in s or s.upper() in ("TBD", "N/A", "NA", "UNKNOWN")
+
+
+def _negated(key: str, val) -> bool:
+    """属性键/值是否明确否定「含电池」：No / No incluye / sin batería / No aplica…
+
+    否定词只在电池词附近才算（BATTERY_NEG_NEAR），避免把 "sin escobillas…" 误当否定。
+    键本身是电池字段（如 Incluye batería / Batería）时，值以 No/Sin/不 开头也算否定。
+    """
+    k, t = str(key or "").strip().lower(), str(val or "").strip().lower()
+    if t in BATTERY_NEG_EXACT:
+        return True
+    if BATTERY_NEG_NEAR.search(t):
+        return True
+    if BATTERY_WORD.search(k) and (BATTERY_NEG_START.match(t) or BATTERY_NEG_START.match(k)):
+        return True
+    return False
 
 
 def parse_date(v):
@@ -93,16 +143,55 @@ def load_facts(input_root: Path):
 
 
 def has_battery(facts: dict) -> bool:
+    """UN38.3 用：只认「有电池」的正面证据，不把配件/否定值当成电池。
+
+    正面证据（任一）：
+      - power.type == battery；
+      - power.battery_v 有值；
+      - package.included 里有一件明确是电池（排除电瓶夹/搭电线/点烟器线/充电器/保险丝/说明书）；
+      - raw_attributes 里「Incluye batería = sí/yes」、电池规格字段有值（如 Voltaje de la
+        batería: 21V），或「Accesorios incluidos: Batería」这类明确列入清单的表述。
+    否定证据：
+      - package.not_included 提到电池 → 无电池；
+      - raw_attributes 的键/值是 No / No incluye / sin batería / No aplica 等 → 跳过该条。
+    典型修掉的误报：「pinza/abrazadera de batería（电瓶夹）」「cable del encendedor」不算电池。
+    """
     power = facts.get("power") or {}
+    pkg = facts.get("package") or {}
+    # 1) 明确否定：包装清单写着不含电池
+    not_included = " ".join(str(x) for x in (pkg.get("not_included") or []))
+    if BATTERY_WORD.search(not_included):
+        return False
+    # 2) 强正面证据
     if norm(power.get("type")) == "battery":
         return True
-    pkg = facts.get("package") or {}
-    blob = " ".join(str(x) for x in (pkg.get("included") or []))
-    if any(k in blob.lower() for k in ("bater", "battery", "lítio", "lithium", "锂")):
+    if power.get("battery_v") not in (None, "", [], 0):
         return True
-    attrs = facts.get("raw_attributes") or {}
-    blob2 = " ".join(f"{k} {v}" for k, v in attrs.items()).lower()
-    return any(k in blob2 for k in (" bater", "battery", "batería", "bateria"))
+    # 3) 包装清单里明确含电池（同一件里出现电瓶夹/搭电线等配件词则跳过）
+    for item in (pkg.get("included") or []):
+        s = str(item)
+        if not BATTERY_WORD.search(s):
+            continue
+        if any(f in s.lower() for f in BATTERY_FAKE):
+            continue
+        return True
+    # 4) 原始属性：先排除否定值，再找正面证据
+    for k, v in (facts.get("raw_attributes") or {}).items():
+        key, val = str(k), str(v)
+        if not (BATTERY_WORD.search(key) or BATTERY_WORD.search(val)):
+            continue
+        if _negated(key, val):
+            continue
+        kl, vl = key.lower(), val.strip().lower()
+        if any(h in kl for h in BATTERY_INCLUDE_HINT) and vl in BATTERY_AFFIRM:
+            return True  # Incluye batería: Sí
+        if BATTERY_WORD.search(key) and val.strip() and not any(f in kl for f in BATTERY_FAKE):
+            return True  # Voltaje de la batería: 21V / Tipo de batería: Litio
+        if any(h in kl for h in BATTERY_INCLUDE_HINT) and BATTERY_WORD.search(val):
+            return True  # Accesorios incluidos: Batería, Brocas
+        if re.search(r"litio|lithium|l[ií]tio|锂|bater[ií]a\s+(recargable|de\s+litio)|电池组", val, re.I):
+            return True
+    return False
 
 
 def has_wireless(facts: dict) -> bool:
@@ -139,6 +228,16 @@ def req_matches(req: dict, facts: dict, site: str) -> bool:
         return False
     if when.get("wireless") is True and not has_wireless(facts):
         return False
+    # 电压下限：如 NOM-003 只覆盖 100V 以上电网电压，12V 车充不判（UN38.3 等不受影响）
+    min_v = req.get("min_voltage_v")
+    if min_v is not None:
+        raw_v = (facts.get("power") or {}).get("voltage_v")
+        try:
+            v = float(raw_v) if raw_v is not None else None
+        except (TypeError, ValueError):
+            v = None
+        if v is not None and v < float(min_v):
+            return False
     return True
 
 
@@ -341,15 +440,24 @@ def main() -> int:
     ap = argparse.ArgumentParser(description="认证台账检查器 v1.0（上架前合规卡口）")
     ap.add_argument("--input-root", default=str(DEFAULT_INPUT), help="商品目录（含 */facts.json）")
     ap.add_argument("--ledger", default=str(DEFAULT_LEDGER), help="认证台账 JSON")
-    ap.add_argument("--site", default="auto", help="auto（按 facts 的 site_profiles）/ MX / BR / ALL")
-    ap.add_argument("--today", default="", help="覆盖今天日期 YYYY-MM-DD（测试用）")
+    ap.add_argument("--site", default="AUTO", type=str.upper, choices=["AUTO", "MX", "BR", "ALL"],
+                    help="auto（按 facts 的 site_profiles）/ MX / BR / ALL，大小写不敏感")
+    ap.add_argument("--today", default="", help="覆盖今天日期 YYYY-MM-DD（也支持 /、.、中文年月日）")
     ap.add_argument("--days", type=int, default=60, help="到期提醒窗口（天）")
     ap.add_argument("--strict", action="store_true", help="有阻断项时退出码 3")
     ap.add_argument("--outdir", default=str(DEFAULT_OUTDIR), help="报告目录")
     ap.add_argument("--demo", action="store_true", help="自检，不使用 input")
     args = ap.parse_args()
 
-    today = parse_date(args.today) or date.today()
+    if args.today:
+        parsed = parse_date(args.today)
+        if parsed is None:
+            print(f"[ERROR] --today 非法日期：{args.today!r}；"
+                  f"应为 YYYY-MM-DD（也支持 YYYY/MM/DD、YYYY.MM.DD、YYYY年MM月DD日）", file=sys.stderr)
+            return 2
+        today = parsed
+    else:
+        today = date.today()
     if args.demo:
         return demo(today)
 

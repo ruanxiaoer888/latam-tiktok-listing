@@ -17,7 +17,9 @@ function Warn([string]$msg) { Write-Host "[ .. ] $msg" -ForegroundColor Yellow }
 function Fail([string]$msg) { Write-Host "[FAIL] $msg" -ForegroundColor Red; exit 1 }
 
 Step 1 "Check the workspace"
-foreach ($f in @("SKILL.md", "README.md", "skill", "qa")) {
+# kb\ is required by check_facts.py; collector\ is the second skill - a clone
+# without either one used to pass this check and still print ALL DONE.
+foreach ($f in @("SKILL.md", "README.md", "skill", "qa", "kb", "collector")) {
     if (-not (Test-Path (Join-Path $root $f))) { Fail "missing '$f' - is this the listing-pipeline folder?" }
 }
 Ok "workspace: $root"
@@ -58,6 +60,22 @@ if (Test-Path $syncCollector) {
     Warn "sync-collector-skill.ps1 not found; collector skill not installed"
 }
 
+Step "3c" "Install git hooks (pre-commit selftest)"
+$git = Get-Command git -ErrorAction SilentlyContinue
+if (-not $git) {
+    Warn "git not found; skipped core.hooksPath. Run 'git config core.hooksPath .githooks' manually."
+} else {
+    Push-Location $root
+    try {
+        & git config core.hooksPath .githooks
+        $hooksRc = $LASTEXITCODE
+    } finally {
+        Pop-Location
+    }
+    if ($hooksRc -ne 0) { Fail "git config core.hooksPath .githooks failed (exit=$hooksRc)" }
+    Ok "git hooks path: .githooks (pre-commit -> qa\selftest.py)"
+}
+
 Step 4 "Checker self-test (9 golden cases)"
 Push-Location (Join-Path $root "qa")
 try {
@@ -89,6 +107,16 @@ if ($FullCheck) {
     }
 }
 
+Step 6 "One-command regression self-test (qa\selftest.py)"
+$selftest = Join-Path $root "qa\selftest.py"
+if (-not (Test-Path $selftest)) {
+    Warn "qa\selftest.py not found; skipped the regression self-test"
+} else {
+    & $py $selftest
+    if ($LASTEXITCODE -ne 0) { Fail "qa\selftest.py failed (exit=$LASTEXITCODE)" }
+    Ok "regression self-test passed (4/4)"
+}
+
 Write-Host ""
 Write-Host "ALL DONE." -ForegroundColor Green
 Write-Host "Next:"
@@ -97,3 +125,5 @@ Write-Host "  2) Put the product images back under input\ (same folder layout)."
 Write-Host "  3) Run a batch when ready."
 Write-Host "  4) To collect new listings, make sure a residential exit is up FIRST,"
 Write-Host "     then load the skill 'mercadolibre-listing-collector' (collector\SKILL.md)."
+Write-Host "  5) After changing rules under skill\ / qa\ / collector\, run sync-all.cmd"
+Write-Host "     (syncs both skills, verifies SHA256, and warns if the DuMate copies are stale)."

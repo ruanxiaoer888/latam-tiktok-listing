@@ -28,7 +28,8 @@
       "severity": "block",
       "confirmed": true,
       "source_id": "NOM-003",
-      "note": "电动类才需要；手动/液压工具（power.type=manual）不触发"
+      "min_voltage_v": 100,
+      "note": "电动类才需要；手动/液压工具（power.type=manual）不触发；power.voltage_v<100（如 12V 车载充电）不判本条，UN38.3 等仍单独判"
     },
     {
       "id": "BR-INMETRO",
@@ -72,6 +73,8 @@
     "每季度核对一次：更新 verified_at，并把变更记到本文件底部 changelog。"
   ],
   "changelog": [
-    { "date": "2026-10-21", "change": "v1 建立：规则 + 官方来源；证书明细待现场收集（当前为空，检查结果全部为 missing）" }
+    { "date": "2026-10-21", "change": "v1 建立：规则 + 官方来源；证书明细待现场收集（当前为空，检查结果全部为 missing）" },
+    { "date": "2026-10-22", "change": "MX-NOM003 增加 min_voltage_v=100：power.voltage_v<100 的 12V 车载充电类不判 NOM-003（同 SKU 的 UN38.3 仍照常判）" },
+    { "date": "2026-10-22", "change": "check_certificates.has_battery 改为只认正面证据：排除 package.not_included 与 raw「Incluye batería=No」等否定值，电瓶夹/搭电线不再算电池；UN38.3 阻断 123→116（2 个 12V 千斤顶 + 5 个插电工具「Incluye batería=No」误报被摘掉）" }
   ]
 }

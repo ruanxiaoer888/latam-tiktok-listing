@@ -28,21 +28,26 @@ skill\类目\01..08-*.md   8 个类目包（双站标题公式/必带信息/FAQ/
 skill\案例库索引.md      9 条案例的类目映射、盲区、few-shot 使用规则
 skill\短视频脚本.md      可选模块 B（Hook 库/CTA 库/15-30 秒结构），默认不生成
 skill\属性映射.md        ML 属性 → TikTok 槽位映射规则（电池电压 vs 充电器电压等）
-kb\_schemas\             3 个类目事实 schema + _fields.md（字段字典）
+kb\_schemas\             4 个类目事实 schema（五金工具/汽车摩托/家电/运动户外）+ _fields.md（字段字典）
+                         **没有 schema 的类目（如「服装」「时尚配件」）不许生成**，见硬约束
 kb\README.md             事实库状态机（draft/verified/quarantined/blocked）+ 命令
 input\<SKU>\facts.json   事实卡：生成的唯一事实来源（verified 才可生成）
 qa\build_facts.py        input.json + overrides.json → facts.json
-qa\check_facts.py        事实卡门禁（必填/完整度 → kb\_index\完整度报告.md）
+qa\check_facts.py        事实卡门禁（必填/完整度 → kb\_index\完整度报告.md）；--fail-on-skip 有跳过即 exit 3
 qa\check_facts_quality.py 数据质量哨兵（品牌/电压/功率/单位口径，--strict 有 P0 退出 3）
-qa\check_certificates.py 认证卡口（NOM-003 / INMETRO / ANATEL / UN38.3）
+qa\check_certificates.py 认证卡口（NOM-003 / INMETRO / ANATEL / UN38.3；只挡上架不挡生成）
 qa\certifications.json   认证台账主本（规则 + 证书明细）
-qa\source_digest.py      input.json → output\_batch\digest.md（生成用摘要）
+qa\source_digest.py      input.json → output\_batch\digest.md（原始摘要）
+qa\facts_digest.py       facts.json → 生成用摘要（默认只输出 verified）
+qa\run_batch.py          批次卡口：门禁 + 映射 + 校验 + 出表（非 verified 默认拒绝，exit 3）
+qa\selftest.py           一键回归（4 组基线断言；pre-commit 调它）
 qa\denylist.json         机器可判规则（MX/BR 两套 + 8 类目必带信息）
 qa\check_listing.py      合规校验脚本（标准库，无第三方依赖）
 qa\测试样例.csv          回归用例（含 核心词 / 类目 两列）
-qa\报告\<日期>\          扫描输出
+qa\报告\<日期>\          扫描输出（check_listing 单独跑时写这里）
+output\_smoke\           每次 run_batch 的校验明细（run_batch_<时间戳>_<pid>\，不入库）
 source-gemini\           V3.2 原始知识库
-sync-to-skill.ps1 / .cmd 主本 → 全局技能目录 同步 + 自检
+sync-all.ps1 / .cmd      一次同步两个技能 → 全局技能目录 + SHA256 校验 + 三处状态表
 ```
 
 ## 使用步骤
@@ -50,8 +55,10 @@ sync-to-skill.ps1 / .cmd 主本 → 全局技能目录 同步 + 自检
 1. **先定站点**：MX 或 BR。**两站规则不通用，禁止混用**（西语倒标点、você/Tú、R$/MXN、127V/220V、NOM/INMETRO 全不同）。
 2. **先过三道门（生成前，零模型成本）**：
    - `python qa\check_facts.py` → 看 `READY`。**只有 `verified` 且无硬伤才允许生成**；`quarantined` / `blocked` / `draft` 一律不生成。
-   - `python qa\check_facts_quality.py --strict` → 有 P0 先修（品牌冲突、电压口径、功率物理不可能）。`--strict` 返回 3 表示不许生成。
-   - `python qa\check_certificates.py --input-root input --strict` → 认证缺登记/过期/待确认，"上架"会卡在这里（本批台账为空，全部 `missing` 是事实）。
+   - `python qa\check_facts.py --fail-on-skip` → 有 SKU 因类目 schema 未登记被跳过，退出码 3 → **该 SKU 不许生成**。
+   - `python qa\check_facts_quality.py --input-root input --strict` → 有 P0 先修（品牌冲突、电压口径、功率物理不可能）。`--strict` 返回 3 表示不许生成。
+   - `python qa\check_certificates.py --input-root input --strict` → 认证缺登记/过期/待确认，**"上架"会卡在这里，"生成"不受它约束**（本批台账为空，全部 `missing` 是事实）。
+   - `python qa\facts_digest.py` → 批量生成前读这份摘要（默认只输出 `verified`）；要排查时才加 `--status all --include-pending`。
 3. **读数（顺序固定）**：
    - **事实**：只读 `input\<SKU>\facts.json`。**不读原始描述、不读图片、不猜参数**——`power.state_power=false` 时不许写瓦数，`certification.status=missing` 时不许写 NOM/INMETRO/ANATEL。
    - **规则**：`skill\生成提示词.md`（模板）+ `skill\骨架.md` + `skill\转化层.md` + `skill\rules-<站点>.md` + `skill\类目\<最贴近的类目>.md`；要 few-shot 就按 `skill\案例库索引.md` 取同类目案例。
@@ -79,13 +86,19 @@ sync-to-skill.ps1 / .cmd 主本 → 全局技能目录 同步 + 自检
 - 禁 `Compra protegida`（MX）、`Compra garantida`（BR）——都是美客多品牌词
 - `100%` 只允许出现在材质成分语境（`100% acero inoxidable`），保证/效果语境一律禁
 - 物流与信任承诺（包邮、极速、货到付款）没有实际履约能力不得写；促销/折扣词只在后台活动真实存在时写
-- 事实只取 `facts.json`：`power.state_power=false` 时**禁止写瓦数**；属性与描述冲突以属性为准并备注；不确定的参数一律进「待确认清单」，不许编
-- 家电/电动工具/汽摩配/无线产品：先跑 `python qa\check_certificates.py --strict`；台账 `missing` 时**禁止**出现 NOM / INMETRO / ANATEL / UN38.3 字样（可写「uso seguro en casa」这类通用表达）
+- 事实只取 `facts.json`：**`status` 不是 `verified` 的 SKU 一律禁止生成**（`draft` / `quarantined` / `blocked` 都不行；`run_batch.py` 默认拒绝并 exit 3，`--allow-unverified` 只供调试）；**类目未登记 schema 的 SKU（被 `check_facts.py` 跳过的，如「服装」）同样禁止生成**——无门禁 = 不许出稿。`power.state_power=false` 时**禁止写瓦数**；属性与描述冲突以属性为准并备注；不确定的参数一律进「待确认清单」，不许编
+- 家电/电动工具/汽摩配/无线产品：先跑 `python qa\check_certificates.py --strict`；台账 `missing` 时**禁止**出现 NOM / INMETRO / ANATEL / UN38.3 字样（可写「uso seguro en casa」这类通用表达）。**认证只挡上架、不挡生成**；NOM-003 仅适用 127V 市电产品（12V 直流车充不触发）
 
 ## 输出
 
 - `output\<批次>.xlsx`：列名对齐 TikTok 后台批量上架模板
-- `qa\报告\<日期>\`：每次扫描的 md 报告 + csv 明细（含命中位置与修改建议）
+- `output\_smoke\run_batch_<时间戳>_<pid>\`：`run_batch.py` 每次校验的明细（独立目录、不入库）
+- `qa\报告\<日期>\`：`check_listing.py` 单独跑时的 md 报告 + csv 明细（含命中位置与修改建议）
+
+## 改规则之后
+
+- 跑 **`sync-all.cmd`**（一次同步两个技能 + SHA256 校验 + 三处状态表；老的 `sync-to-skill.cmd` 仍可用），否则 DSH 读到的还是旧规则；
+- 跑 **`python qa\selftest.py`**（4 组基线断言，全 PASS 才算没改坏）；提交时 `.githooks/pre-commit` 会自动跑一次。
 
 ## 边界
 

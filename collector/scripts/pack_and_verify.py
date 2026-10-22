@@ -3,9 +3,8 @@ r"""pack_and_verify.py — 打交付包 + 逐条校验包内内容（一条命�
 
 用法：
     python scripts/pack_and_verify.py
-    python scripts/pack_and_verify.py --input-root E:/AUSU/DSHProjects/Tiktok/listing-pipeline/input \
-        --out E:/AUSU/DSHProjects/Tiktok/listing-pipeline/ml-listing-input-108sku.zip \
-        --manifest E:/AUSU/DSHProjects/Tiktok/listing-pipeline/采集清单.md
+    python scripts/pack_and_verify.py --input-root ..\input ^
+        --out ..\ml-listing-input-<N>sku.zip --manifest ..\采集清单.md
 
 行为（照做，别改）：
   - 打包：<input-root> 下所有 SKU 目录（跳过 _ 开头）以 `input/<SKU>/...` 入包，可选带上采集清单

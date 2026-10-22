@@ -1,0 +1,11 @@
+# Python dependencies for listing-pipeline.
+#
+# System Python (the `python` on PATH) needs only openpyxl for the xlsx writers:
+#     python -m pip install -r requirements.txt
+# Pillow is used by collector\scripts\build_input.py and pack_and_verify.py for
+# image checks; without it the image-readability check cannot run.
+#
+# The DSH bundled python (dsh-primary-runtime) already ships both, so no install
+# is needed when using that interpreter.
+openpyxl>=3.1
+Pillow>=10

@@ -3,8 +3,9 @@ r"""
 事实卡门禁 v1.0：按 kb/_schemas/<类目>.schema.json 检查 15 份 facts.json。
 
 用法：
-  python qa\check_facts.py                 # 报告 + 退出码 0（有 blocked 时打印）
-  python qa\check_facts.py --fail-on-blocked  # 有 blocked 时退出码 3，便于接自动化
+  python qa\check_facts.py                 # 报告 + 退出码 0（只打印，不阻断）
+  python qa\check_facts.py --fail-on-blocked  # 存在 BLOCKED 或 FAIL 时退出码 3
+  python qa\check_facts.py --fail-on-skip     # 有 SKU 因类目 schema 未登记被跳过时退出码 3
   python qa\check_facts.py --only ABU5000000
 
 产出：
@@ -17,6 +18,11 @@ r"""
   draft + 缺必填                → 待人工补/核
   verified + 缺必填或硬伤       → FAIL（生成端必须拒绝）
   verified + 齐全 + 无硬伤      → READY（可生成）
+
+退出码：
+  0  正常（默认不阻断；未加 --fail-* 时即使有 BLOCKED/FAIL/跳过也返回 0）
+  2  参数/目录错误
+  3  --fail-on-blocked 且存在 BLOCKED 或 FAIL，或 --fail-on-skip 且存在被跳过的 SKU
 """
 import argparse
 import json
@@ -172,7 +178,7 @@ def check_one(d, schema):
     }
 
 
-def write_report(results, fail_on_blocked, skipped=None):
+def write_report(results, skipped=None):
     skipped = skipped or []
     INDEX_DIR.mkdir(parents=True, exist_ok=True)
     day = datetime.now().strftime("%Y-%m-%d %H:%M")
@@ -268,7 +274,10 @@ def main():
     ap = argparse.ArgumentParser(description="facts.json 门禁检查")
     ap.add_argument("--input-root", default=str(DEFAULT_INPUT))
     ap.add_argument("--only", default="")
-    ap.add_argument("--fail-on-blocked", action="store_true")
+    ap.add_argument("--fail-on-blocked", action="store_true",
+                    help="存在 BLOCKED 或 FAIL 时退出码 3")
+    ap.add_argument("--fail-on-skip", action="store_true",
+                    help="有 SKU 因类目 schema 未登记被跳过时退出码 3")
     args = ap.parse_args()
 
     root = Path(args.input_root).resolve()
@@ -299,18 +308,20 @@ def main():
     if not results:
         die("所有 SKU 的类目都缺少 schema，一个都没能检查；先补 kb\\_schemas\\")
 
-    counts = write_report(results, args.fail_on_blocked, skipped)
+    counts = write_report(results, skipped)
     print(f"样本 {len(results)} 个 | READY={counts.get('READY', 0)} FAIL={counts.get('FAIL', 0)} "
           f"BLOCKED={counts.get('BLOCKED', 0)} QUARANTINED={counts.get('QUARANTINED', 0)} "
           f"PENDING={counts.get('PENDING', 0)} "
-          f"DRAFT-OK={counts.get('DRAFT-OK', 0)}")
+          f"DRAFT-OK={counts.get('DRAFT-OK', 0)} | 跳过 {len(skipped)} 个（类目未登记）")
     for r in results:
         miss = f" 硬缺：{'、'.join(r['required_missing'])}" if r["required_missing"] else ""
         soft = f" 软缺：{'、'.join(r['recommended_missing'])}" if r["recommended_missing"] else ""
         blk = f" 阻断：{'；'.join(r['hard_blocks'])}" if r["hard_blocks"] else ""
         print(f"  {r['verdict']:<8} {r['product_id']:<12} {r['status']:<8}{miss}{soft}{blk}")
     print(f"\n报告：{INDEX_DIR / '完整度报告.md'}")
-    if args.fail_on_blocked and counts.get("BLOCKED", 0) > 0:
+    if args.fail_on_blocked and (counts.get("BLOCKED", 0) > 0 or counts.get("FAIL", 0) > 0):
+        raise SystemExit(3)
+    if args.fail_on_skip and skipped:
         raise SystemExit(3)
 
 

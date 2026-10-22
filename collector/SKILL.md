@@ -66,7 +66,7 @@ scripts\
 **把这两条路径先记下来**（下文示例用 `<工作区>` 和 `<技能>` 代替）：
 
 ```
-<工作区> = 你的 listing-pipeline 仓库根，例如 E:\AUSU\DSHProjects\Tiktok\listing-pipeline
+<工作区> = 你的 listing-pipeline 仓库根（clone 出来的那一层，随机器变化，不要写死盘符）
 <技能>   = 本 collector 目录，例如 <工作区>\collector
 ```
 

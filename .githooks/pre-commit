@@ -1,0 +1,28 @@
+#!/bin/sh
+# Pre-commit hook: run the pipeline regression self-test before every commit.
+# Installed by: git config core.hooksPath .githooks  (setup-new-pc.ps1 does it)
+# ASCII-only on purpose (works in Git for Windows sh and on Linux/macOS).
+# If no python is available the hook prints a hint and lets the commit through,
+# so a machine without Python is never blocked from committing.
+
+PY=""
+if command -v python >/dev/null 2>&1; then
+    PY="python"
+elif command -v python3 >/dev/null 2>&1; then
+    PY="python3"
+fi
+
+if [ -z "$PY" ]; then
+    echo "[pre-commit] python not found - skipped qa/selftest.py (commit allowed)."
+    exit 0
+fi
+
+echo "[pre-commit] running $PY qa/selftest.py --quiet ..."
+if "$PY" qa/selftest.py --quiet; then
+    exit 0
+fi
+
+echo ""
+echo "[pre-commit] selftest FAILED - commit blocked."
+echo "[pre-commit] Fix the pipeline, or run 'python qa/selftest.py' for details."
+exit 1
