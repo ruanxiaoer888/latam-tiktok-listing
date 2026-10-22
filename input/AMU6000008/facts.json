@@ -7,7 +7,9 @@
     "hard_blocks": [],
     "warnings": [
       "充电器输入电压未提供（Listing 不写充电器电压）",
-      "描述尺寸「2.Velocidad infinitamente variable, rotación rápid」未标单位，按 cm 处理，需核实"
+      "描述尺寸「2.Velocidad infinitamente variable, rotación rápid」未标单位，按 cm 处理，需核实",
+      "尺寸不可信，已置空：width_cm=2700（量级过大：2700 cm > 150 cm；取自非尺寸单位「2700 r/min」）",
+      "尺寸不可信，已置空：height_cm=2700（量级过大：2700 cm > 150 cm；取自非尺寸单位「2700 r/min」）"
     ]
   },
   "identity": {
@@ -33,8 +35,8 @@
   },
   "size": {
     "length_cm": 2.0,
-    "width_cm": 2700.0,
-    "height_cm": 2700.0,
+    "width_cm": null,
+    "height_cm": null,
     "diameter_cm": null,
     "raw": [
       "2.Velocidad infinitamente variable, rotación rápida de 2700 r/min: el interrupto"
@@ -190,6 +192,26 @@
       "item.json": "4d1a531a4b26f22681009c2dc888ff9cbe656ffc7c86c54727332e6fce1938f7"
     },
     "verified_by": "DSH 自动核验（可追溯性检查，待人工抽查）",
-    "verified_at": "2026-10-22T00:08:46"
+    "verified_at": "2026-10-22T00:08:46",
+    "size_fix": {
+      "at": "2026-10-22T19:27:03",
+      "by": "qa/fix_size_fields.py",
+      "fields": {
+        "width_cm": {
+          "old": 2700.0,
+          "reasons": [
+            "量级过大：2700 cm > 150 cm",
+            "取自非尺寸单位「2700 r/min」"
+          ]
+        },
+        "height_cm": {
+          "old": 2700.0,
+          "reasons": [
+            "量级过大：2700 cm > 150 cm",
+            "取自非尺寸单位「2700 r/min」"
+          ]
+        }
+      }
+    }
   }
 }

@@ -9,7 +9,7 @@
 | 路径 | 类型 | 说明 |
 |---|---|---|
 | `product_id` | string | 与目录名一致，如 `ABU5000000` |
-| `category` | string | 8 类目之一 |
+| `category` | string | 9 类目之一（与 `kb/_schemas/<类目>.schema.json` 对应；当前 5 个类目已登记 schema：五金工具 / 汽车摩托 / 家电 / 运动户外 / 服装） |
 | `status` | string | `draft` / `verified` / `blocked` |
 | `identity.brand` | string | 品牌（属性 `Marca`） |
 | `identity.brand_aliases` | string[] | 同公司可并列的品牌（如 `["Fanny"]`） |

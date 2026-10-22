@@ -6,12 +6,23 @@
 和 qa/check_facts.py 分工：
   - check_facts.py          按 schema 查「必填/完整度/门禁」，产出 kb/_index/完整度报告.md
   - check_facts_quality.py  查「字段之间对不对」（本文件）：品牌/型号冲突、电压口径、
-                            功率物理可能性、单位、价格币种、属性键值错位
+                            功率物理可能性、单位、尺寸口径、价格币种、属性键值错位
+
+尺寸口径（FQ-P0-SIZE-IMPLAUSIBLE，P0 阻断）：
+  size.length_cm / width_cm / height_cm / diameter_cm 任一非空字段命中以下任一条 → P0：
+  1) 量级不合理：> 150 cm 或 < 1 cm；
+  2) 取自非尺寸单位：原文出现 rpm / r/min / Nm / kg / W / V 等，数值却被写成 cm
+     （如「3200 RPM」→ width_cm=3200、「300 Nm」→ length_cm=300）；
+  3) mm 数值未 ÷10 直填成 cm（如原文「210 * 190 * 125mm」→ 210/190/125）；
+  输出带 SKU、字段、当前值、原文片段与建议（置 null 或按原文换算）。
+  历史垃圾值用 qa/fix_size_fields.py 一次性回填（默认 dry-run，--apply 才写）。
 
 用法：
   python check_facts_quality.py --input-root ..\\input
   python check_facts_quality.py --input-root ..\\input --strict   # 有 P0 时退出码 3
   python check_facts_quality.py --demo                            # 自检
+
+退出码：0 正常；2 参数/目录错误；3 --strict 且存在 P0（含尺寸 P0，有意为之）。
 
 不做的事：不修改 facts.json、不猜参数、不判认证真伪（认证走 check_certificates.py）。
 """
@@ -39,6 +50,89 @@ DEFAULT_OUTDIR = BASE / "报告"
 SEV_ORDER = {"P0": 0, "P1": 1, "P2": 2}
 SEV_LABEL = {"P0": "阻断", "P1": "核实", "P2": "提示"}
 PLACEHOLDERS = {"", "待确认", "tbd", "n/a", "na", "none", "null", "-"}
+
+# ---------- 尺寸口径（FQ-P0-SIZE-IMPLAUSIBLE，check + fix_size_fields 共用） ----------
+SIZE_FIELDS = ("length_cm", "width_cm", "height_cm", "diameter_cm")
+SIZE_MIN_CM = 1.0
+SIZE_MAX_CM = 150.0
+# 非尺寸单位：转速/扭矩/功率/重量/电压等被误写成长度（数值相等即判 P0）
+SIZE_BAD_UNIT_RE = re.compile(
+    r"(\d+(?:[.,]\d+)?)\s*(rpm|r\s*/\s*min|r\.p\.m\.?|nm|n\.?m\.?|kg|hz|dba?|ah|w|v)\b", re.I)
+# 三边 mm 直填：210 * 190 * 125mm
+SIZE_MM_TRIPLE_RE = re.compile(
+    r"(\d+(?:[.,]\d+)?)\s*[*x×]\s*(\d+(?:[.,]\d+)?)\s*[*x×]\s*(\d+(?:[.,]\d+)?)\s*mm", re.I)
+SIZE_MM_SINGLE_RE = re.compile(r"(\d+(?:[.,]\d+)?)\s*mm\b", re.I)
+SIZE_ATTR_HINT = ("largo", "ancho", "alto", "altura", "diámetro", "diametro", "tamaño", "tamano",
+                  "medidas", "dimension")
+
+
+def size_num(s):
+    """尺寸数字：兼容西语小数逗号与千分位点（9,5 → 9.5；3.200 → 3200）。"""
+    if s is None:
+        return None
+    t = str(s).strip().replace(" ", "")
+    if not t:
+        return None
+    if re.fullmatch(r"\d{1,3}(?:\.\d{3})+(?:,\d+)?", t):
+        t = t.replace(".", "").replace(",", ".")
+    else:
+        t = t.replace(",", ".")
+    try:
+        return float(t)
+    except ValueError:
+        return None
+
+
+def size_source_text(facts: dict) -> str:
+    """尺寸字段的原文来源：size.raw + 与尺寸相关的原始属性。"""
+    size = facts.get("size") or {}
+    parts = [str(x) for x in (size.get("raw") or [])]
+    for k, v in (facts.get("raw_attributes") or {}).items():
+        kl = str(k).lower()
+        if any(h in kl for h in SIZE_ATTR_HINT):
+            parts.append(f"{k}: {v}")
+    return " | ".join(parts)
+
+
+def _eq_num(a, b, tol=1e-6) -> bool:
+    return a is not None and b is not None and abs(a - b) <= tol
+
+
+def size_field_issues(facts: dict):
+    """返回尺寸字段不可信明细：[{field, value, reasons, evidence}]（fix_size_fields 复用）。"""
+    size = facts.get("size") or {}
+    text = size_source_text(facts)
+    snippet = re.sub(r"\s+", " ", text).strip()[:120]
+    issues = []
+    for field in SIZE_FIELDS:
+        raw_v = size.get(field)
+        if raw_v is None or raw_v == "":
+            continue
+        v = size_num(raw_v)
+        if v is None:
+            continue
+        reasons = []
+        if v > SIZE_MAX_CM:
+            reasons.append(f"量级过大：{v:g} cm > {SIZE_MAX_CM:g} cm")
+        elif v < SIZE_MIN_CM:
+            reasons.append(f"量级过小：{v:g} cm < {SIZE_MIN_CM:g} cm")
+        for m in SIZE_BAD_UNIT_RE.finditer(text):
+            if _eq_num(size_num(m.group(1)), v):
+                reasons.append(f"取自非尺寸单位「{m.group(0).strip()}」")
+                break
+        for m in SIZE_MM_TRIPLE_RE.finditer(text):
+            if any(_eq_num(size_num(x), v) for x in m.groups()):
+                reasons.append(f"mm 数值直填（未 ÷10）：「{m.group(0).strip()}」")
+                break
+        if not any("mm 数值直填" in r for r in reasons):
+            for m in SIZE_MM_SINGLE_RE.finditer(text):
+                n = size_num(m.group(1))
+                if n is not None and n >= 10 and _eq_num(n, v):
+                    reasons.append(f"mm 数值直填（未 ÷10）：「{m.group(0).strip()}」")
+                    break
+        if reasons:
+            issues.append({"field": field, "value": v, "reasons": reasons, "evidence": snippet})
+    return issues
 
 
 def norm_text(s) -> str:
@@ -229,6 +323,16 @@ def check_one(d: dict, findings: list):
             add(findings, sku, "FQ-P1-NOISE", "P1", "噪音值异常",
                 f"{k}={v}", "核实是否 dBA；>110 多为峰值或单位错", f"specs[{k}]")
 
+    # ---------- 尺寸口径 ----------
+    for issue in size_field_issues(d):
+        v = issue["value"]
+        ev = f"{issue['field']}={v:g}；" + "；".join(issue["reasons"])
+        if issue["evidence"]:
+            ev += f"；原文：{issue['evidence']}"
+        add(findings, sku, "FQ-P0-SIZE-IMPLAUSIBLE", "P0",
+            f"尺寸不可信（{issue['field']}={v:g} cm）", ev,
+            "置 null 或按原文换算成 cm；不可用该值生成 Listing", f"size.{issue['field']}")
+
     # ---------- 属性键值错位 ----------
     for k, v in raw.items():
         nk, vs = norm_text(k), str(v).lower()
@@ -351,12 +455,18 @@ def demo() -> int:
                 d["power"][mp.get(k, k)] = v
             elif k == "raw":
                 d["raw_attributes"].update(v)
+            elif k == "size":
+                d["size"] = v
         return d
 
     cases = [
         ("P0-功率不可能", mk("A", w=6800), "FQ-P0-POWER-IMPOSSIBLE"),
         ("P0-品牌冲突", mk("B", raw={"Marca": "Fanny"}), "FQ-P0-BRAND-CONFLICT"),
         ("P0-充电器电压当工具电压", mk("C", ptype="battery", battery_v=21, charger_v=127, listing_v=127), "FQ-P0-VOLT-CHARGER"),
+        ("P0-尺寸不可信", mk("G", size={"length_cm": 2, "width_cm": 3200, "height_cm": 3200,
+                                        "diameter_cm": None,
+                                        "raw": ["Velocidad infinitamente variable, 3200 RPM"]}),
+         "FQ-P0-SIZE-IMPLAUSIBLE"),
         ("P1-电池功率偏高", mk("D", ptype="battery", battery_v=21, w=1500), "FQ-P1-POWER-BATT"),
         ("P1-电压口径冲突", mk("E", ptype="battery", battery_v=18, device_v=21, listing_v=18), "FQ-P1-VOLT-CONFLICT"),
         ("P1-单位写错", mk("F", **{"capacity": "1500Ah"}), "FQ-P1-UNIT-AH"),

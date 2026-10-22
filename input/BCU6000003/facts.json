@@ -6,7 +6,10 @@
   "gates": {
     "hard_blocks": [],
     "warnings": [
-      "描述尺寸「Tamaño del artículo: 210 * 190 * 125mm / 8.27 * 7.」未标单位，按 cm 处理，需核实"
+      "描述尺寸「Tamaño del artículo: 210 * 190 * 125mm / 8.27 * 7.」未标单位，按 cm 处理，需核实",
+      "尺寸不可信，已置空：length_cm=210（量级过大：210 cm > 150 cm；mm 数值直填（未 ÷10）：「210 * 190 * 125mm」）",
+      "尺寸不可信，已置空：width_cm=190（量级过大：190 cm > 150 cm；mm 数值直填（未 ÷10）：「210 * 190 * 125mm」）",
+      "尺寸不可信，已置空：height_cm=125（mm 数值直填（未 ÷10）：「210 * 190 * 125mm」）"
     ]
   },
   "identity": {
@@ -33,9 +36,9 @@
     "listing_voltage_v": 127.0
   },
   "size": {
-    "length_cm": 210.0,
-    "width_cm": 190.0,
-    "height_cm": 125.0,
+    "length_cm": null,
+    "width_cm": null,
+    "height_cm": null,
     "diameter_cm": null,
     "raw": [
       "Tamaño del artículo: 210 * 190 * 125mm / 8.27 * 7.48 * 4.92in"
@@ -178,6 +181,32 @@
       "item.json": "7089935f64befaf236781cab5aee778e3af3f81093d321918d79a7d31237ba65"
     },
     "verified_by": "DSH 自动核验（可追溯性检查，待人工抽查）",
-    "verified_at": "2026-10-22T00:08:46"
+    "verified_at": "2026-10-22T00:08:46",
+    "size_fix": {
+      "at": "2026-10-22T19:27:03",
+      "by": "qa/fix_size_fields.py",
+      "fields": {
+        "length_cm": {
+          "old": 210.0,
+          "reasons": [
+            "量级过大：210 cm > 150 cm",
+            "mm 数值直填（未 ÷10）：「210 * 190 * 125mm」"
+          ]
+        },
+        "width_cm": {
+          "old": 190.0,
+          "reasons": [
+            "量级过大：190 cm > 150 cm",
+            "mm 数值直填（未 ÷10）：「210 * 190 * 125mm」"
+          ]
+        },
+        "height_cm": {
+          "old": 125.0,
+          "reasons": [
+            "mm 数值直填（未 ÷10）：「210 * 190 * 125mm」"
+          ]
+        }
+      }
+    }
   }
 }

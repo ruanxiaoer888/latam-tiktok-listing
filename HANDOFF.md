@@ -8,22 +8,31 @@
 
 ## 2026-10-22 审计与修复（最新，先读这节）
 
-全量审计见 `审计报告-20261022.md`（7 条 P0 + P1/P2 清单 + 4 个待拍板）。本轮修完 5 组：
+全量审计见 `审计报告-20261022.md`（7 条 P0 + P1/P2 清单 + 4 个待拍板）。**两轮**共修完 9 组：
 
-| 已修 | 结果 |
+| 已修（第一轮） | 结果 |
 |---|---|
-| 1. 门禁强制化 | `run_batch.py` 默认拒绝非 `verified` / 缺 facts 的 SKU（exit 3）、任一步骤失败立即中止、P0 也 exit 3；`check_facts.py` 新增 `--fail-on-skip`（当前跳过的 2 个「服装」SKU 会被拦）；`facts_digest.py` 默认只出 `verified` |
+| 1. 门禁强制化 | `run_batch.py` 默认拒绝非 `verified` / 缺 facts 的 SKU（exit 3）、任一步骤失败立即中止、P0 也 exit 3；`check_facts.py` 新增 `--fail-on-skip`；`facts_digest.py` 默认只出 `verified` |
 | 2. 同步与哈希校验 | 新增 `sync-all.cmd/.ps1`：一次同步两个技能 + 逐文件 SHA256 + 「仓库 / ~\.agents / DuMate」三处状态表；`-DryRun` 只看不写；DuMate 副本只告警不写 |
-| 3. 自检与钩子 | 新增 `qa\selftest.py`（4 组基线断言，0.6–0.8 秒）+ `.githooks/pre-commit`（提交前自动跑）+ `requirements.txt` + `.gitattributes` |
+| 3. 自检与钩子 | 新增 `qa\selftest.py`（4 组基线断言）+ `.githooks/pre-commit`（提交前自动跑）+ `requirements.txt` + `.gitattributes` |
 | 4. 卫生清理 | `.dumate\` 页面快照（含疑似 token）删除并加 `.gitignore`；`使用说明.md`、2 个服装 SKU 的 facts 入库；旧机路径清空；打包 zip 移除 |
 | 5. 认证误报 | 125 → **116 条**（NOM-003 70 + UN38.3 46，71 个 SKU）：摘掉 2 条 12V 车充 NOM-003、7 条 UN38.3 误判 |
+
+| 已修（第二轮） | 结果 |
+|---|---|
+| 6. 尺寸哨兵 | 新增 `qa\fix_size_fields.py`（默认 dry-run，`--apply` 才写），已 apply：**11 个 SKU / 18 个字段**置 null，原值留在 `facts._meta.size_fix`；`check_facts_quality.py` 新增 `FQ-P0-SIZE-IMPLAUSIBLE`；`build_facts.py` 加固（量级/单位不对直接置 null + warning）。`--strict` = P0=0 P1=21 P2=52，exit 0 |
+| 7. 图片检查 | 新增 `qa\check_images.py`（数量/尺寸/比例/格式/重复/白底）：17 SKU / 145 图 → **P0=11（9 个 SKU）/ P1=29（13 个）/ P2=10**，exit 3；`--demo` 19/19。文字/水印仍需人工核对 |
+| 8. 清单自动化 | `gen_manifest.py --plan` 现在出「完整/只有 facts/损坏」三计数且**非 0 退出**（本次 17/93/0，exit 1；`--allow-incomplete` → 0）；自动清单 `output\_batch\采集清单-自动.md`（185 行，含 110 个目录状态表）；`build_input.py` 类目白名单改为动态读 `kb\_schemas\*.schema.json`（5 个） |
+| 9. 服装类目 | 新增 `kb\_schemas\服装.schema.json`（required：品牌 / 面料成分 / 尺码 / 包装清单）+ `skill\类目\09-服装.md`；类目 8→9、schema 4→5。`check_facts` = **样本 110 / READY=81 / PENDING=16 / QUARANTINED=13 / 跳过 0 / FAIL=0**，`--fail-on-skip` 现 exit 0 |
 
 **仍开放 5 项**（都需要人拍板或补资料）：
 1. 81 个 `verified` 是批量核验产出（`verified_by` 自述「待人工抽查」）→ 抽查 10 个再决定是否退回 `draft`（审计 §七-1）；
 2. 110 个 SKU 里 **93 个缺 `input.json/item.json/img`**（只剩 facts）→ facts 不可重建，需从原采集机补；
 3. 认证台账仍为空 → 116 条 `missing`，只挡上架不挡生成；
-4. **图片合规校验未做**（1:1 / ≥800×800 / 5–6 张 / 无文字水印 / 首图白底）；
+4. **服装 2 个 SKU 待补**：`AXNJCPS300` / `AXNJCQS502` 缺面料成分、尺码、包装清单（PENDING），且图片检查 P0=2（`AXNJCPS300` 01.jpg 562×1200，短边 <800 且主图非 1:1）→ **主图需重采/裁方**；
 5. **BR 站未实测**（110 份 facts 的 `site_profiles` 全是 MX，INMETRO/ANATEL 从未真正触发）。
+
+> 图片合规检查本身已落地（原「图片校验未做」一项已关闭）；剩下的是**补图**和**人工核水印**。
 
 ---
 
@@ -32,7 +41,7 @@
 1. **目标别跑偏**：这一切的最终目的只有一个——**在合规前提下，写出能提高转化率的 Listing**。校验器、事实库、门禁都是手段，不是目的。
 2. **环境**：公司电脑 clone → 覆盖 `input` → 双击 `setup-new-pc.cmd`，看到 `ALL DONE.` 即可开工。
 3. **成本**：白天（峰时）只做零模型成本的活（脚本校验、核事实、改规则）；批量生成留到夜间谷时。
-4. **现在的卡点**：门禁已是强制的 → 现在 `READY=81` 可生成，但**这 81 个 `verified` 是批量核验产的、缺人工抽查**；另有 14 个 `draft`（主要缺包装清单）、13 个 `quarantined`、2 个「服装」类目未登记 schema（不许生成）。
+4. **现在的卡点**：门禁已是强制的 → `READY=81` 可生成，但**这 81 个 `verified` 是批量核验产的、缺人工抽查**；另有 16 个 `draft`（14 个缺包装清单 + 2 个服装缺面料/尺码/包装）、13 个 `quarantined`；**跳过 0**（服装 schema 已补）。上架前还有两道：认证台账空（116 条 missing）+ 图片检查 P0=11（9 个 SKU，服装主图需重采）。
 
 ---
 
@@ -82,7 +91,7 @@
 | 事实卡 | `input\<SKU>\facts.json` × 15（当时）：品牌/供电/电压/功率/尺寸/包装/兼容/认证/图片哈希/门禁 |
 | 图片清单 | `input\<SKU>\img_manifest.csv`：哈希、主图、重复组 |
 | 人工确认 | `input\<SKU>\overrides.json` × 4（当时）：按点路径覆盖 + 解除阻断 + 加警告 + 隔离；重建自动重放 |
-| 字段字典 | `kb\_schemas\_fields.md` + 类目 schema（现为 4 个：五金工具/汽车摩托/家电/运动户外） |
+| 字段字典 | `kb\_schemas\_fields.md` + 类目 schema（当时 3 个；现为 **5 个**：五金工具/汽车摩托/家电/运动户外/服装） |
 | 状态机 | `draft`（待核）→ `verified`（可生成）/ `quarantined`（移出生成集）/ `blocked`（硬伤） |
 | 版本库 | `facts.json`、`overrides.json`、`img_manifest.csv` **进 git**；`input.json`/`item.json`/`img/` 不进 |
 | 构建/门禁 | `qa\build_facts.py`（`--check` 只报告不写）/ `check_facts.py` / `index_kb.py` / `verify_facts.py` |
@@ -142,14 +151,14 @@
 | 5 | BKU0000000 包装清单是推断 | 已隔离 | 实物/包装核对 |
 | 6 | MMV2000000 18V vs 21V | 已隔离 | 确认电池平台 |
 | 7 | 电池工具属性写 `Voltaje:127V`（那是充电器输入） | 已由 `state_power` / `charger_v` 区分，别直接抄 | 已进 facts，生成时读 facts |
-| 8 | 类目 schema 现 4 个（五金/汽摩/家电/运动户外），仍缺「服装/时尚配件」 | 2 个服装 SKU 被门禁跳过、不许生成 | 补 schema 或改类目 |
+| 8 | 类目 schema 现 **5 个**（五金/汽摩/家电/运动户外/**服装**）；仍缺「时尚配件/家居建材/宠物/厨房」 | 碰到这些类目会被跳过、不许生成 | 补 schema（照 `服装.schema.json` 的结构） |
 | 9 | **没有后台转化数据**（曝光/点击率/转化率/退货率） | 只能做「下限提升」，做不了定向优化 | 从 TikTok 后台导出已上架 SKU 的 7 天数据 |
 | 10 | 后台搜索词数据拿不到（只有下拉和竞品标题） | L1 关键词靠猜 | 能导则导 |
 | 11 | 转化层规则未 A/B 验证 | 只是「按经验该更好」 | 挑 2 个商品各投 7 天 |
 | 12 | `采集清单.md` 未接进批次核对 | 漏做商品不会被发现 | 可选 |
 | 13 | TikTok 后台批量模板列名未提供 | 不能直接出「上传就绪」表格 | 后台导一份空模板 |
 | 14 | **93 个 SKU 缺 `input.json/item.json/img`** | facts 不可重建、不可重新打包 | 从原采集机补 raw |
-| 15 | **图片合规校验未做** | 主图比例/尺寸/水印不合规会被平台打回 | 新增 `qa\check_images.py` |
+| 15 | ~~图片合规校验未做~~ → ✅ 已落地 `qa\check_images.py`（P0=11 / 9 个 SKU，exit 3）；剩下的是**补图**（服装主图 562×1200）与**人工核水印** | 主图比例/尺寸合不合规已能机器判 | 重采/裁方 2 个服装主图 |
 
 > 生成仍由 Agent 按规则完成，**刻意不接模型 API**：规则还在每天变，过早自动化会固化错误。
 
@@ -158,15 +167,16 @@
 ## 4. 下一步计划
 
 ### 立刻（零模型成本）
-- [x] 门禁强制化 + 同步/自检基础设施（2026-10-22 已完成，见开头节）
+- [x] 门禁强制化 + 同步/自检基础设施（第一轮，已完成）
+- [x] 尺寸哨兵 + 图片检查 + 清单自动化 + 服装类目（第二轮，已完成）
 - [ ] **抽查 10 个 `verified`** → 对得上的保持、对不上的退回 `draft` 并写 `overrides.json`
-- [ ] **补 2 个服装 SKU 的 schema**（或把 category 改成「时尚配件」）→ 再跑 `check_facts.py --fail-on-skip` 应为 0
 - [ ] `python qa\selftest.py` + `.\sync-all.cmd`（两台机器各跑一次）
 
 ### 本周（白天，不花模型钱）
-- [ ] 补 93 个 SKU 的 `input.json/item.json/img`（从原采集机 / U 盘），补完跑 `build_facts.py --check` 验证可重建
+- [ ] 补 93 个 SKU 的 `input.json/item.json/img`（从原采集机 / U 盘），补完跑 `build_facts.py --check` 验证可重建、`check_images.py` 才能覆盖到它们
+- [ ] **服装 2 个 SKU 补数据**：面料成分、尺码（S–2XL 胸围/肩宽/袖长/衣长）、包装清单；`AXNJCPS300` 主图重采/裁方到 ≥800px 且 1:1
+- [ ] 按 `check_images.py` 的 P0/P1 清单修图（11 条 P0 涉及 9 个 SKU）
 - [ ] 认证台账填第一批证书（哪怕先填 2–3 个 SKU 的）
-- [ ] 写 `qa\check_images.py`（1:1 / ≥800×800 / 5–6 张 / 无文字水印 / 首图白底），接进 `run_batch`
 - [ ] 用 1–2 个商品做生成验证（别批量），重点看标题 `para…`、首行痛点、首条卖点是利益
 
 ### 本周（业务侧）
@@ -269,7 +279,7 @@ listing-pipeline\            ← git 仓库根目录
 ├─ HANDOFF.md                本文件
 ├─ 审计报告-20261022.md       全量审计（P0/P1/P2 + 待拍板）
 ├─ 迁移到新电脑.md            换机手册 + 坑
-├─ 采集怎么用.md / 采集清单.md  采集中文说明 + 2026-10-21 采集快照
+├─ 采集怎么用.md / 采集清单.md  采集中文说明 + 采集清单（正文自动生成，含 110 个目录状态表）
 ├─ requirements.txt          系统 Python 依赖（openpyxl / Pillow）
 ├─ .gitattributes           换行与二进制策略
 ├─ .githooks\pre-commit     提交前跑 qa\selftest.py
@@ -277,17 +287,18 @@ listing-pipeline\            ← git 仓库根目录
 ├─ sync-all.cmd/.ps1         两个技能一起同步 + SHA256 校验 + 三处状态表
 ├─ sync-to-skill.cmd/.ps1    只同步「Listing 生成」（兼容保留）
 ├─ sync-collector-skill.cmd/.ps1 只同步「美客多采集」（兼容保留）
-├─ collector\                美客多采集技能（SKILL.md + references\ + scripts\）
-├─ skill\                    规则：骨架/转化层/站点包/8 类目/属性映射/案例库/脚本库
-├─ kb\                       事实库：_schemas\（4 类目 + 字段字典）、_index\（脚本生成，不进 git）
-├─ qa\                       校验器 + 事实工具 + 认证台账 + 批次脚本 + selftest + denylist + 报告
+├─ collector\                美客多采集技能（SKILL.md + references\ + scripts\：含 gen_manifest.py）
+├─ skill\                    规则：骨架/转化层/站点包/9 类目/属性映射/案例库/脚本库
+├─ kb\                       事实库：_schemas\（5 类目 + 字段字典）、_index\（脚本生成，不进 git）
+├─ qa\                       校验器 + 图片检查 + 事实工具 + 认证台账 + 批次脚本 + selftest + denylist + 报告
 ├─ source-gemini\            V3.2 原始四份（只读存档）
 ├─ input\<SKU>\              商品：facts.json / overrides.json / img_manifest.csv 进 git；图与原始 json 不进
 └─ output\                   生成结果
    ├─ 批次20261022\          81 条成稿 + 批次结果.xlsx（当期成稿随批次入库，现状）
    ├─ 批次20261020\ / 批次_20261021\   旧规则产出 / 单条前后对照（本地留存）
    ├─ _归档\示例商品001…\    黄金对照样例（入库，别删）
-   ├─ _batch\ _smoke\        生成摘要 / run_batch 校验明细（不入库）
+   ├─ _batch\                facts_digest / BRIEF / 采集清单-自动.md（不入库）
+   ├─ _smoke\                run_batch 校验明细（不入库）
    └─ _research\             调研资料（不入库）
 ```
 
@@ -303,6 +314,8 @@ listing-pipeline\            ← git 仓库根目录
 ---
 
 ## 9. 2026-10-22 批次记录（门禁样本 108 → 81）
+
+> 本节的 108 / PENDING=14 / 跳过 2 是**这一批跑的时候**的口径（服装 schema 当时还没补）；**现状见 §10**（样本 110 / 跳过 0 / PENDING=16）。
 
 采集层扩到 **108 个 MX SKU**（`采集清单.md`：首批 15 + 公司新增 79 + 夜间补采 14；2026-10-22 又补采 2 个服装 SKU，`input\` 实际 110 个目录），本批跑完整链路的结果：
 
@@ -329,4 +342,18 @@ listing-pipeline\            ← git 仓库根目录
 3. 12V 车充类（电动千斤顶）不是 127V 市电，标题里的 `12v` 可作电压依据；
 4. 手工具（套筒/钻头套装）会被误判 `corded`，用 `overrides` 改 `power.type=manual` 即可解锁，不必补电压；
 5. 包装清单缺失是最高频硬缺（14 个 PENDING 里 9 个是它），补 `package.included` 后重跑 `build_facts --force` + `verify_facts` 就能进下一批。
+
+## 10. 2026-10-22 第二轮（审计修复收尾）
+
+| 环节 | 结果 |
+|---|---|
+| 尺寸哨兵 | `fix_size_fields.py --apply` 修 **11 个 SKU / 18 个字段**；`check_facts_quality --strict` = P0=0 P1=21 P2=52，exit 0 |
+| 图片检查 | `check_images.py`：17 SKU / 145 图 → P0=11（9 个）/ P1=29（13 个）/ P2=10；跳过 93 个无 img 的 SKU；demo 19/19 |
+| 采集完整性 | `gen_manifest --plan` = 完整 17 / 只有 facts 93 / 损坏 0，exit 1；自动清单 `output\_batch\采集清单-自动.md`（185 行，含 110 个目录状态表） |
+| 服装类目 | `服装.schema.json` + `skill\类目\09-服装.md`；类目 9 个、schema 5 个；`check_facts` = 样本 110 / READY=81 / PENDING=16 / QUARANTINED=13 / 跳过 0 |
+| 认证 | 仍 116 条（NOM-003 70 + UN38.3 46），exit 3；只挡上架不挡生成 |
+
+数据层教训（本轮新增）：
+6. **尺寸解析会吃错东西**：`3200 RPM`、`300 Nm`、`210mm`、描述序号 `2.` 都会被当 cm 吞进 `size.*_cm`；`build_facts` 已加量级/单位校验（1–150 cm、mm 未 ÷10 即置 null），存量用 `fix_size_fields.py` 回填，原值留在 `_meta.size_fix`。
+7. **图源问题要早查**：`AXNJCPS300` 01.jpg 只有 562×1200，主图非 1:1 且短边 <800 → 上架会被打回；图片检查要在生成前跑，不要等上架。
 

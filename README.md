@@ -22,7 +22,7 @@ listing-pipeline\
 ├─ 使用说明.md            日常操作版（采集 → 事实卡 → 生成 → 校验 四步）
 ├─ 迁移到新电脑.md        换机手册（家里 ↔ 公司）
 ├─ 采集怎么用.md          采集动作说明（给人看的版本）
-├─ 采集清单.md            采集清单（2026-10-21 快照；当前以 input\ 目录为准）
+├─ 采集清单.md            采集清单（正文 = gen_manifest 自动生成，含 110 个目录状态表；末尾保留 2026-10-21 历史快照）
 ├─ 审计报告-20261022.md   全量审计（P0/P1/P2 + 待拍板）
 ├─ requirements.txt       系统 Python 依赖（openpyxl / Pillow；DSH 自带 Python 已含）
 ├─ .gitattributes         换行与二进制策略（跨机器稳定）
@@ -40,7 +40,7 @@ listing-pipeline\
 │  ├─ 属性映射.md         ML 属性 → TikTok 槽位映射规则（电池电压 vs 充电器电压等）
 │  ├─ rules-mx.md         墨西哥规则包（es-MX）
 │  ├─ rules-br.md         巴西规则包（pt-BR，重写非机翻）
-│  ├─ 类目\               8 个类目包
+│  ├─ 类目\               9 个类目包（01~08 + 09-服装：外套/风衣/衬衫外套）
 │  ├─ 案例库索引.md       9 条案例 → 类目映射、盲区、few-shot 规则
 │  └─ 短视频脚本.md       可选模块 B（Hook/CTA/结构），默认不生成
 ├─ qa\
@@ -50,13 +50,15 @@ listing-pipeline\
 │  ├─ 认证台账说明.md        字段定义、维护 SOP、飞书导入
 │  ├─ 认证台账_导入模板.csv  飞书多维表格导入模板（含示例行）
 │  ├─ check_listing.py      合规 + 转化校验器 v1.3
+│  ├─ check_images.py       图片合规检查（数量/尺寸/比例/格式/重复/白底；上架前卡口）
 │  ├─ build_facts.py        事实卡构建（input.json + overrides → facts.json）
+│  ├─ fix_size_fields.py    尺寸回填：把不可信尺寸置 null（默认 dry-run，--apply 才写）
 │  ├─ index_kb.py           事实库索引（kb\_index\products.csv）
 │  ├─ verify_facts.py       人工核验后批量置 verified
 │  ├─ source_digest.py      原始摘要（input.json → output\_batch\digest.md）
 │  ├─ facts_digest.py       生成用事实摘要（facts.json → 摘要；默认只出 verified）
 │  ├─ check_facts.py        事实卡门禁（schema 必填/完整度 → kb\_index\完整度报告.md）
-│  ├─ check_facts_quality.py 数据质量哨兵（品牌/电压/功率/单位/价格口径）
+│  ├─ check_facts_quality.py 数据质量哨兵（品牌/电压/功率/单位/价格/尺寸量级）
 │  ├─ map_attributes.py     ML 属性 → TikTok 槽位映射（电池工具电压口径等）
 │  ├─ build_batch_csv.py    批量：input + listing → 校验用 CSV
 │  ├─ make_batch_xlsx.py    批量：校验结果 + 备注 → 批次结果.xlsx
@@ -66,13 +68,13 @@ listing-pipeline\
 │  ├─ collect_inputs.py     采集入参整理（辅助）
 │  ├─ build_check_csv.py    校验 CSV 构建（辅助）
 │  ├─ 测试样例.csv          回归用例（含 核心词 / 类目 两列）
-│  └─ 报告\<日期>\          扫描输出（check_listing 单独跑时写这里）
-├─ kb\                    产品事实库：_schemas\（4 个类目 schema + _fields.md）、_index\（脚本生成，不进 git）
+│  └─ 报告\<日期>\          扫描输出（check_listing / check_images 单独跑时写这里）
+├─ kb\                    产品事实库：_schemas\（5 个类目 schema + _fields.md）、_index\（脚本生成，不进 git）
 ├─ input\                 待处理商品（一个子目录一个 SKU；facts.json / overrides.json / img_manifest.csv 进 git，图与原始 json 不进）
 └─ output\                生成结果：批次<日期>\（当期成稿随批次入库，见下）、_batch\ _smoke\ 报告不入库
 ```
 
-> **SKU 数不要抄**：以 `input\` 实际目录为准（当前 110 个，其中 2 个「服装」类目未登记 schema，会被 `check_facts.py` 跳过 → 见「门禁」一节）。同理 `kb\_schemas\` 当前 4 个类目 schema（五金工具 / 汽车摩托 / 家电 / 运动户外）。
+> **SKU 数不要抄**：以 `input\` 实际目录为准（当前 110 个）。`kb\_schemas\` 当前 5 个类目 schema（五金工具 / 汽车摩托 / 家电 / 运动户外 / 服装）。**跳过 = 0**（服装 schema 已补，2026-10-22）。
 
 ## V3.2 整合对照表（四份文件去哪了）
 
@@ -127,6 +129,15 @@ python check_facts_quality.py --demo                                # 自检
 python facts_digest.py                                             # 81 条 verified
 python facts_digest.py --status all --include-pending              # 排查用：连缺必填项的 draft 一起看
 
+# 尺寸回填（facts 里尺寸量级/单位不对 → 置 null，原值留在 _meta.size_fix）
+python fix_size_fields.py                                          # 默认 dry-run，只打印清单
+python fix_size_fields.py --apply                                  # 真正写回 facts.json
+
+# 图片来源检查（上架前；有 P0 → exit 3）
+python check_images.py --input-root ..\input                       # 系统 python 无 Pillow 会提示改用 DSH python
+python check_images.py --sku AXNJCPS300                            # 只查一个 SKU
+python check_images.py --demo                                      # 自检（19/19）
+
 # 一条命令跑完 属性映射 + 校验 + 出表（生成仍由 Agent 完成）
 python run_batch.py --input-root ..\input --listing-dir ..\output\批次YYYYMMDD --site MX
 # 退出码：0 通过 / 1 运行期错误 / 2 参数错误 / 3 门禁拦截（有被拒 SKU，或 listing 有 P0）
@@ -134,7 +145,7 @@ python run_batch.py --input-root ..\input --listing-dir ..\output\批次YYYYMMDD
 ```
 
 **每次跑完的校验明细在 `output\_smoke\run_batch_<时间戳>_<pid>\`**（每次唯一目录，不会撞分钟；gitignored）。
-`check_listing.py` 单独跑时仍写 `qa\报告\<日期>\`。
+`check_listing.py` / `check_images.py` 单独跑时写 `qa\报告\<日期>\`。
 
 **可选列**（有就用，没有跳过）：`核心词/keyword`（检查前 30 字符）、`类目/category`（按行套类目检查）、`SKU/商品ID`（报告区分条目）。
 
@@ -195,10 +206,12 @@ python run_batch.py --input-root ..\input --listing-dir ..\output\批次YYYYMMDD
 
 | 环节 | 命令 | 拦截行为 |
 |---|---|---|
-| 事实卡 | `python qa\check_facts.py` | 四态：`verified`=可生成 / `draft`=待核 / `quarantined`=移出 / `blocked`=硬伤。当前 READY=81、PENDING=14、QUARANTINED=13、跳过 2（类目未登记） |
-| 跳过保护 | `python qa\check_facts.py --fail-on-skip` | 有 SKU 因类目 schema 未登记被跳过 → exit 3 |
-| 口径哨兵 | `python qa\check_facts_quality.py --input-root input --strict` | P0 时 exit 3 |
-| 认证卡口 | `python qa\check_certificates.py --input-root input --strict` | 只挡上架，不挡生成 |
+| 事实卡 | `python qa\check_facts.py` | 四态：`verified`=可生成 / `draft`=待核 / `quarantined`=移出 / `blocked`=硬伤。当前 **样本 110 / READY=81 / PENDING=16 / QUARANTINED=13 / 跳过 0 / FAIL=0** |
+| 跳过保护 | `python qa\check_facts.py --fail-on-skip` | 有 SKU 因类目 schema 未登记被跳过 → exit 3（当前跳过 0，因此 exit 0） |
+| 口径哨兵 | `python qa\check_facts_quality.py --input-root input --strict` | P0 时 exit 3；含 `FQ-P0-SIZE-IMPLAUSIBLE`（尺寸量级/单位不对即 P0）。当前 P0=0 P1=21 P2=52，exit 0 |
+| 尺寸回填 | `python qa\fix_size_fields.py` → 确认后 `--apply` | 把不可信尺寸置 null，原值留在 `facts._meta.size_fix`；默认 dry-run 不写文件（2026-10-22 已 apply 过一次：11 个 SKU / 18 个字段） |
+| **图片检查（上架前）** | `python qa\check_images.py --input-root input` | **有 P0 → exit 3**（无 P0 → 0；参数/环境错 → 2）。规则常量在文件顶部：5–9 张、短边 ≥800px、±3% 比例、10KB–5MB、重复图、白底只记 P2；**文字/水印需人工核对**，脚本不判 |
+| 认证卡口 | `python qa\check_certificates.py --input-root input --strict` | 只挡上架，不挡生成（当前 116 条未登记，exit 3） |
 | 生成摘要 | `python qa\facts_digest.py` | 默认只输出 `verified`（81 条）；`--status` 可指定状态，但缺必填项的 draft 仍会被门禁挡住，只有排查时才加 `--include-pending` |
 | 批次卡口 | `python qa\run_batch.py ...` | 任一步骤失败立即中止；默认拒绝 facts 缺失或 `status != verified` 的 SKU 并 exit 3，被拒原因写进 `批次结果.xlsx` 备注；`--allow-unverified` 仅供调试 |
 
@@ -237,7 +250,10 @@ python run_batch.py --input-root ..\input --listing-dir ..\output\批次YYYYMMDD
 | 自有产出的真实缺口 | 15 条批次里 **9 条标题无 `para…` 用途词、5 条第一条卖点是参数**——都是老提示词生成的，按新规则重生成即修 |
 | **单条前后对照**（v1.3） | `ABU5000000` 按转化层重写：P2-转化 **2 → 0**，P0/P1/P2-结构 保持 0，标题 79 字符（升版前：标题无用途词 + 首条卖点是参数）。新旧两版见 `output\批次20261020\` 与 `output\批次20261021\` |
 | **20261022 批次（81 条）** | P0=0 / P1=0 / P2-结构=50 / P2-转化=0（`output\批次20261022\批次结果.xlsx`） |
-| **基础设施回归** | `python qa\selftest.py` → 4/4 PASS：`check_listing --demo` = 0/4/9/14；`check_facts` = READY 81 / QUARANTINED 13 / skip 2；两个 `--demo` 自检 |
+| **尺寸哨兵**（2026-10-22） | `fix_size_fields.py --apply` 修 **11 个 SKU / 18 个字段**（置 null，原值留在 `_meta.size_fix`）；`check_facts_quality --strict` 新增 `FQ-P0-SIZE-IMPLAUSIBLE` 后 = P0=0 P1=21 P2=52，exit 0 |
+| **图片检查**（2026-10-22 首跑） | 17 个 SKU / 145 张图 → **P0=11（9 个 SKU）/ P1=29（13 个）/ P2=10（10 个）**，exit 3；跳过 93 个无 img 的 SKU（未检查，不算通过）；`--demo` 19/19 通过 |
+| **采集完整性**（2026-10-22） | `gen_manifest.py --plan` = 完整 **17** / 只有 facts **93** / 损坏 **0**，exit 1（`--allow-incomplete` 放行 → exit 0）；自动清单 `output\_batch\采集清单-自动.md` |
+| **基础设施回归** | `python qa\selftest.py` → 4/4 PASS：`check_listing --demo` = 0/4/9/14；`check_facts` = READY 81 / QUARANTINED 13 / skip 0；两个 `--demo` 自检 |
 
 ## 待办
 
@@ -247,7 +263,8 @@ python run_batch.py --input-root ..\input --listing-dir ..\output\批次YYYYMMDD
 3. **汽配适配表结构化**（退货最大头）
 4. **补 BR 案例**：现在 0 条葡语案例，规则有了但缺锚点
 5. **认证台账**：✅ v1.0 已建（`qa/certifications.json` + `qa/check_certificates.py`），待向供应商/认证机构收集证书号与有效期后填入
-6. **补服装/时尚配件 schema**：当前 2 个「服装」SKU 无 schema，被 `check_facts.py` 跳过 → 门禁不覆盖
+6. **补 93 个 SKU 的原始数据**：目前 17 个完整、93 个只剩 facts（不能重建、不能重新打包），需从采集机补 `input.json/item.json/img`
+7. **服装 2 个 SKU 待补**：`AXNJCPS300` / `AXNJCQS502` 缺面料成分、尺码、包装清单；且图片检查 P0=2（`AXNJCPS300` 01.jpg 562×1200，短边 <800 且主图非 1:1）→ 主图需重采/裁方
 
 ## 同步与自检（2026-10-22 新增）
 

@@ -1,7 +1,7 @@
 {
-  "version": "1.1",
-  "updated": "2026-10-21",
-  "source": "基于 Gemini V3.2 词库改造；修正了 100% 一刀切、Compra protegida、标题 | 号三处；1.1 新增 conversion 段（转化层检查）",
+  "version": "1.2",
+  "updated": "2026-10-22",
+  "source": "基于 Gemini V3.2 词库改造；修正了 100% 一刀切、Compra protegida、标题 | 号三处；1.1 新增 conversion 段（转化层检查）；1.2 新增「服装」类目必带信息（尺码/尺码表/面料/洗涤/版型/闭合，MX+BR 双语 pattern，对应 skill/类目/09-服装.md）",
   "global": {
     "material_words": [
       "acero", "acero inoxidable", "algodón", "algodon", "cobre", "poliéster", "poliester",
@@ -118,6 +118,17 @@
       "required": [
         { "label": "尺寸(周长/长度)", "pattern": "\\d+\\s?(cm|mm)\\b" },
         { "label": "材质", "pattern": "(acero|aço|plata|prata|cuero|couro|inox)" }
+      ]
+    },
+    "服装": {
+      "note": "外套/风衣/衬衫外套：尺码表是必带项（服装第一退货原因）。categories 为 MX/BR 共享结构，所以每条 pattern 同时接受西语与 pt-BR 术语（talla/tamanho、composición/composição、cuidados）；标题区间沿用默认 60–80，不走汽配 80–120。对应 skill/类目/09-服装.md。",
+      "required": [
+        { "label": "尺码（Talla/Tamanho）", "pattern": "(tallas?|talle|tamanhos?)\\s*[:：]|(tallas?|tamanhos?)\\b\\s+(S|M|L|XL|2XL|P|G|GG)\\b" },
+        { "label": "尺码表（胸围/肩宽/袖长/衣长，cm）", "pattern": "(contorno de pecho|ancho de hombros?|largo de manga|largo de la prenda|busto|ombro|pecho|comprimento)[\\s\\S]{0,120}?\\d{2,3}" },
+        { "label": "面料成分（Composición/Composição）", "pattern": "(composici[oó]n|composi[cç][aã]o|material( principal)?|poli[eé]ster|algod[oó]n|algod[aã]o|lino|linho|nailon|nylon|poliamida|viscosa|acr[ií]lico)" },
+        { "label": "洗涤方式（Cuidados）", "pattern": "(cuidados|lav[aá]vel|lavar|lavado|a m[aá]quina|à m[aá]quina|no blanquear|n[aã]o alvejar|alvejar|secar|secado|tender|planchar|passar a ferro)" },
+        { "label": "版型（holgado/ajustado）", "pattern": "(holgad[oa]|ajustad[oa]|folgad[oa]|\\bjusto\\b|caimento|regular fit|\\bregular\\b|corte (recto|suelto|ajustado|regular))" },
+        { "label": "闭合方式（botones/cremallera）", "pattern": "(\\bbot[oó]n(es)?\\b|bot[aã]o|botões|cremallera|z[ií]per|cierre|fecho|corchete|velcro|sin cierre|sem fecho)" }
       ]
     }
   },

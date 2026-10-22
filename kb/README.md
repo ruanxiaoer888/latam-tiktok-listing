@@ -14,11 +14,12 @@ input/<SKU>/
 ├─ item.json           ← 完整采集明细（不进 git）
 └─ img/                ← 原图（不进 git，走 U 盘/网盘）
 kb/
-├─ _schemas/           4 个类目 schema（五金工具 / 汽车摩托 / 家电 / 运动户外）
+├─ _schemas/           5 个类目 schema（五金工具 / 汽车摩托 / 家电 / 运动户外 / 服装）
 │  ├─ 五金工具.schema.json
 │  ├─ 汽车摩托.schema.json
 │  ├─ 家电.schema.json
 │  ├─ 运动户外.schema.json
+│  ├─ 服装.schema.json  ← 外套/风衣/衬衫外套：品牌+面料+尺码+包装清单为硬门槛
 │  └─ _fields.md       ← 字段字典（中文说明）
 └─ _index/             （脚本生成，进 .gitignore）
    ├─ products.csv     ← 一行一个 SKU
@@ -26,7 +27,7 @@ kb/
    └─ facts_check.json
 ```
 
-> **类目未登记 schema 的 SKU 不许生成**：`check_facts.py` 会把它们标成「跳过」、不计入样本（当前 2 个「服装」SKU：`AXNJCPS300`、`AXNJCQS502`），`run_batch.py` 也不会放行。补 schema（或把 category 改成已有的类目）后才纳入门禁。
+> **类目未登记 schema 的 SKU 不许生成**：`check_facts.py` 会把它们标成「跳过」、不计入样本（当前跳过 0 个；但 9 个类目包里还有 4 个没有 schema：家居建材 / 宠物用品 / 厨房用品 / 时尚配件，碰到就补），`run_batch.py` 也不会放行。补 schema（或把 category 改成已有的类目）后才纳入门禁。
 
 ## 状态
 
@@ -57,7 +58,16 @@ python qa\index_kb.py
 python qa\facts_digest.py
 python qa\facts_digest.py --status all --include-pending   # 排查用
 
-# 5) 人工核完，批量置为 verified（示例）
+# 5) 尺寸回填（facts 里尺寸量级/单位不对 → 置 null，原值留在 _meta.size_fix）
+python qa\fix_size_fields.py                 # dry-run，只打印清单
+python qa\fix_size_fields.py --apply         # 真正写回 facts.json（2026-10-22 已跑过一次：11 SKU / 18 字段）
+
+# 6) 图片来源检查（上架前；有 P0 → exit 3）
+python qa\check_images.py --input-root input
+python qa\check_images.py --sku AXNJCPS300   # 只查一个 SKU
+python qa\check_images.py --demo             # 自检 19/19
+
+# 7) 人工核完，批量置为 verified（示例）
 python qa\verify_facts.py ABU5000000 ABU6000008 --by "运营-张三"
 ```
 
@@ -72,7 +82,7 @@ python qa\verify_facts.py ABU5000000 ABU6000008 --by "运营-张三"
 ## 门禁规则
 
 - `blocked` / `quarantined` / `draft` → 生成端拒绝。
-- 硬门槛（`schema.required`）：品牌、供电类型、电压（按类型）、包装清单；家电另加认证状态。
+- 硬门槛（`schema.required`）：品牌、供电类型、电压（按类型）、包装清单；家电另加认证状态；**服装除外**——服装的硬门槛是 品牌 / 面料成分 / 尺码 / 包装清单（没有供电与电压）。
 - 软门槛（`schema.recommended`）：尺寸、材质、重量、可写功率——缺了提醒，不阻断，但 Listing 会少信息。
 - 功率物理不可信（插电 ≥3500W / 电池 ≥600W）→ `state_power=false`，**Listing 不写瓦数**。
 - 认证 `missing` → Listing 不得出现 NOM/INMETRO/ANATEL。
@@ -89,11 +99,14 @@ python qa\verify_facts.py ABU5000000 ABU6000008 --by "运营-张三"
 数字以脚本输出为准，别抄本文：`python qa\check_facts.py`（会重写 `kb\_index\完整度报告.md`）。
 
 - **`input\` 下 110 个 SKU 目录**，全部 MX 站（`site_profiles` 只有 MX / MXN / 127V）；
-- 门禁样本 **108** —— 2 个「服装」SKU（`AXNJCPS300`、`AXNJCQS502`）因类目 schema 未登记被跳过，**不许生成**；
-- 当前 **READY=81 / PENDING=14 / QUARANTINED=13 / BLOCKED=0 / 跳过 2**；类目 schema 4 个；
+- 门禁样本 **110**，**跳过 0 个**（2026-10-22 补了 `服装.schema.json`，`AXNJCPS300`、`AXNJCQS502` 已纳入门禁，当前判定 `draft` → PENDING）；
+- 当前 **READY=81 / PENDING=16 / QUARANTINED=13 / BLOCKED=0 / 跳过 0**；类目 schema 5 个；
+- 2 个服装 SKU 的硬缺：面料成分（`material` 为空，属性里已有 `Material principal: Poliéster`）、尺码（`size.raw` 为空）、包装清单（`package.included` 为空）——补进 facts 后才能进生成；
 - 81 个 `verified` 是批量核验产出（`verified_by` 自述「待人工抽查」），**待人工抽查**；
 - 已隔离 13 个（明细见 `完整度报告.md` 第三节「已隔离」）：`ATVMX11700` 功率与家庭电路矛盾、`AMR3000002` 电池电压仅口述、`BKU0000000` 包装清单推断、`MMV2000000` 18V/21V 口径未确认，另有 6 个电池工具缺电池电压、2 个功率不可信；
 - 隔离只是"移出生成集"，事实卡和 overrides 都保留；补到证据后，删掉
   `input/<SKU>/overrides.json` 里的 `quarantine` 块即可恢复，再走人工核验。
 - 软缺（不阻断、Listing 会少信息）：多数 SKU 缺整机重量/尺寸；部分材质为描述推断，已在 warnings 标注。
-- **已知数据问题**：部分 SKU 的 `size.*_cm` 是描述解析垃圾（如 `AH00000009` 宽高 3200、`ATVMX22700` 长 300、`BCU6000003` 长 210 未做 mm→cm），质量哨兵尚无尺寸检查项，**生成前不能直接抄尺寸**。
+- **尺寸垃圾值已修（2026-10-22）**：`fix_size_fields.py --apply` 修 **11 个 SKU / 18 个字段**（置 null，原值留在 `facts._meta.size_fix`）；`check_facts_quality.py` 新增 `FQ-P0-SIZE-IMPLAUSIBLE`，`build_facts.py` 已加固（量级 1–150 cm、mm 未 ÷10 直接置 null + warning）。**新 SKU 不会再产出 3200 cm 这类值**；旧值如要恢复，去 `_meta.size_fix` 看原值再人工确认。
+- **原始数据缺口**：`input\` 110 个目录里 **只有 17 个是完整的**（有 input.json / item.json / img），93 个只剩 facts —— 用 `gen_manifest.py --plan` 查，exit 1 就是有缺口；这些 SKU 不能重建、不能重新打包。
+- **图片合规**：`qa\check_images.py` 覆盖 17 个有图的 SKU（其余 93 个无 img，未检查、不算通过）；当前 P0=11 / 9 个 SKU。文字/水印仍需人工核对。

@@ -6,7 +6,10 @@
   "gates": {
     "hard_blocks": [],
     "warnings": [
-      "充电器输入电压未提供（Listing 不写充电器电压）"
+      "充电器输入电压未提供（Listing 不写充电器电压）",
+      "尺寸不可信，已置空：length_cm=0.2（量级过小：0.2 cm < 1 cm）",
+      "尺寸不可信，已置空：width_cm=0.95（量级过小：0.95 cm < 1 cm）",
+      "尺寸不可信，已置空：height_cm=0.7（量级过小：0.7 cm < 1 cm）"
     ]
   },
   "identity": {
@@ -31,9 +34,9 @@
     "listing_voltage_v": 21.0
   },
   "size": {
-    "length_cm": 0.2,
-    "width_cm": 0.95,
-    "height_cm": 0.7,
+    "length_cm": null,
+    "width_cm": null,
+    "height_cm": null,
     "diameter_cm": null,
     "raw": [
       "2. Diseño de bloqueo de seguridad, mandril de 9,5 mm: Cuenta con una hebilla de "
@@ -175,6 +178,30 @@
       "item.json": "9d36d1cc47551bc16622683acde71207dfc07f696ad9355904ccfd2c818da23b"
     },
     "verified_by": "DSH 自动核验（可追溯性检查，待人工抽查）",
-    "verified_at": "2026-10-22T00:08:46"
+    "verified_at": "2026-10-22T00:08:46",
+    "size_fix": {
+      "at": "2026-10-22T19:27:03",
+      "by": "qa/fix_size_fields.py",
+      "fields": {
+        "length_cm": {
+          "old": 0.2,
+          "reasons": [
+            "量级过小：0.2 cm < 1 cm"
+          ]
+        },
+        "width_cm": {
+          "old": 0.95,
+          "reasons": [
+            "量级过小：0.95 cm < 1 cm"
+          ]
+        },
+        "height_cm": {
+          "old": 0.7,
+          "reasons": [
+            "量级过小：0.7 cm < 1 cm"
+          ]
+        }
+      }
+    }
   }
 }

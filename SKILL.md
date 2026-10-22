@@ -1,6 +1,6 @@
 ---
 name: latam-tiktok-listing
-description: "拉美 TikTok Shop（墨西哥 MX / 巴西 BR）商品 Listing 生成、转化率优化与合规校验。当需要根据商品图片和描述生成或优化 Listing（标题/描述/卖点/规格/包装清单/FAQ）、想提高 Listing 的点击率与转化率、给标题定关键词结构、按决策权重排卖点，或批量检查已上架 Listing 的违禁词、字符数、中文残留、西葡混用、未验证承诺时使用。内置事实卡门禁（`facts.json` 为唯一事实来源）、认证台账卡口（NOM-003 / INMETRO / ANATEL / UN38.3）、8 个类目包（五金工具、汽车摩托、家居建材、运动户外、宠物、厨房、家电、时尚配件）、转化层手册（首屏钩子/卖点排序/疑虑前置/权益写实）与可执行的合规+转化扫描脚本。"
+description: "拉美 TikTok Shop（墨西哥 MX / 巴西 BR）商品 Listing 生成、转化率优化与合规校验。当需要根据商品图片和描述生成或优化 Listing（标题/描述/卖点/规格/包装清单/FAQ）、想提高 Listing 的点击率与转化率、给标题定关键词结构、按决策权重排卖点，或批量检查已上架 Listing 的违禁词、字符数、中文残留、西葡混用、未验证承诺时使用。内置事实卡门禁（`facts.json` 为唯一事实来源）、认证台账卡口（NOM-003 / INMETRO / ANATEL / UN38.3）、9 个类目包（五金工具、汽车摩托、家居建材、运动户外、宠物、厨房、家电、时尚配件、服装）、转化层手册（首屏钩子/卖点排序/疑虑前置/权益写实）与可执行的合规+转化扫描脚本。"
 ---
 
 # 拉美 TikTok Shop Listing 生成、转化与合规校验
@@ -24,12 +24,12 @@ skill\转化层.md          转化率手册（关键词三层/首屏两行/卖�
 skill\生成提示词.md      模型无关的生成 prompt 模板（角色/工作流/硬约束/模块开关）
 skill\rules-mx.md        墨西哥规则包（es-MX）
 skill\rules-br.md        巴西规则包（pt-BR）
-skill\类目\01..08-*.md   8 个类目包（双站标题公式/必带信息/FAQ/合规/坑）
+skill\类目\01..09-*.md   9 个类目包（双站标题公式/必带信息/FAQ/合规/坑；09 = 服装：外套/风衣/衬衫外套）
 skill\案例库索引.md      9 条案例的类目映射、盲区、few-shot 使用规则
 skill\短视频脚本.md      可选模块 B（Hook 库/CTA 库/15-30 秒结构），默认不生成
 skill\属性映射.md        ML 属性 → TikTok 槽位映射规则（电池电压 vs 充电器电压等）
-kb\_schemas\             4 个类目事实 schema（五金工具/汽车摩托/家电/运动户外）+ _fields.md（字段字典）
-                         **没有 schema 的类目（如「服装」「时尚配件」）不许生成**，见硬约束
+kb\_schemas\             5 个类目事实 schema（五金工具/汽车摩托/家电/运动户外/服装）+ _fields.md（字段字典）
+                         **没有 schema 的类目（如「时尚配件」）不许生成**，见硬约束
 kb\README.md             事实库状态机（draft/verified/quarantined/blocked）+ 命令
 input\<SKU>\facts.json   事实卡：生成的唯一事实来源（verified 才可生成）
 qa\build_facts.py        input.json + overrides.json → facts.json
@@ -43,8 +43,10 @@ qa\run_batch.py          批次卡口：门禁 + 映射 + 校验 + 出表（非 
 qa\selftest.py           一键回归（4 组基线断言；pre-commit 调它）
 qa\denylist.json         机器可判规则（MX/BR 两套 + 8 类目必带信息）
 qa\check_listing.py      合规校验脚本（标准库，无第三方依赖）
+qa\check_images.py       图片合规检查（数量/尺寸/比例/格式/重复/白底；上架前，P0 → exit 3）
+qa\fix_size_fields.py    尺寸回填：不可信尺寸置 null（默认 dry-run，--apply 才写；原值留在 _meta.size_fix）
 qa\测试样例.csv          回归用例（含 核心词 / 类目 两列）
-qa\报告\<日期>\          扫描输出（check_listing 单独跑时写这里）
+qa\报告\<日期>\          扫描输出（check_listing / check_images 单独跑时写这里）
 output\_smoke\           每次 run_batch 的校验明细（run_batch_<时间戳>_<pid>\，不入库）
 source-gemini\           V3.2 原始知识库
 sync-all.ps1 / .cmd      一次同步两个技能 → 全局技能目录 + SHA256 校验 + 三处状态表
@@ -59,6 +61,7 @@ sync-all.ps1 / .cmd      一次同步两个技能 → 全局技能目录 + SHA25
    - `python qa\check_facts_quality.py --input-root input --strict` → 有 P0 先修（品牌冲突、电压口径、功率物理不可能）。`--strict` 返回 3 表示不许生成。
    - `python qa\check_certificates.py --input-root input --strict` → 认证缺登记/过期/待确认，**"上架"会卡在这里，"生成"不受它约束**（本批台账为空，全部 `missing` 是事实）。
    - `python qa\facts_digest.py` → 批量生成前读这份摘要（默认只输出 `verified`）；要排查时才加 `--status all --include-pending`。
+   - **上架前再加两道**：`python qa\check_certificates.py --strict`（认证，只挡上架）+ `python qa\check_images.py --input-root input`（图片：5–9 张、短边 ≥800px、±3% 比例、无重复图；**P0 → exit 3**；文字/水印需人工核对）。
 3. **读数（顺序固定）**：
    - **事实**：只读 `input\<SKU>\facts.json`。**不读原始描述、不读图片、不猜参数**——`power.state_power=false` 时不许写瓦数，`certification.status=missing` 时不许写 NOM/INMETRO/ANATEL。
    - **规则**：`skill\生成提示词.md`（模板）+ `skill\骨架.md` + `skill\转化层.md` + `skill\rules-<站点>.md` + `skill\类目\<最贴近的类目>.md`；要 few-shot 就按 `skill\案例库索引.md` 取同类目案例。

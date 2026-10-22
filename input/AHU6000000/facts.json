@@ -6,7 +6,8 @@
   "gates": {
     "hard_blocks": [],
     "warnings": [
-      "描述出现 ['110V']，与属性 127V 不一致"
+      "描述出现 ['110V']，与属性 127V 不一致",
+      "尺寸不可信，已置空：diameter_cm=0.6（量级过小：0.6 cm < 1 cm）"
     ]
   },
   "identity": {
@@ -36,7 +37,7 @@
     "length_cm": 29.0,
     "width_cm": null,
     "height_cm": null,
-    "diameter_cm": 0.6,
+    "diameter_cm": null,
     "raw": []
   },
   "weight_kg": null,
@@ -170,6 +171,18 @@
       "item.json": "c187492ef14372734d9bece0f565873dee060a2b51ebf58def8377090be4dcb2"
     },
     "verified_by": "DSH 自动核验（可追溯性检查，待人工抽查）",
-    "verified_at": "2026-10-22T00:08:46"
+    "verified_at": "2026-10-22T00:08:46",
+    "size_fix": {
+      "at": "2026-10-22T19:27:03",
+      "by": "qa/fix_size_fields.py",
+      "fields": {
+        "diameter_cm": {
+          "old": 0.6,
+          "reasons": [
+            "量级过小：0.6 cm < 1 cm"
+          ]
+        }
+      }
+    }
   }
 }

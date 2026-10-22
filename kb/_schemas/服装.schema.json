@@ -1,0 +1,29 @@
+{
+  "schema": "category-schema/v1",
+  "category": "服装",
+  "version": "1.0",
+  "updated": "2026-10-22",
+  "description": "服装（外套/风衣/衬衫外套）事实卡字段。品牌、面料成分、尺码、包装清单是硬门槛；规格明细、净重、卖点、场景缺了提醒但不阻断。",
+  "required": [
+    { "path": "identity.brand", "label": "品牌" },
+    { "path": "material", "label": "面料成分（如 Poliéster）", "non_empty": true },
+    { "any_of": ["size.raw", "size.length_cm", "size.width_cm", "size.height_cm"], "label": "尺码（S–2XL 的胸围/肩宽/袖长/衣长）" },
+    { "path": "package.included", "label": "包装清单", "non_empty": true }
+  ],
+  "recommended": [
+    { "path": "specs", "label": "规格明细（面料/里料/版型/洗涤/闭合）", "non_empty": true },
+    { "path": "weight_kg", "label": "单件净重（运费与尺码页用）" },
+    { "path": "features", "label": "卖点素材", "non_empty": true },
+    { "path": "usage", "label": "使用场景", "non_empty": true }
+  ],
+  "power_rules": {
+    "note": "服装无供电，power.type 应为 manual；不写电压/功率/瓦数。若被标成 corded/battery，按数据错误处理，先查 build_facts 的供电判定。"
+  },
+  "notes": [
+    "尺码是服装第一退货原因：尺码必须逐码写胸围/肩宽/袖长/衣长（cm），并注明手工测量误差 1–2 cm；不同 SKU、不同版型不得复用同一组数值。",
+    "面料成分只写属性里有的（如 Poliéster / Poliéster 100% 需属性明确写百分比才可写）；没有比例不得写 100%。",
+    "facts/v1 暂无 closure / fit / care / color 字段：闭合方式、版型、洗涤方式、颜色先写在 specs / raw_attributes 里，生成时从这两处取；扩字段后再纳入门禁（不要为了门禁把不存在的字段写进 schema）。",
+    "认证 not_applicable：服装 Listing 不得出现 NOM / INMETRO / ANATEL / UN38.3 字样。",
+    "外套属服装，不按「配饰/饰品」话术写；不写「配饰」「首饰」「accesorio」这类归类。"
+  ]
+}

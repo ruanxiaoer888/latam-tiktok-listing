@@ -140,6 +140,30 @@ def dim_cm(s):
     return round(v / 10, 2) if u == "mm" else (round(v * 100, 2) if u == "m" else round(v, 2))
 
 
+# 尺寸可信区间：超出 1–150 cm 视为解析错误，字段置空并留 warning，不静默写垃圾
+SIZE_MIN_CM, SIZE_MAX_CM = 1.0, 150.0
+# 非尺寸单位（转速/扭矩/功率/重量/电压等）出现在「尺寸」候选行里 → 不可信
+# 只在该数字正好是前三个「尺寸数字」之一时才判不可信（避免同行的 1.3 kg 误伤 23 x 12 x 4 cm）
+SIZE_BAD_UNIT = re.compile(
+    r"(\d+(?:[.,]\d+)?)\s*(?:rpm|r\s*/\s*min|r\.p\.m\.?|nm|n\.?m\.?|kg|hz|dba?|ah|w|v)\b", re.I)
+
+
+def plausible_cm(v):
+    return v is not None and SIZE_MIN_CM <= float(v) <= SIZE_MAX_CM
+
+
+def size_value_in(text):
+    """判断字符串里是否出现「2 x 9,5 x 7 mm」这类三边尺寸（返回 [cm...] 或 None）。"""
+    nums = re.findall(r"\d+(?:[.,]\d+)?", text or "")
+    if len(nums) < 3:
+        return None
+    unit = "mm" if re.search(r"\d\s?mm\b", text or "", re.I) else "cm"
+    vals = [float(n.replace(",", ".")) for n in nums[:3]]
+    if unit == "mm":
+        vals = [round(v / 10, 2) for v in vals]
+    return vals
+
+
 def detect_power_type(attrs, title, desc):
     t = title or ""
     a = attrs or {}
@@ -291,6 +315,8 @@ def build_one(d, img_dir, check_only=False):
     }
 
     # ---------- 尺寸 ----------
+    # 规则：只接受 1–150 cm 的可信值；非尺寸单位（rpm/Nm/kg/W/V）与量级不合理的解析结果
+    # 一律置空 + gates.warnings 留痕，绝不静默写垃圾（历史垃圾用 fix_size_fields.py 回填）。
     size = {"length_cm": None, "width_cm": None, "height_cm": None, "diameter_cm": None, "raw": []}
     for k, v in attrs.items():
         target = DIM_KEYS.get(k)
@@ -300,7 +326,13 @@ def build_one(d, img_dir, check_only=False):
             size["raw"].append(f"{k}: {v}")
             continue
         cm = dim_cm(v)
-        if cm is not None and size[target] is None:
+        if cm is None:
+            continue
+        if not plausible_cm(cm):
+            warn.append(f"尺寸不可信，已置空：{k}={v}（解析为 {cm:g} cm，超出 "
+                        f"{SIZE_MIN_CM:g}–{SIZE_MAX_CM:g} cm）")
+            continue
+        if size[target] is None:
             size[target] = cm
     if not any(size[k] for k in ("length_cm", "width_cm", "height_cm")):
         for line in desc.splitlines():
@@ -309,12 +341,20 @@ def build_one(d, img_dir, check_only=False):
             nums = re.findall(r"\d+(?:[.,]\d+)?", line)
             if len(nums) < 3:
                 continue
-            unit = "mm" if re.search(r"\bmm\b", line, re.I) else "cm"
-            explicit = bool(re.search(r"\b(mm|cm)\b", line, re.I))
-            vals = [float(n.replace(",", ".")) for n in nums[:3]]
-            if unit == "mm":
-                vals = [round(v / 10, 2) for v in vals]
-            elif not explicit:
+            dim_nums = [float(n.replace(",", ".")) for n in nums[:3]]
+            bad_hit = next((m.group(0).strip() for m in SIZE_BAD_UNIT.finditer(line)
+                            if float(m.group(1).replace(",", ".")) in dim_nums), None)
+            if bad_hit:
+                warn.append(f"尺寸不可信，已置空：描述「{line.strip()[:50]}」含非尺寸单位"
+                            f"「{bad_hit}」（转速/扭矩/功率等），不是长宽高")
+                continue
+            vals = size_value_in(line)
+            if not vals or not all(plausible_cm(v) for v in vals):
+                warn.append(f"尺寸不可信，已置空：描述「{line.strip()[:50]}」解析为 {vals} cm，"
+                            f"超出 {SIZE_MIN_CM:g}–{SIZE_MAX_CM:g} cm")
+                continue
+            explicit = bool(re.search(r"\d\s?(mm|cm)\b", line, re.I))
+            if not explicit:
                 warn.append(f"描述尺寸「{line.strip()[:50]}」未标单位，按 cm 处理，需核实")
             size["length_cm"], size["width_cm"], size["height_cm"] = vals
             size["raw"].append(line.strip()[:80])

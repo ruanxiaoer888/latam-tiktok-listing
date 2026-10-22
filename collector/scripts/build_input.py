@@ -4,12 +4,14 @@ r"""build_input.py — 把抓取记录落成 input/<SKU>/{input.json, item.json,
 用法：
     python scripts/build_input.py --raw <work>\raw_b01.json [--raw <work>\raw_catalog.json] \
         [--input-root <工作区>\input] [--work <工作区>\collector\_work] \
-        [--only SKU1,SKU2] [--force] [--proxy 127.0.0.1:7890]
+        [--only SKU1,SKU2] [--force] [--proxy 127.0.0.1:7890] [--schema-dir <工作区>\kb\_schemas]
 
 行为（照做，别改）：
   - 已存在且含 input.json 的目录默认**跳过**（增量采集的铁律），--force 才重建
   - 图片取最高分辨率原图 url_original，保留原始格式与尺寸，命名 01.jpg / 02.jpg …
   - 风控拦截(wall/empty)、404、已下架(delisted) 的记录**不建目录**，只写进 build_report.json
+  - **类目白名单动态读取** kb\_schemas\<类目>.schema.json 的文件名；判定出的类目不在白名单时
+    **报错、不建目录**并最终以退出码 2 结束（新增 schema 后无需改本脚本，例如「服装」）
   - 目录级(catalog) 记录写 data_level/availability/catalog_product_id/note
   - 结果汇总写 <work>/build_report.json（供 gen_manifest.py --plan 判「需补采」）
 """
@@ -27,6 +29,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REPO_FALLBACK = os.path.dirname(os.path.dirname(HERE))
 DEFAULT_INPUT_ROOT = os.path.join(REPO_FALLBACK, "input")
 DEFAULT_WORK = os.path.join(os.path.dirname(HERE), "_work")
+DEFAULT_SCHEMA_DIR = os.path.join(REPO_FALLBACK, "kb", "_schemas")
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36")
@@ -50,6 +53,31 @@ def bucket(path):
     if ("muebles" in norm(p)) or ("hogar" in norm(p)) or ("Cocina" in p):
         return "家居建材"
     return "五金工具"
+
+
+def load_allowed_categories(schema_dir):
+    """类目白名单：kb/_schemas/<类目>.schema.json 的文件名。
+
+    动态读取，所以 kb/_schemas 里新增 <类目>.schema.json 后无需改本脚本
+    （例如「服装」schema 加进来后 AXNJC* 的类目即可通过校验）。
+    目录不存在时返回空集合，由调用方决定是否跳过校验（不会静默通过）。
+    """
+    if not schema_dir or not os.path.isdir(schema_dir):
+        return set()
+    out = set()
+    for fn in sorted(os.listdir(schema_dir)):
+        if not fn.endswith(".schema.json"):
+            continue
+        name = fn[: -len(".schema.json")].strip()
+        if not name or name.startswith("_"):
+            continue
+        out.add(name)
+    return out
+
+
+def category_allowed(cat, allowed):
+    """allowed 为空（schema 目录缺失）时不做拦截，由 main 打印警告。"""
+    return not allowed or (cat in allowed)
 
 
 RULES = [
@@ -194,7 +222,7 @@ def failure_reason(rec):
 
 
 # ---------------- 建目录 ----------------
-def build_one(r, input_root, work, proxy, force):
+def build_one(r, input_root, work, proxy, force, allowed=None, schema_dir=""):
     sku = r["sku"]
     d = os.path.join(input_root, sku)
     ip = os.path.join(d, "input.json")
@@ -205,6 +233,12 @@ def build_one(r, input_root, work, proxy, force):
 
     path = " > ".join(r.get("category_path") or [])
     cat = bucket(" > ".join((r.get("breadcrumb_cats") or []) + [path]))
+    if not category_allowed(cat, allowed or set()):
+        return {"sku": sku, "dir": d, "status": "failed", "category": cat,
+                "error_code": "category_not_allowed",
+                "error": "类目「%s」不在白名单（%s\\*.schema.json）；未建目录。"
+                         "先在 kb\\_schemas 增加 schema（无需改脚本），或人工核对类目判定" % (
+                             cat, schema_dir or "kb\\_schemas")}
     kw = keyword(r.get("title"), cat)
     shop = r.get("shop_name") or ""
     imgd = os.path.join(d, "img")
@@ -326,6 +360,8 @@ def load_records(paths):
 
 
 def main():
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     ap = argparse.ArgumentParser()
     ap.add_argument("--raw", action="append", required=True, help="抓取结果 JSON（可多次传）")
     ap.add_argument("--input-root", default=os.environ.get("MLP_INPUT_ROOT") or DEFAULT_INPUT_ROOT)
@@ -333,29 +369,47 @@ def main():
     ap.add_argument("--only", default="", help="只处理这些 SKU（逗号分隔）")
     ap.add_argument("--force", action="store_true", help="覆盖已存在的 SKU 目录（默认跳过）")
     ap.add_argument("--proxy", default=None, help="图片下载走代理，如 127.0.0.1:7890")
+    ap.add_argument("--schema-dir",
+                    default=os.environ.get("MLP_SCHEMA_DIR") or DEFAULT_SCHEMA_DIR,
+                    help="类目白名单来源：kb\\_schemas\\<类目>.schema.json（默认仓库 kb\\_schemas）")
     args = ap.parse_args()
 
     os.makedirs(args.work, exist_ok=True)
+    allowed = load_allowed_categories(args.schema_dir)
+    if allowed:
+        print("类目白名单（%d 个，来自 %s）：%s" % (
+            len(allowed), args.schema_dir, "、".join(sorted(allowed))))
+    else:
+        print("[!] 类目白名单为空：未找到 %s\\*.schema.json —— 本次跳过类目校验（不推荐）" % args.schema_dir)
     recs = load_records(args.raw)
     only = set(s.strip() for s in args.only.split(",") if s.strip())
     report = []
     for sku, r in recs:
         if only and sku not in only:
             continue
-        report.append(build_one(normalize(r, sku), args.input_root, args.work, args.proxy, args.force))
+        report.append(build_one(normalize(r, sku), args.input_root, args.work, args.proxy,
+                                args.force, allowed=allowed, schema_dir=args.schema_dir))
 
     out = os.path.join(args.work, "build_report.json")
     payload = {"generated_at": time.strftime("%Y-%m-%d %H:%M:%S"),
-               "input_root": args.input_root, "records": report}
+               "input_root": args.input_root, "schema_dir": args.schema_dir,
+               "allowed_categories": sorted(allowed), "records": report}
     with open(out, "w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, indent=1)
 
     ok = [r for r in report if r["status"] == "ok"]
     skip = [r for r in report if r["status"] == "skipped"]
     bad = [r for r in report if r["status"] == "failed"]
+    cat_bad = [r for r in bad if r.get("error_code") == "category_not_allowed"]
     print("\n落盘 %d / 跳过 %d / 未取到 %d   -> %s" % (len(ok), len(skip), len(bad), out))
     for r in bad:
-        print("  未取到 %-12s %s" % (r["sku"], (r.get("error") or "")[:80]))
+        print("  未取到 %-12s %s" % (r["sku"], (r.get("error") or "")[:120]))
+    if cat_bad:
+        print("\n[FAIL] %d 个 SKU 的类目不在白名单，已拒绝建目录：%s" % (
+            len(cat_bad), ", ".join("%s=%s" % (r["sku"], r.get("category")) for r in cat_bad)))
+        print("[HINT] 在 %s 下新增 <类目>.schema.json（脚本自动识别），或人工核对 bucket() 判定。"
+              % args.schema_dir)
+        return 2
     return 0
 
 

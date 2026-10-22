@@ -9,7 +9,8 @@
       "未找到电池电压（电池工具必须写清，如 21V）",
       "电池类标 700W 偏高（多为等效/峰值功率，不是持续功率）；Listing 不写瓦数",
       "描述尺寸「el motor sin carbono de alto rendimiento ofrece un」未标单位，按 cm 处理，需核实",
-      "材质取自描述推断（aluminio），需人工核实"
+      "材质取自描述推断（aluminio），需人工核实",
+      "尺寸不可信，已置空：length_cm=300（量级过大：300 cm > 150 cm；取自非尺寸单位「300 nm」）"
     ]
   },
   "identity": {
@@ -36,7 +37,7 @@
     "listing_voltage_v": null
   },
   "size": {
-    "length_cm": 300.0,
+    "length_cm": null,
     "width_cm": 10.0,
     "height_cm": 50.0,
     "diameter_cm": null,
@@ -188,6 +189,19 @@
       "at": "2026-10-22"
     },
     "overrides": "input/37267001/overrides.json",
-    "overrides_note": "数据质量哨兵 2026-10-22：电池工具无电池电压（battery_v / listing_voltage_v 均为空），无法确定电压口径，移出本批生成"
+    "overrides_note": "数据质量哨兵 2026-10-22：电池工具无电池电压（battery_v / listing_voltage_v 均为空），无法确定电压口径，移出本批生成",
+    "size_fix": {
+      "at": "2026-10-22T19:27:03",
+      "by": "qa/fix_size_fields.py",
+      "fields": {
+        "length_cm": {
+          "old": 300.0,
+          "reasons": [
+            "量级过大：300 cm > 150 cm",
+            "取自非尺寸单位「300 nm」"
+          ]
+        }
+      }
+    }
   }
 }

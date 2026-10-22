@@ -6,7 +6,8 @@
   "gates": {
     "hard_blocks": [],
     "warnings": [
-      "材质取自描述推断（acero），需人工核实"
+      "材质取自描述推断（acero），需人工核实",
+      "尺寸不可信，已置空：width_cm=1200（量级过大：1200 cm > 150 cm）"
     ]
   },
   "identity": {
@@ -32,7 +33,7 @@
   },
   "size": {
     "length_cm": 23.0,
-    "width_cm": 1200.0,
+    "width_cm": null,
     "height_cm": 4.0,
     "diameter_cm": null,
     "raw": []
@@ -163,6 +164,18 @@
       "item.json": "4568a4898f6a184ca865fa1ce20a1861cfe602674b69becb5a3c7c62b50efd51"
     },
     "verified_by": "DSH 自动核验（可追溯性检查，待人工抽查）",
-    "verified_at": "2026-10-22T00:08:46"
+    "verified_at": "2026-10-22T00:08:46",
+    "size_fix": {
+      "at": "2026-10-22T19:27:03",
+      "by": "qa/fix_size_fields.py",
+      "fields": {
+        "width_cm": {
+          "old": 1200.0,
+          "reasons": [
+            "量级过大：1200 cm > 150 cm"
+          ]
+        }
+      }
+    }
   }
 }
