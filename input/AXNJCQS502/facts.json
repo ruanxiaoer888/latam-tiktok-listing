@@ -1,0 +1,162 @@
+{
+  "schema": "facts/v1",
+  "product_id": "AXNJCQS502",
+  "category": "服装",
+  "status": "draft",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": []
+  },
+  "identity": {
+    "brand": "BRIGHTMOON",
+    "brand_aliases": [],
+    "model": "BM+P+25",
+    "title_raw": "Chaqueta Casual Para Mujer De Cuadros Con Botones Bolsillos"
+  },
+  "power": {
+    "type": "manual",
+    "voltage_v": null,
+    "battery_v": null,
+    "charger_v": null,
+    "w": null,
+    "claimed_w": null,
+    "rated_claimed_w": null,
+    "claims_w": [],
+    "basis": null,
+    "state_power": false,
+    "listing_policy": "state_verified_only",
+    "device_v": null,
+    "listing_voltage_v": null
+  },
+  "size": {
+    "length_cm": null,
+    "width_cm": null,
+    "height_cm": null,
+    "diameter_cm": null,
+    "raw": []
+  },
+  "weight_kg": null,
+  "capacity": "",
+  "pieces": null,
+  "material": [],
+  "material_basis": null,
+  "extras": {
+    "lift_range_mm": null,
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-2322524401-chaqueta-casual-para-mujer-de-cuadros-con-botones-bolsillos-_JM",
+    "store_id": "BrightMoon",
+    "core_keyword": ""
+  },
+  "package": {
+    "included": [],
+    "not_included": [],
+    "source": null
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "not_applicable"
+  },
+  "features": [
+    "bolsillos"
+  ],
+  "usage": [
+    "Urbano"
+  ],
+  "specs": {},
+  "raw_attributes": {
+    "Marca": "BRIGHTMOON",
+    "Modelo": "BM+P+25",
+    "Tipo de prenda": "Chaqueta",
+    "Género": "Mujer",
+    "Edad": "Adultos",
+    "Temporada de lanzamiento": "Otoño/Invierno",
+    "Composición": "blouses",
+    "Usos recomendados": "Urbano",
+    "Con bolsillos": "Sí",
+    "Tipos de cierre de los bolsillos": "Pocket Flap Pouch",
+    "Material principal": "Poliéster",
+    "Cantidad de bolsillos externos": "1",
+    "Cantidad de bolsillos internos": "0",
+    "Con materiales reciclados": "No",
+    "Es deportiva": "Sí",
+    "Con capucha": "No",
+    "Es impermeable": "No",
+    "Es térmica": "No",
+    "Es ultra liviana": "No"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 178.15,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 281325,
+      "sha256": "50bbce44a6e380a135131bc99be74ac923af3231acb16e410ac5d0003dd5d445",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 289695,
+      "sha256": "f88fb3344cd13316af8916c3c582109a8ed5ec675a959c0591657e930c2a2bd0",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 567066,
+      "sha256": "22ae1d509fedd46b58c1204753dc4079c7e4ef5b81ee7d9e025a2ce9f734d34c",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 351142,
+      "sha256": "698cd209e81b016c987fa6925bd1a81225956ae07a4464bcc26bc6248fd25193",
+      "main": false
+    },
+    {
+      "file": "img/05.jpg",
+      "bytes": 341893,
+      "sha256": "c61c9f19df8dc4f72108ef0f6212c64a214aa24c68f5155a18f6f485229da79e",
+      "main": false
+    },
+    {
+      "file": "img/06.jpg",
+      "bytes": 341717,
+      "sha256": "c850e8802ccc968aee05a950774aa38069d1f5f3b577615cb647ebe5cccd9f6d",
+      "main": false
+    },
+    {
+      "file": "img/07.jpg",
+      "bytes": 337323,
+      "sha256": "ce8c4faa70916320eb5d0a34673d895aabe1ece6ccd817d7ca75611154e4a8ec",
+      "main": false
+    },
+    {
+      "file": "img/08.jpg",
+      "bytes": 348945,
+      "sha256": "40564215a7e1c2927369e871f82092bdd935cadce1348279eb679c1bd76b6d39",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-22T11:56:21",
+    "built_from": [
+      "input/AXNJCQS502/input.json",
+      "input/AXNJCQS502/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "bee7610e73143d0ba6305828a225792ad2719c4d0c4ef57613de7ce9109454eb",
+      "item.json": "df8d396e65855dcef4290f0874abb4d85f5c5a18a396c847bd7c5dd133bd5175"
+    },
+    "verified_by": null,
+    "verified_at": null
+  }
+}
