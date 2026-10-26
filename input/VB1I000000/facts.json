@@ -1,0 +1,178 @@
+{
+  "schema": "facts/v1",
+  "product_id": "VB1I000000",
+  "category": "五金工具",
+  "status": "verified",
+  "gates": {
+    "hard_blocks": [],
+    "warnings": [
+      "充电器输入电压未提供（Listing 不写充电器电压）",
+      "电池类标 850W 偏高（多为等效/峰值功率，不是持续功率）；Listing 不写瓦数",
+      "facts 已按同一来源重建；人工核验状态已保留",
+      "电压口径已人工确认：按 21V 写（18V 为电芯组标称），2026-10-23",
+      "尺寸 / 材质缺，正文不写",
+      "转速 33,000 rpm 取自原文描述（facts 未登记）"
+    ]
+  },
+  "identity": {
+    "brand": "Merion",
+    "brand_aliases": [],
+    "model": "MER-GFJ-02",
+    "title_raw": "Soplador De Aire Para Hojas Inalambrica 850w Con 2 Baterías"
+  },
+  "power": {
+    "type": "battery",
+    "voltage_v": null,
+    "battery_v": 21,
+    "charger_v": null,
+    "w": null,
+    "claimed_w": 850,
+    "rated_claimed_w": null,
+    "claims_w": [
+      850
+    ],
+    "basis": "attribute",
+    "state_power": false,
+    "listing_policy": "do_not_state_power",
+    "device_v": null,
+    "listing_voltage_v": 21
+  },
+  "size": {
+    "length_cm": null,
+    "width_cm": null,
+    "height_cm": null,
+    "diameter_cm": null,
+    "raw": []
+  },
+  "weight_kg": 1.2,
+  "capacity": "1.5 Ah",
+  "pieces": null,
+  "material": [],
+  "material_basis": null,
+  "extras": {
+    "lift_range_mm": null,
+    "source_url": "https://articulo.mercadolibre.com.mx/MLM-2865444491-soplador-de-aire-para-hojas-inalambrica-850w-con-2-baterias-_JM",
+    "store_id": "MXMERION",
+    "core_keyword": "sopladora de aire inalambrica"
+  },
+  "package": {
+    "included": [
+      "Soplador *1",
+      "Batería (1.5 Ah) *2",
+      "Cargador *1",
+      "Tubo de extensión *2",
+      "Boquilla *2"
+    ],
+    "not_included": [],
+    "source": "description"
+  },
+  "compatibility": [],
+  "certification": {
+    "nom": null,
+    "inmetro": null,
+    "anatel": null,
+    "status": "missing"
+  },
+  "features": [],
+  "usage": [],
+  "specs": {
+    "Caudal de aire": "849.48 m³/h",
+    "Velocidad de soplado": "200 km/h",
+    "Frecuencia": "60Hz"
+  },
+  "raw_attributes": {
+    "Marca": "Merion",
+    "Modelo": "MER-GFJ-02",
+    "Color": "Verde",
+    "Voltaje": "21V",
+    "Frecuencia": "60Hz",
+    "Potencia": "850 W",
+    "Tipo de alimentación": "Batería",
+    "Caudal de aire": "849.48 m³/h",
+    "Velocidad de soplado": "200 km/h",
+    "Con sistema de reducción de ruido": "No",
+    "Con sistema antivibración": "No",
+    "Con función aspiradora": "No",
+    "Con función trituradora": "No",
+    "Peso": "1.2 kg",
+    "Capacidad de la batería": "1.5 Ah",
+    "Voltaje de la batería": "18V",
+    "Accesorios incluidos": "1 cargador, 2 Baterías, 2 Varitas de Extensión, 2 boquillas",
+    "Incluye batería": "Sí"
+  },
+  "site_profiles": {
+    "MX": {
+      "price": 387.09,
+      "currency": "MXN",
+      "plug": "A/B",
+      "nominal_v": 127
+    }
+  },
+  "images": [
+    {
+      "file": "img/01.jpg",
+      "bytes": 290141,
+      "sha256": "d35ae3ca88bd3709644e4ba1baccc12f247f6d66697129430f8adebe07c33cce",
+      "main": true
+    },
+    {
+      "file": "img/02.jpg",
+      "bytes": 210031,
+      "sha256": "83515bd78a9aec49930b752ed4b05062a74ef962807ff4d29b29527636281305",
+      "main": false
+    },
+    {
+      "file": "img/03.jpg",
+      "bytes": 454705,
+      "sha256": "20154942d1a1eb46ba64afbbb45c55101c24cbc38a3e5c63d27d16d53d88ce80",
+      "main": false
+    },
+    {
+      "file": "img/04.jpg",
+      "bytes": 400772,
+      "sha256": "29f59e165a0def0b76b036c6a641eaeb30de4d0c65f07f949704e3de5b843202",
+      "main": false
+    },
+    {
+      "file": "img/05.jpg",
+      "bytes": 349277,
+      "sha256": "e59f410b2b239a9c33ae07920b99c721ab86e07daab409e5e76732aa176ede78",
+      "main": false
+    },
+    {
+      "file": "img/06.jpg",
+      "bytes": 322935,
+      "sha256": "667ffb59865d50c62974bef22d3fc169dc746139d7c29284ecb741f33a012122",
+      "main": false
+    },
+    {
+      "file": "img/07.jpg",
+      "bytes": 360095,
+      "sha256": "30cc0c0fba8347cd3c625360f1c3ebcc0e10c0a1360736b4fb0c0b80c6d6a914",
+      "main": false
+    },
+    {
+      "file": "img/08.jpg",
+      "bytes": 1144806,
+      "sha256": "3bd4d290332e058585c406b064148367521c626ab11f8ef1193dca802c8bcd75",
+      "main": false
+    }
+  ],
+  "unknowns": [],
+  "_meta": {
+    "rules_version": "v1.3",
+    "built_at": "2026-10-23T10:45:01",
+    "built_from": [
+      "input/VB1I000000/input.json",
+      "input/VB1I000000/item.json"
+    ],
+    "source_sha256": {
+      "input.json": "d81da68d02891cdb4dd1bb2b59b8df732cb59167945882d2f413fcc5c2cafc36",
+      "item.json": "baa789f4aa5ac1e010b467533132a1d5b96d19d6b0dbff63c48e4f376f28d701"
+    },
+    "verified_by": "DSH 自动核验（可追溯性检查，待人工抽查）",
+    "verified_at": "2026-10-23T09:53:53",
+    "overrides": "input/VB1I000000/overrides.json",
+    "overrides_note": "2026-10-23 运营确认：电池电压按 21V 处理（属性『Voltaje: 21V』；『Voltaje de la batería: 18V』是 5 串电芯组标称）"
+  }
+}

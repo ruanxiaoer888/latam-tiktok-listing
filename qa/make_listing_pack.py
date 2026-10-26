@@ -15,7 +15,8 @@ r"""make_listing_pack.py — 把一个 SKU 的「生成 TikTok Listing 所需的
     python qa\make_listing_pack.py --all            # 所有 status=verified 的 SKU
     python qa\make_listing_pack.py --all --out output\_packs_2
 
-生成后：把 output\_packs\<SKU>.md 发给 Agent，产出 output\批次YYYYMMDD\listing-<SKU>.txt，
+生成后：把 output\_packs\<SKU>.md 发给 Agent，直接产出
+output\批次YYYYMMDD\<SKU>\标题.txt + 描述.txt（成稿就是交付文件，不再另存 listing 文件），
 再跑 python qa\run_batch.py --input-root input --listing-dir output\批次YYYYMMDD --site MX。
 """
 import argparse
@@ -27,7 +28,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 INPUT = ROOT / "input"
 SCENE = ROOT / "output" / "_batch" / "scene"
-BATCH = ROOT / "output" / "批次20261022-v2"
 OUT = ROOT / "output" / "_packs"
 
 CAT_PACK = {
@@ -60,6 +60,7 @@ RULES = """## 2. 硬规则（违反即返工）
 - FAQ：`💡 Preguntas Frecuentes (FAQ):` 固定 3 条：兼容/适用 → 含什么/怎么用 → 隐藏成本（耗材、配件、保养）。高价品可加第 4 条「¿Por qué cuesta más que otros?」。
 - 颜色：facts.raw_attributes.Color 有值就在规格区加 `- Color: X`；没有就不写。
 - 语言：es-MX；禁中文/葡语/英文混排。
+- 纯文本：正文禁用 Markdown（`**`、`__`、`#`、表格 `|`）和中文全角标点；卖点行写成 `⭐ 短语: 一句解释`，加粗由运营在后台手动选中设置（后台不解析 `**`，会原样显示星号）。
 - 禁用：`Compra protegida`、`envío gratis`、`entrega inmediata`、`pago contra entrega`、`solo por hoy`、`última pieza`、`100%`（材质语境除外）、绝对化、医疗宣称、站外导流、`NOM/INMETRO/ANATEL/UN38.3`（本批认证 missing）。
 - 不写价格、不编赠品/保修/物流时效。
 - CTA 一行：`Compra segura con pago dentro de TikTok Shop.` + 一句核对建议。
@@ -128,6 +129,21 @@ def facts_block(f):
     return "\n".join(lines)
 
 
+def find_example(sku):
+    """找同/近类目范本：优先新批次里的 <SKU>\标题.txt+描述.txt，兼容旧的 listing-<SKU>.txt。"""
+    out = ROOT / "output"
+    dirs = sorted((d for d in out.glob("批次*") if d.is_dir()), reverse=True) if out.is_dir() else []
+    for d in dirs:
+        t, s = d / sku / "标题.txt", d / sku / "描述.txt"
+        if t.exists() and s.exists():
+            return (t.read_text(encoding="utf-8").strip() + "\n\n"
+                    + s.read_text(encoding="utf-8").strip())
+        q = d / ("listing-%s.txt" % sku)
+        if q.exists():
+            return q.read_text(encoding="utf-8").strip()
+    return None
+
+
 def build(sku, out_dir):
     facts_p = INPUT / sku / "facts.json"
     if not facts_p.exists():
@@ -144,20 +160,21 @@ def build(sku, out_dir):
     cat_txt = cat_pack.read_text(encoding="utf-8") if cat_pack.exists() else "（该类目暂无类目包）"
     ex_txt = []
     for ex in EXAMPLES.get(cat, [])[:2]:
-        p = BATCH / ("listing-%s.txt" % ex)
-        if p.exists():
-            ex_txt.append("### 范本 %s\n\n```\n%s\n```" % (ex, p.read_text(encoding="utf-8").strip()))
+        txt = find_example(ex)
+        if txt:
+            ex_txt.append("### 范本 %s\n\n```\n%s\n```" % (ex, txt))
     ex_block = "\n\n".join(ex_txt) if ex_txt else "（同类目暂无范本，按规则写）"
 
     md = """# 生成包：{sku} · {cat} · TikTok Shop MX
 
-> 把本文件整段发给 Agent，要求它只产出 `output\\批次YYYYMMDD\\listing-{sku}.txt`（标题第一行，正文按格式）。
+> 把本文件整段发给 Agent，要求它直接产出 `output\\批次YYYYMMDD\\{sku}\\标题.txt` + `描述.txt`
+> （UTF-8、纯文本、不带 Markdown 标记；成稿就是交付文件）。
 > 事实只认第 3 节，场景只认第 4 节，写法按第 2 节；范本只学结构，不抄参数。
 
 ## 1. 任务
 
 为 **{sku}** 写一条 TikTok Shop 墨西哥站（es-MX）商品 Listing：标题 + 描述（卖点 / 规格 / 包装 / FAQ / CTA）。
-写完后自检：标题长度、首行 ≤60、⭐ 4–5 条、三段标题齐全、无中文/禁词。
+写完后自检：标题长度、首行 ≤60、⭐ 4–5 条、三段标题齐全、无中文/禁词、无 `**` 与全角标点。
 
 {rules}
 
@@ -181,10 +198,10 @@ def build(sku, out_dir):
 
 ## 7. 输出与验收
 
-- 文件：`output\\批次YYYYMMDD\\listing-{sku}.txt`（UTF-8 无 BOM，标题第一行，段落空行）
+- 文件：`output\\批次YYYYMMDD\\{sku}\\标题.txt` + `描述.txt`（UTF-8 无 BOM，纯文本，段落空行）
 - 自检：
 ```powershell
-python -c "import sys;t=open(sys.argv[1],encoding='utf-8').read().splitlines();n=[x for x in t if x.strip()];print('title',len(t[0]),'hook',len(n[1]),'stars',sum(1 for x in t if x.startswith('⭐')),'chars',len(chr(10).join(t)))" output\\批次YYYYMMDD\\listing-{sku}.txt
+python -c "import sys;t=open(sys.argv[1],encoding='utf-8').read().splitlines();d=open(sys.argv[2],encoding='utf-8').read();print('title',len(t[0]),'stars',sum(1 for x in d.splitlines() if x.startswith('⭐')),'md','**' in d)" output\\批次YYYYMMDD\\{sku}\\标题.txt output\\批次YYYYMMDD\\{sku}\\描述.txt
 ```
 - 批次校验：
 ```powershell

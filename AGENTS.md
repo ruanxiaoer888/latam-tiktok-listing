@@ -29,12 +29,15 @@
 
 ## 2. 交付物的固定位置
 
-- 成稿：`output\批次YYYYMMDD\listing-<SKU>.txt`
-- 上架表：`output\批次YYYYMMDD\上架清单.xlsx`
-- 校验明细：`output\批次YYYYMMDD\批次结果.xlsx`
-- 原始素材：`input\<SKU>\`
+只有两个数据目录：`input\` 是原料，`output\` 是产物。**交付物全部在批次目录里，不许在仓库根新开目录。**
 
-同一批次目录已存在就续写，不新建重复目录。
+- **成稿就在交付文件夹里**：`output\批次YYYYMMDD\<SKU>\标题.txt` + `描述.txt`（Agent 直接写这里，不再另存 listing 文件）
+- 每个 SKU 另外两样：`图片\`（从 `input\<SKU>\img` 复制，01 是主图）、`上架信息.md`（后台字段、缺什么、备注）
+- 批次说明：`output\批次YYYYMMDD\README.md`（怎么用、本期 SKU、校验结论）
+- **批次根目录只放：README.md + SKU 文件夹；一个机器文件都不许放**。校验/映射/明细等机器文件全部写进 `output\_smoke\run_batch_<时间戳>_<pid>\`，用户不用看
+- 原始素材：`input\<SKU>\`（**不是给人上架用的**，别让运营从这里拿图片）
+
+同一批次目录已存在就续写，不新建重复目录。每次交付都要出 SKU 文件夹：运营拿到一个 SKU 文件夹就能上架，批次根目录不许再堆机器文件。
 
 ## 3. 数据不全时怎么说（人话，不甩报错）
 
@@ -51,10 +54,14 @@ python qa\check_facts.py --only <SKU>            # READY 才继续
 python qa\check_facts_quality.py --input-root input --strict
 python qa\build_scene.py --only <SKU>            # 或 --all 批量
 python qa\make_listing_pack.py --sku <SKU>       # 或 --all；产物 output\_packs\<SKU>.md
-# 按 output\_packs\<SKU>.md 生成 output\批次YYYYMMDD\listing-<SKU>.txt
+# 按生成包直接写 output\批次YYYYMMDD\<SKU>\标题.txt + 描述.txt（成稿就是交付文件）
 python qa\run_batch.py --input-root input --listing-dir output\批次YYYYMMDD --site MX
-# 出上架表：output\批次YYYYMMDD\上架清单.xlsx
+# 机器文件全部进 output\_smoke\run_batch_<时间戳>_<pid>\，批次目录不动
+python qa\make_upload_pack.py --batch output\批次YYYYMMDD
+# 补 上架信息.md + 图片\ + 批次 README.md
 ```
+
+> 批次根目录只留 README + SKU 文件夹；机器文件在 `output\_smoke\`，用户不用打开。
 
 批量超过 10 条时，用子代理按 SKU 分组并行写，主控统一自检；写入范围按 SKU 分组互不重叠。
 
@@ -65,3 +72,4 @@ python qa\run_batch.py --input-root input --listing-dir output\批次YYYYMMDD --
 - `certification.status=missing` 时全文不出现 NOM / INMETRO / ANATEL / UN38.3；
 - 包装按 `facts.package.included`；颜色按 `raw_attributes.Color`；
 - 价格不进正文；不编赠品 / 保修 / 包邮 / 时效。
+- **正文是纯文本**：不写 `**加粗**` / `__` / `#` / 表格 `|`，标点只用半角——TikTok 后台是富文本编辑器，不解析 Markdown，`**` 会原样显示成星号，加粗由运营在后台手动设置。`check_listing.py` 会报 P1。

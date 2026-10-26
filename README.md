@@ -12,10 +12,18 @@
 - **版本库**：本目录就是 git 仓库根目录（`origin` = GitHub 私有库）。提交数 / 文件数**不抄数字**，跑 `git rev-list --count HEAD` / `git ls-files | wc -l`；换电脑 / 迁移步骤见 `迁移到新电脑.md`
 - **交接**：`HANDOFF.md`（当前任务、已完成、卡住的问题、下一步、踩过的坑）；全量审计见 `审计报告-20261022.md`
 
+## 快速导航
+
+- **要上架**：只看 `output\批次YYYYMMDD\<SKU>\`（标题 / 描述 / 图片 / 上架信息全在一个文件夹）；目录角色见 `项目结构.md`
+- **跑流水线 / 改规则**：`qa\` `skill\` `kb\`，命令见 `生成Listing怎么用.md`
+- **采集新商品**：见 `采集怎么用.md`
+
 ## 目录
 
 ```
 listing-pipeline\
+├─ AGENTS.md               一句话生成规则（仓库副本；换机放到工作区根目录）
+├─ 项目结构.md             一页看懂：哪个目录是干嘛的（先看这个）
 ├─ SKILL.md               技能入口（什么时候用、怎么用、硬约束）
 ├─ README.md              本文件
 ├─ HANDOFF.md             交接文档（现状 / 已修 / 仍开放 / 坑 / 命令速查）
@@ -64,6 +72,7 @@ listing-pipeline\
 │  ├─ make_batch_xlsx.py    批量：校验结果 + 备注 → 批次结果.xlsx
 │  ├─ make_review_notes.py  事实卡 → review_notes.json + 待补数据清单.md
 │  ├─ run_batch.py          一条命令跑完 门禁 + 映射 + 校验 + 出表
+│  ├─ make_upload_pack.py   成稿 → 每 SKU 一个上架文件夹 + 批次 README
 │  ├─ selftest.py           一键回归（4 组基线断言，供 pre-commit 用）
 │  ├─ collect_inputs.py     采集入参整理（辅助）
 │  ├─ build_check_csv.py    校验 CSV 构建（辅助）
@@ -71,7 +80,7 @@ listing-pipeline\
 │  └─ 报告\<日期>\          扫描输出（check_listing / check_images 单独跑时写这里）
 ├─ kb\                    产品事实库：_schemas\（5 个类目 schema + _fields.md）、_index\（脚本生成，不进 git）
 ├─ input\                 待处理商品（一个子目录一个 SKU；facts.json / overrides.json / img_manifest.csv 进 git，图与原始 json 不进）
-└─ output\                生成结果：批次<日期>\（当期成稿随批次入库，见下）、_batch\ _smoke\ 报告不入库
+└─ output\                所有产物：批次<日期>\（**只有 README + 每个 SKU 一个文件夹：标题/描述/图片/上架信息**；机器文件全部在 _smoke\，不入库）
 ```
 
 > **SKU 数不要抄**：以 `input\` 实际目录为准（当前 110 个）。`kb\_schemas\` 当前 5 个类目 schema（五金工具 / 汽车摩托 / 家电 / 运动户外 / 服装）。**跳过 = 0**（服装 schema 已补，2026-10-22）。
@@ -138,10 +147,13 @@ python check_images.py --input-root ..\input                       # 系统 pyth
 python check_images.py --sku AXNJCPS300                            # 只查一个 SKU
 python check_images.py --demo                                      # 自检（19/19）
 
-# 一条命令跑完 属性映射 + 校验 + 出表（生成仍由 Agent 完成）
+# 一条命令跑完 属性映射 + 校验 + 出表（生成仍由 Agent 完成；机器文件写进 output\_smoke\）
 python run_batch.py --input-root ..\input --listing-dir ..\output\批次YYYYMMDD --site MX
 # 退出码：0 通过 / 1 运行期错误 / 2 参数错误 / 3 门禁拦截（有被拒 SKU，或 listing 有 P0）
 # 被拒 SKU 默认不校验（facts 缺失或 status != verified）；仅调试可加 --allow-unverified
+
+# 补上架信息/图片/批次 README（批次根目录只留 README + SKU 文件夹）
+python make_upload_pack.py --batch ..\output\批次YYYYMMDD
 ```
 
 **每次跑完的校验明细在 `output\_smoke\run_batch_<时间戳>_<pid>\`**（每次唯一目录，不会撞分钟；gitignored）。
@@ -149,13 +161,13 @@ python run_batch.py --input-root ..\input --listing-dir ..\output\批次YYYYMMDD
 
 **可选列**（有就用，没有跳过）：`核心词/keyword`（检查前 30 字符）、`类目/category`（按行套类目检查）、`SKU/商品ID`（报告区分条目）。
 
-## 校验能力（v1.3）
+## 校验能力（v1.4）
 
 三层同时校：**合规（P0/P1）+ 结构（P2-结构）+ 转化（P2-转化）**。
 
 **P0（上架必失败）**：中文残留、`[POR CONFIRMAR]` 占位、标题超平台上限、描述超 10000、**空标题/空描述**
 
-**P1（违规/误导）**：绝对化、医疗宣称、虚假紧迫、站外导流、未验证物流/信任承诺、`100%` 上下文、跨语言混入
+**P1（违规/误导/粘不进后台）**：绝对化、医疗宣称、虚假紧迫、站外导流、未验证物流/信任承诺、`100%` 上下文、跨语言混入、**Markdown 残留（`**` / `__`，后台不解析会显示成星号）**、**中文全角标点残留（`：，。（）`）**
 
 **P2-结构（影响流量与退货）**：标题不在 60–80、核心词不在前 30、标题重复词堆砌、描述过短、缺 📋📦💡 分段、单行 Emoji >2、模型腔结构标签残留、标签过多、**类目必带信息缺失**、**英制单位未换算**、**价格未标币种**
 
@@ -253,7 +265,8 @@ python run_batch.py --input-root ..\input --listing-dir ..\output\批次YYYYMMDD
 | **尺寸哨兵**（2026-10-22） | `fix_size_fields.py --apply` 修 **11 个 SKU / 18 个字段**（置 null，原值留在 `_meta.size_fix`）；`check_facts_quality --strict` 新增 `FQ-P0-SIZE-IMPLAUSIBLE` 后 = P0=0 P1=21 P2=52，exit 0 |
 | **图片检查**（2026-10-22 首跑） | 17 个 SKU / 145 张图 → **P0=11（9 个 SKU）/ P1=29（13 个）/ P2=10（10 个）**，exit 3；跳过 93 个无 img 的 SKU（未检查，不算通过）；`--demo` 19/19 通过 |
 | **采集完整性**（2026-10-22） | `gen_manifest.py --plan` = 完整 **17** / 只有 facts **93** / 损坏 **0**，exit 1（`--allow-incomplete` 放行 → exit 0）；自动清单 `output\_batch\采集清单-自动.md` |
-| **基础设施回归** | `python qa\selftest.py` → 4/4 PASS：`check_listing --demo` = 0/4/9/14；`check_facts` = READY 81 / QUARANTINED 13 / skip 0；两个 `--demo` 自检 |
+| **基础设施回归** | `python qa\selftest.py` → 4/4 PASS：`check_listing --demo` = 0/13/9/14；`check_facts` = READY 84 / QUARANTINED 13 / skip 0；两个 `--demo` 自检 |
+| **Markdown/标点规则**（v1.4，2026-10-23） | 后台实测：`**加粗**` 原样显示成星号 → 新增 `P1-MARKDOWN`（`**`/`__`）+ `P1-PUNCT`（全角 `：，。（）`）。9 条旧案例 P1 由 4 → 13（多出的 9 处全是 `**`）；3 条新稿 P1=0、正文无 `**` |
 
 ## 待办
 

@@ -25,11 +25,12 @@ python qa\build_scene.py --only <SKU>
 python qa\make_listing_pack.py --sku <SKU>
 #    -> output\_packs\<SKU>.md
 
-# 5. 把生成包发给 Agent，让它只产出：
-#    output\批次YYYYMMDD\listing-<SKU>.txt
+# 5. 把生成包发给 Agent，让它直接产出（成稿就是交付文件）：
+#    output\批次YYYYMMDD\<SKU>\标题.txt + 描述.txt
 
-# 6. 校验 + 出表
+# 6. 校验（机器文件自动进 output\_smoke）+ 补上架信息/图片/README
 python qa\run_batch.py --input-root input --listing-dir output\批次YYYYMMDD --site MX
+python qa\make_upload_pack.py --batch output\批次YYYYMMDD
 ```
 
 批量：

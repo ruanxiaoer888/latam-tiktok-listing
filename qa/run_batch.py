@@ -4,28 +4,30 @@ r"""
 
 用法：
   python run_batch.py --input-root ..\input --listing-dir ..\output\批次0921 --site MX
-  python run_batch.py --input-root ..\input --listing-dir ..\output\批次0921 --site MX --allow-unverified
+
+listings 的两种布局都认（先扁平、再 SKU 文件夹）：
+  <batch>\listing-<SKU>.txt                      旧布局
+  <batch>\<SKU>\标题.txt + 描述.txt              新布局（推荐，交付文件夹即源稿）
+
+机器文件去哪：**全部写进本次 output\_smoke\run_batch_<时间戳>\_<pid>\**，
+批次目录一个机器文件都不落（批次根只留 README + SKU 文件夹）。
 
 步骤：
-  0. 生成前门禁      遍历 listing-<SKU>.txt，读 input/<SKU>/facts.json：
-                     facts 缺失 / 读取失败 / status != "verified" 的 SKU 不参与校验，
-                     逐个打印原因并计数。默认最终 exit 3；--allow-unverified 打印警告后放行。
-  1. 属性映射        input.json → 属性映射.xlsx（含冲突与风险）
-  2. 汇总校验用 CSV  listing-<id>.txt + input.json → check.csv（全部 rows 进批次结果表）
-  3. 合规校验        仅 verified 行 → check_listing --fail-on-p0：报告 md + 明细 csv
-                     每次运行使用唯一目录 output\_smoke\run_batch_<时间>_<随机>，不再猜"本次明细"
-  4. 批次结果表      校验结果 + review_notes.json + 被拒原因 → 批次结果.xlsx
-缺少 listing 的商品跳过 2-4，只出属性表并提示"待生成"。
+  0. 生成前门禁      遍历<batch>下已生成的 SKU，读 input/<SKU>/facts.json：
+                    facts 缺失 / 读取失败 / status != "verified" 的 SKU 不参与校验，逐个打印原因并计数。
+                    默认最终 exit 3；--allow-unverified 打印警告后放行。
+  1. 属性映射        input.json → 属性映射.xlsx（写进 _smoke 目录）
+  2. 汇总校验用 CSV  listing + input.json → check.csv（写进 _smoke 目录）
+  3. 合规校验        仅 verified 行 → check_listing --fail-on-p0：报告 md + 明细 csv（写进 _smoke）
+  4. 批次结果表      校验结果 + 事实卡警告 → 批次结果.xlsx（写进 _smoke）
 
 退出码：
   0   全部通过（--allow-unverified 放行且 listing 无 P0）
   1   运行期错误（子进程失败 / IO / 报告文件缺失）
   2   参数错误（argparse）
   3   门禁拦截：有被拒 SKU（默认，除非 --allow-unverified），或 check_listing 出现 P0
-任意子步骤返回非 0 时立即中止，不执行后续步骤（不再"失败继续下一步"）。
 """
 import argparse
-import csv
 import json
 import os
 import subprocess
@@ -34,7 +36,7 @@ from datetime import datetime
 from pathlib import Path
 
 BASE = Path(__file__).resolve().parent
-# DSH 自带 Python 的位置按当前用户解析，换电脑/换用户名也能找到（不要写死 C:\Users\AUSU）
+ROOT = BASE.parent
 _HOME = Path(os.environ.get("USERPROFILE") or Path.home())
 FALLBACK_PY = str(_HOME / ".dsh" / "dsh-runtimes" / "dsh-primary-runtime" / "dependencies" / "python" / "python.exe")
 
@@ -67,43 +69,60 @@ def run(cmd, label):
 
 
 def make_scan_dir(ldir):
-    """本次校验独有目录：output\\_smoke\\run_batch_<时间戳>_<pid>；不可写时退回 listing-dir 下。
-
-    不用 tempfile.mkdtemp()：本机沙箱下 mkdtemp 建的 0700 目录里无法再创建文件（PermissionError），
-    所以统一用普通 mkdir 建唯一目录。
-    """
+    """本次校验独有目录：output\\_smoke\\run_batch_<时间戳>_<pid>；不可写时退回 batch 下的临时目录。"""
     stamp = f"{datetime.now():%Y%m%d_%H%M%S_%f}_{os.getpid()}"
     last = None
-    for p in (BASE.parent / "output" / "_smoke" / f"run_batch_{stamp}",
+    for p in (ROOT / "output" / "_smoke" / f"run_batch_{stamp}",
               ldir / f"_scan_{stamp}"):
         try:
             p.mkdir(parents=True, exist_ok=False)
             return p
         except OSError as e:  # noqa: PERF203
             last = e
-    raise SystemExit(f"无法创建本次校验目录（output/_smoke 与 listing-dir 都不可写）：{last}")
+    raise SystemExit(f"无法创建本次校验目录（output/_smoke 与 batch 都不可写）：{last}")
 
 
-def read_facts_status(inroot, pid):
-    """返回 (status, error)。facts.json 缺失/读不了时 status=None。"""
+def read_facts(inroot, pid):
+    """返回 (facts, error)。facts.json 缺失/读不了时 facts=None。"""
     p = inroot / pid / "facts.json"
     if not p.exists():
         return None, None
     try:
-        data = json.loads(p.read_text(encoding="utf-8-sig"))
+        return json.loads(p.read_text(encoding="utf-8-sig")), None
     except Exception as e:  # noqa: BLE001
         return None, f"facts.json 读取失败：{e}"
-    return str(data.get("status") or "draft"), None
+
+
+def find_listing(ldir, pid):
+    """扁平 listing-<SKU>.txt 或 <SKU>\\标题.txt，两种布局都认。"""
+    flat = ldir / f"listing-{pid}.txt"
+    if flat.exists():
+        return flat
+    d = ldir / pid
+    if (d / "标题.txt").exists() and (d / "描述.txt").exists():
+        return d / "标题.txt"
+    return None
+
+
+def facts_note(facts):
+    """事实卡里的警告 + 人工覆盖说明 → 一行备注（给批次结果表用）。"""
+    warnings = (facts.get("gates") or {}).get("warnings") or []
+    parts = [w for w in warnings if "facts 已按同一来源重建" not in w]
+    note = (facts.get("_meta") or {}).get("overrides_note") or ""
+    if note:
+        parts.append(note)
+    return "；".join(parts)
 
 
 def filter_check_csv(src, dst, keep_ids):
     """从 build_batch_csv 的 check.csv 里只留 verified SKU，写一份给 check_listing。"""
+    import csv as _csv
     with open(src, encoding="utf-8-sig", newline="") as f:
-        rows = list(csv.DictReader(f))
+        rows = list(_csv.DictReader(f))
     kept = [r for r in rows if r.get("id") in keep_ids]
     dst.parent.mkdir(parents=True, exist_ok=True)
     with open(dst, "w", encoding="utf-8-sig", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=list(rows[0].keys()) if rows else ["id", "标题", "描述", "核心词", "类目", "原价MXN", "图片目录"])
+        w = _csv.DictWriter(f, fieldnames=list(rows[0].keys()) if rows else ["id", "标题", "描述", "核心词", "类目", "原价MXN", "图片目录"])
         w.writeheader()
         w.writerows(kept)
     return kept
@@ -116,9 +135,9 @@ def main():
         sys.stderr.reconfigure(encoding="utf-8", errors="replace")
     ap = argparse.ArgumentParser(description="批次流水线薄封装（门禁+映射+校验+出表）")
     ap.add_argument("--input-root", required=True, help="原始商品目录：每个商品一个子目录，含 input.json")
-    ap.add_argument("--listing-dir", required=True, help="生成结果的目录：listing-<id>.txt")
+    ap.add_argument("--listing-dir", required=True, help="批次目录：listing-<id>.txt 或 <id>\\标题.txt")
     ap.add_argument("--site", default="MX", choices=["MX", "BR"])
-    ap.add_argument("--notes", default="", help="可选：review_notes.json，人工待确认备注")
+    ap.add_argument("--notes", default="", help="可选：额外备注 JSON（默认用事实卡警告）")
     ap.add_argument("--allow-unverified", action="store_true",
                     help="放行未 verified/缺 facts 的 SKU（打印警告）；默认拒绝并 exit 3，"
                          "放行后若 listing 仍有 P0 仍 exit 3")
@@ -136,29 +155,23 @@ def main():
         f = d / "input.json"
         if f.exists() and not d.name.startswith("_") and d.name not in SKIP_DIRS:
             ids.append(d.name)
-    print(f"输入商品 {len(ids)} 个；输出目录：{ldir}")
+    print(f"输入商品 {len(ids)} 个；批次目录：{ldir}")
 
-    # 1. 属性映射（失败立即中止）
-    attr_xlsx = ldir / "属性映射.xlsx"
-    run([sys.executable, BASE / "map_attributes.py",
-         "--input-root", inroot, "--out", attr_xlsx], "属性映射")
-
-    # 2. 检查 listing 覆盖 + 生成前门禁
-    have = [i for i in ids if (ldir / f"listing-{i}.txt").exists()]
+    have = [i for i in ids if find_listing(ldir, i)]
     lack = [i for i in ids if i not in have]
-    print(f"\n已有 listing：{len(have)} 个；待生成：{len(lack)} 个")
+    print(f"\n已生成的 SKU：{len(have)} 个；待生成：{len(lack)} 个")
     if lack:
         print("待生成：" + "、".join(lack))
 
     accepted, rejected = [], []
     for pid in have:
-        status, err = read_facts_status(inroot, pid)
+        facts, err = read_facts(inroot, pid)
         if err:
             rejected.append((pid, err))
-        elif status is None:
+        elif facts is None:
             rejected.append((pid, "facts.json 缺失（未建事实卡）"))
-        elif status != "verified":
-            rejected.append((pid, f"facts.status={status}（未核验/隔离/阻断）"))
+        elif facts.get("status") != "verified":
+            rejected.append((pid, f"facts.status={facts.get('status')}（未核验/隔离/阻断）"))
         else:
             accepted.append(pid)
 
@@ -174,15 +187,20 @@ def main():
     checked = have if args.allow_unverified else accepted
     if checked:
         scan_dir = make_scan_dir(ldir)
-        print(f"[i] 本次校验输出目录：{scan_dir}")
-        check_csv = ldir / "check.csv"
+        print(f"\n[i] 本次机器文件全部写到：{scan_dir}")
+
+        attr_xlsx = scan_dir / "属性映射.xlsx"
+        run([sys.executable, BASE / "map_attributes.py",
+             "--input-root", inroot, "--out", attr_xlsx], "属性映射")
+
+        check_csv = scan_dir / "check.csv"
         run([sys.executable, BASE / "build_batch_csv.py",
              "--input-root", inroot, "--listing-dir", ldir, "--out", check_csv], "汇总校验用 CSV")
 
         verified_csv = scan_dir / "check_verified.csv"
         kept = filter_check_csv(check_csv, verified_csv, set(checked))
         if not kept:
-            print("[!] 过滤后没有可校验的行（listing 与 input.json 对不上），跳过校验与出表。")
+            print("[!] 过滤后没有可校验的行（清单与 input.json 对不上），跳过校验与出表。")
         else:
             run([sys.executable, BASE / "check_listing.py",
                  "--input", verified_csv, "--site", args.site, "--out", scan_dir, "--fail-on-p0"], "合规校验")
@@ -190,37 +208,42 @@ def main():
             if len(details) != 1:
                 print(f"[X] 期望 1 份明细，实际 {len(details)} 份：{details}", file=sys.stderr)
                 sys.exit(1)
-            findings = ldir / "_findings.csv"
-            findings.write_bytes(details[0].read_bytes())
             print(f"[i] 本次明细：{details[0]}")
 
-            notes_path = args.notes or str(ldir / "review_notes.json")
             notes = {}
-            if notes_path and Path(notes_path).exists():
+            extra = {}
+            if args.notes and Path(args.notes).exists():
                 try:
-                    notes = json.loads(Path(notes_path).read_text(encoding="utf-8"))
+                    extra = json.loads(Path(args.notes).read_text(encoding="utf-8"))
                 except Exception as e:  # noqa: BLE001
-                    print(f"[!] 读不了 notes（{notes_path}）：{e}，忽略", file=sys.stderr)
-                    notes = {}
+                    print(f"[!] 读不了 notes（{args.notes}）：{e}，忽略", file=sys.stderr)
+            for pid in checked:
+                facts, _ = read_facts(inroot, pid)
+                parts = [facts_note(facts)] if facts else []
+                if extra.get(pid):
+                    parts.append(extra[pid])
+                notes[pid] = "；".join(p for p in parts if p)
             for pid, why in rejected:
                 old = notes.get(pid) or ""
                 notes[pid] = (old + "；" if old else "") + f"未参与校验：{why}"
             merged_notes = scan_dir / "review_notes.merged.json"
             merged_notes.write_text(json.dumps(notes, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+            batch_xlsx = scan_dir / "批次结果.xlsx"
             run([sys.executable, BASE / "make_batch_xlsx.py",
-                 "--check-csv", check_csv, "--detail-csv", findings,
-                 "--notes", merged_notes, "--out", ldir / "批次结果.xlsx"], "批次结果表")
+                 "--check-csv", check_csv, "--detail-csv", details[0],
+                 "--notes", merged_notes, "--out", batch_xlsx], "批次结果表")
     elif rejected:
-        print("[i] 没有可校验的 listing（全部被门禁拒绝），跳过校验与出表。")
+        print("[i] 没有可校验的清单（全部被门禁拒绝），跳过校验与出表。")
     else:
-        print("[i] 没有 listing，只出属性表。")
+        print("[i] 批次目录里还没有任何 SKU，先让 Agent 生成成稿（标题.txt / 描述.txt）。")
 
     print("\n=== 完成 ===")
-    for p in sorted(ldir.glob("*")):
-        if p.is_file() and p.suffix in (".xlsx", ".csv", ".json"):
-            print(f"  {p.name}  ({p.stat().st_size} bytes)")
+    if checked:
+        print(f"  批次目录（只放交付文件）：{ldir}")
+        print(f"  机器文件（不用看）：{scan_dir}")
     if lack:
-        print(f"\n下一步：让 Agent 按 skill 生成这 {len(lack)} 个商品的 listing-<id>.txt，然后重跑本命令。")
+        print(f"\n下一步：让 Agent 生成这 {len(lack)} 个 SKU 的 <批次>\\<SKU>\\标题.txt + 描述.txt，然后重跑本命令。")
     if rejected and not args.allow_unverified:
         print(f"\n[门禁] {len(rejected)} 个 SKU 未通过生成前门禁，本次退出码 3："
               f"{'、'.join(pid for pid, _ in rejected)}")

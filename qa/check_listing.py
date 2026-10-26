@@ -25,6 +25,10 @@ v1.3 新增（转化侧，全部记 P2-转化，不卡上架）：
   FAQ 条数          💡 段内问句 <2
   → 报告里 P2 拆成「P2-结构」「P2-转化」两行，区分回归失败与转化优化项
 
+v1.4 新增（后台是富文本编辑器，不解析 Markdown）：
+  Markdown 残留      `**` / `__` 出现即 P1（粘进后台会原样显示成星号）
+  全角标点残留       `：，。（）` 等中文标点 → P1（es/pt 正文只该用半角）
+
 输出：
   qa/报告/<日期>/合规扫描_<site>_<来源>_<时间>.md
   qa/报告/<日期>/明细_<site>_<来源>_<时间>.csv
@@ -67,6 +71,10 @@ STRUCT_LINE = re.compile(r"^\s*(gancho|t[ií]tulo|descripci[óo]n|caracter[ií]s
 STRUCT_PHRASES = ["以下是", "here is", "aquí tienes", "卖点1", "卖点2", "卖点3"]
 SECTION_MARKS = {"📋", "📦", "💡"}
 PERCENT = re.compile(r"100\s*%|cien\s+por\s+ciento|cem\s+por\s+cento", re.I)
+# Markdown 残留：TikTok 后台是富文本编辑器，不解析 Markdown，** 会原样显示成星号
+MD_MARK = re.compile(r"\*\*|(?<![A-Za-z0-9])__(?![A-Za-z0-9])")
+# 中文全角标点残留：es/pt 正文只用半角标点（：，。（）；用来兜住「用中文输入法写稿」的痕迹
+CJK_PUNCT = re.compile(r"[，。；：！？（）【】《》、「」]")
 WORDS = re.compile(r"[^\W\d_]{3,}")
 STOPWORDS = {"de", "del", "la", "el", "los", "las", "y", "o", "para", "con", "en", "un", "una", "por"}
 # 英制单位残留（V3.2 要求全部换算公制）
@@ -248,6 +256,22 @@ def check_row(row, site, cfg, g, cats=None, default_cat=""):
         if m:
             add("P0", f"{site}-P0-PLACEHOLDER", "含 [POR CONFIRMAR] 占位符",
                 field, snippet(text, m.start()), "补齐参数后再上架")
+
+    # P1：Markdown 残留（后台不解析，粘进去会显示成 `**加粗**` 原文）
+    for field, text in (("标题", title), ("描述", desc)):
+        m = MD_MARK.search(text)
+        if m:
+            add("P1", f"{site}-P1-MARKDOWN", "Markdown 标记残留（后台不解析，会显示成符号）",
+                field, snippet(text, m.start()), "改成纯文本；加粗由运营在后台手动选中设置")
+            break
+
+    # P1：中文全角标点残留（西语/葡语正文只该用半角）
+    for field, text in (("标题", title), ("描述", desc)):
+        m = CJK_PUNCT.search(text)
+        if m:
+            add("P1", f"{site}-P1-PUNCT", "中文全角标点残留（应改半角）",
+                field, snippet(text, m.start()), "：→:  ，→,  （）→( )")
+            break
 
     # P0/P2：标题长度
     tcfg = cfg["title"]

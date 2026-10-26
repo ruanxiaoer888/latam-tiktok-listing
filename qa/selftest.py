@@ -2,8 +2,8 @@
 r"""selftest.py - one-command regression check for the listing pipeline.
 
 Runs four known-good commands and compares them with the agreed baseline:
-  1) qa\check_listing.py --demo --site MX   -> rc=0 and P0=0 P1=4 P2-struct=9 P2-conv=14
-  2) qa\check_facts.py                      -> rc=0 and READY=81 QUARANTINED=13
+  1) qa\check_listing.py --demo --site MX   -> rc=0 and P0=0 P1=13 P2-struct=9 P2-conv=14
+  2) qa\check_facts.py                      -> rc=0 and READY=84 QUARANTINED=13
   3) qa\check_facts_quality.py --demo       -> rc=0
   4) qa\check_certificates.py --demo        -> rc=0
 
@@ -70,10 +70,15 @@ def tail_lines(text, n=4):
 
 
 def check_listing_demo(out_dir):
-    """9 golden cases: P0=0 P1=4 P2-struct=9 P2-conv=14, rc=0."""
+    """9 golden cases: P0=0 P1=13 P2-struct=9 P2-conv=14, rc=0.
+
+    2026-10-23：check_listing 新增「Markdown 残留 / 全角标点」两条 P1。
+    范本文件是 source-gemini 的 9 条旧案例，正文里都带 `**加粗**`（后台不解析），
+    所以 P1 从 4 涨到 13（4 条 Compra protegida + 9 条 `**` 残留）——是新增规则的正确结果，不是回归。
+    """
     rc, out = run([os.path.join("qa", "check_listing.py"),
                    "--demo", "--site", "MX", "--out", out_dir])
-    expect = [("P0", "P0", 0), ("P1", "P1", 4),
+    expect = [("P0", "P0", 0), ("P1", "P1", 13),
               ("P2-结构", "P2-结构", 9), ("P2-转化", "P2-转化", 14)]
     actual = {}
     for label, pat, _want in expect:
@@ -83,24 +88,27 @@ def check_listing_demo(out_dir):
     detail = "rc=%d P0=%s P1=%s P2-结构=%s P2-转化=%s" % (
         rc, actual["P0"], actual["P1"], actual["P2-结构"], actual["P2-转化"])
     if not ok:
-        detail += " | expected rc=0 P0=0 P1=4 P2-结构=9 P2-转化=14"
+        detail += " | expected rc=0 P0=0 P1=13 P2-结构=9 P2-转化=14"
     return ok, detail, out
 
 
 def check_facts_baseline():
-    """READY=81 QUARANTINED=13 out of 108 checked (2 apparel SKUs are skipped)."""
+    """READY=84 QUARANTINED=13 out of 108 checked (2 apparel SKUs are skipped).
+
+    2026-10-23：VB0B000001 / VB1I000000 / VC0B000000 核验通过，READY 81 -> 84。
+    """
     rc, out = run([os.path.join("qa", "check_facts.py")])
     ready = find_int(out, r"READY=(\d+)")
     quar = find_int(out, r"QUARANTINED=(\d+)")
     skip = find_int(out, r"跳过\s*(\d+)")
     if skip is None:
         skip = find_int(out, r"SKIP=(\d+)")
-    ok = (rc == 0) and (ready == 81) and (quar == 13)
+    ok = (rc == 0) and (ready == 84) and (quar == 13)
     detail = "rc=%d READY=%s QUARANTINED=%s" % (rc, ready, quar)
     if skip is not None:
         detail += " skip=%d" % skip
     if not ok:
-        detail += " | expected rc=0 READY=81 QUARANTINED=13"
+        detail += " | expected rc=0 READY=84 QUARANTINED=13"
     return ok, detail, out
 
 

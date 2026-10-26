@@ -50,11 +50,11 @@
 
 ### 2.3 校验层
 
-- `check_listing.py` v1.3：P0 / P1 / P2-结构 / P2-转化 四档。
+- `check_listing.py` v1.4：P0 / P1 / P2-结构 / P2-转化 四档（v1.4 新增 `P1-MARKDOWN`、`P1-PUNCT`：后台不解析 Markdown，正文带 `**` 会显示成星号）。
 - `check_images.py`：数量 / 尺寸 / 比例 / 格式 / 重复 / 白底。
 - `run_batch.py`：门禁 + 属性映射 + 校验 + 出表（非 verified 默认拒绝）。
 - `selftest.py` + `.githooks/pre-commit`：4 组基线断言。
-- 当前基线：`check_listing --demo` = 0/4/9/14；`check_facts` = READY 81 / QUARANTINED 13；selftest 4/4。
+- 当前基线：`check_listing --demo` = 0/13/9/14；`check_facts` = READY 84 / QUARANTINED 13；selftest 4/4。
 
 ### 2.4 采集层
 
@@ -207,6 +207,7 @@ listing-pipeline\
 ├─ collector\                美客多采集技能
 ├─ input\<SKU>\              facts/overrides/img_manifest 入库；raw 与图不入库
 └─ output\
+   ├─ 批次20261023\          当期交付：根目录只有 README + 每 SKU 一个交付文件夹（标题/描述/图片/上架信息）；机器文件在 output\_smoke\（不入库）
    ├─ 批次20261022-v2\        81 条成稿 + 上架清单 + 待确认 + 同款重复 + 改进说明（入库）
    ├─ 批次20261022\           旧版 81 条（入库，对照用）
    ├─ _packs\                 81 份生成包（不入库，可重生成）

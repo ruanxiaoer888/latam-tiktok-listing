@@ -1,0 +1,15 @@
+{
+  "source": "2026-10-23 运营确认：电池电压按 21V 处理（属性『Voltaje: 21V』；『Voltaje de la batería: 18V』是 5 串电芯组标称）",
+  "set": {
+    "power.battery_v": 21,
+    "power.listing_voltage_v": 21
+  },
+  "resolve_blocks": [
+    "电池电压多值冲突"
+  ],
+  "add_warnings": [
+    "电压口径已人工确认：按 21V 写（18V 为电芯组标称），2026-10-23",
+    "尺寸 / 材质缺，正文不写",
+    "转速 33,000 rpm 取自原文描述（facts 未登记）"
+  ]
+}

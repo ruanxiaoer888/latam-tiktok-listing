@@ -1,15 +1,34 @@
 # -*- coding: utf-8 -*-
 r"""
-批量：把 input\ 原始数据与 output\listing-<id>.txt 合成校验用 CSV。
+批量：把 input\ 原始数据与批次成稿合成校验用 CSV。
+
+认两种成稿布局（优先扁平，再 SKU 文件夹）：
+  <batch>\listing-<id>.txt                 旧布局
+  <batch>\<id>\标题.txt + 描述.txt         新布局（交付文件夹即源稿）
 
 用法：
-  python build_batch_csv.py --input-root ..\input --listing-dir ..\output\批次20261020 --out ..\output\批次20261020\check.csv
+  python build_batch_csv.py --input-root ..\input --listing-dir ..\output\批次20261020 --out ..\output\_smoke\...\check.csv
 """
 import argparse
 import csv
 import json
 import sys
 from pathlib import Path
+
+
+def load_listing(ldir, pid):
+    """返回 (title, desc)；没有成稿返回 None。"""
+    flat = ldir / f"listing-{pid}.txt"
+    if flat.exists():
+        lines = flat.read_text(encoding="utf-8").splitlines()
+        while lines and not lines[0].strip():
+            lines.pop(0)
+        return lines[0].strip(), "\n".join(lines[1:]).strip()
+    t = ldir / pid / "标题.txt"
+    d = ldir / pid / "描述.txt"
+    if t.exists() and d.exists():
+        return t.read_text(encoding="utf-8").strip(), d.read_text(encoding="utf-8").strip()
+    return None
 
 
 def main():
@@ -31,15 +50,11 @@ def main():
             continue
         data = json.loads(f.read_text(encoding="utf-8"))
         pid = data.get("product_id", d.name)
-        listing = ldir / f"listing-{pid}.txt"
-        if not listing.exists():
+        got = load_listing(ldir, pid)
+        if got is None:
             missing.append(pid)
             continue
-        lines = listing.read_text(encoding="utf-8").splitlines()
-        while lines and not lines[0].strip():
-            lines.pop(0)
-        title = lines[0].strip()
-        desc = "\n".join(lines[1:]).strip()
+        title, desc = got
         rows.append([
             pid,
             title,
@@ -63,7 +78,7 @@ def main():
         flag = "OK" if 60 <= len(r[1]) <= 80 else "!!"
         print(f"  [{flag}] {r[0]:12} {len(r[1]):3} chars | {r[1]}")
     if missing:
-        print("缺 listing 的商品：" + "、".join(missing))
+        print("缺成稿的商品：" + "、".join(missing))
 
 
 if __name__ == "__main__":
