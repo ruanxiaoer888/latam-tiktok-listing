@@ -1,213 +1,213 @@
-﻿{
-    "version":  1,
-    "created_at":  "2026-10-29",
-    "note":  "黄金集：人工把 status 改成 approved 后才算生效；expected 是回归下限（P0/P1 必须为 0）",
-    "baseline":  {
-                     "batch":  "output\\批次20261022-v2",
-                     "site":  "MX",
-                     "P0":  0,
-                     "P1":  0
-                 },
-    "entries":  [
-                    {
-                        "sku":  "ABU3C50000",
-                        "category":  "五金工具",
-                        "brand":  "Atverce",
-                        "status":  "approved",
-                        "expected":  {
-                                         "P0":  0,
-                                         "P1":  0
-                                     }
-                    },
-                    {
-                        "sku":  "BCU3000001",
-                        "category":  "五金工具",
-                        "brand":  "Atverce",
-                        "status":  "approved",
-                        "expected":  {
-                                         "P0":  0,
-                                         "P1":  0
-                                     }
-                    },
-                    {
-                        "sku":  "25011401",
-                        "category":  "汽车摩托",
-                        "brand":  "Atverce",
-                        "status":  "approved",
-                        "expected":  {
-                                         "P0":  0,
-                                         "P1":  0
-                                     }
-                    },
-                    {
-                        "sku":  "ZK26050816",
-                        "category":  "汽车摩托",
-                        "brand":  "Atverce",
-                        "status":  "approved",
-                        "expected":  {
-                                         "P0":  0,
-                                         "P1":  0
-                                     }
-                    },
-                    {
-                        "sku":  "ATVMX09100",
-                        "category":  "汽车摩托",
-                        "brand":  "Atverce",
-                        "status":  "approved",
-                        "expected":  {
-                                         "P0":  0,
-                                         "P1":  0
-                                     }
-                    },
-                    {
-                        "sku":  "ATVMX08100",
-                        "category":  "汽车摩托",
-                        "brand":  "Atverce",
-                        "status":  "approved",
-                        "expected":  {
-                                         "P0":  0,
-                                         "P1":  0
-                                     }
-                    },
-                    {
-                        "sku":  "ATVMX18200",
-                        "category":  "汽车摩托",
-                        "brand":  "Atverce",
-                        "status":  "approved",
-                        "expected":  {
-                                         "P0":  0,
-                                         "P1":  0
-                                     }
-                    },
-                    {
-                        "sku":  "ABTL00000J",
-                        "category":  "汽车摩托",
-                        "brand":  "Atverce",
-                        "status":  "approved",
-                        "expected":  {
-                                         "P0":  0,
-                                         "P1":  0
-                                     }
-                    },
-                    {
-                        "sku":  "ABQ4000000",
-                        "category":  "五金工具",
-                        "brand":  "Atverce",
-                        "status":  "approved",
-                        "expected":  {
-                                         "P0":  0,
-                                         "P1":  0
-                                     }
-                    },
-                    {
-                        "sku":  "ABU6000013",
-                        "category":  "五金工具",
-                        "brand":  "Atverce",
-                        "status":  "approved",
-                        "expected":  {
-                                         "P0":  0,
-                                         "P1":  0
-                                     }
-                    },
-                    {
-                        "sku":  "AHU6000000",
-                        "category":  "五金工具",
-                        "brand":  "Atverce",
-                        "status":  "approved",
-                        "expected":  {
-                                         "P0":  0,
-                                         "P1":  0
-                                     }
-                    },
-                    {
-                        "sku":  "AMU0000005",
-                        "category":  "五金工具",
-                        "brand":  "Merion",
-                        "status":  "approved",
-                        "expected":  {
-                                         "P0":  0,
-                                         "P1":  0
-                                     }
-                    },
-                    {
-                        "sku":  "ATVMX22700",
-                        "category":  "五金工具",
-                        "brand":  "Atverce",
-                        "status":  "approved",
-                        "expected":  {
-                                         "P0":  0,
-                                         "P1":  0
-                                     }
-                    },
-                    {
-                        "sku":  "MBU5000002",
-                        "category":  "五金工具",
-                        "brand":  "Atverce",
-                        "status":  "approved",
-                        "expected":  {
-                                         "P0":  0,
-                                         "P1":  0
-                                     }
-                    },
-                    {
-                        "sku":  "MBU6000001",
-                        "category":  "五金工具",
-                        "brand":  "Atverce",
-                        "status":  "approved",
-                        "expected":  {
-                                         "P0":  0,
-                                         "P1":  0
-                                     }
-                    },
-                    {
-                        "sku":  "ME260114",
-                        "category":  "五金工具",
-                        "brand":  "Merion",
-                        "status":  "approved",
-                        "expected":  {
-                                         "P0":  0,
-                                         "P1":  0
-                                     }
-                    },
-                    {
-                        "sku":  "ME260135",
-                        "category":  "五金工具",
-                        "brand":  "Merion",
-                        "status":  "approved",
-                        "expected":  {
-                                         "P0":  0,
-                                         "P1":  0
-                                     }
-                    },
-                    {
-                        "sku":  "AMU600000M",
-                        "category":  "五金工具",
-                        "brand":  "Merion",
-                        "status":  "approved",
-                        "expected":  {
-                                         "P0":  0,
-                                         "P1":  0
-                                     }
-                    },
-                    {
-                        "sku":  "AMU600000F",
-                        "category":  "五金工具",
-                        "brand":  "Merion",
-                        "status":  "approved",
-                        "expected":  {
-                                         "P0":  0,
-                                         "P1":  0
-                                     }
-                    },
-                    {
-                        "sku":  "AMU600000G",
-                        "category":  "五金工具",
-                        "brand":  "Merion",
-                        "status":  "approved",
-                        "expected":  {
-                                         "P0":  0,
-                                         "P1":  0
-                                     }
-                    }
-                ]
+{
+  "version": 1,
+  "created_at": "2026-10-29",
+  "note": "黄金集：人工把 status 改成 approved 后才算生效；expected 是回归下限（P0/P1 必须为 0）",
+  "baseline": {
+    "batch": "output\\批次20261022-v2",
+    "site": "MX",
+    "P0": 0,
+    "P1": 0
+  },
+  "entries": [
+    {
+      "sku": "ABU3C50000",
+      "category": "五金工具",
+      "brand": "Atverce",
+      "status": "approved",
+      "expected": {
+        "P0": 0,
+        "P1": 0
+      }
+    },
+    {
+      "sku": "BCU3000001",
+      "category": "五金工具",
+      "brand": "Atverce",
+      "status": "approved",
+      "expected": {
+        "P0": 0,
+        "P1": 0
+      }
+    },
+    {
+      "sku": "25011401",
+      "category": "汽车摩托",
+      "brand": "Atverce",
+      "status": "approved",
+      "expected": {
+        "P0": 0,
+        "P1": 0
+      }
+    },
+    {
+      "sku": "ZK26050816",
+      "category": "汽车摩托",
+      "brand": "Atverce",
+      "status": "approved",
+      "expected": {
+        "P0": 0,
+        "P1": 0
+      }
+    },
+    {
+      "sku": "ATVMX09100",
+      "category": "汽车摩托",
+      "brand": "Atverce",
+      "status": "approved",
+      "expected": {
+        "P0": 0,
+        "P1": 0
+      }
+    },
+    {
+      "sku": "ATVMX08100",
+      "category": "汽车摩托",
+      "brand": "Atverce",
+      "status": "approved",
+      "expected": {
+        "P0": 0,
+        "P1": 0
+      }
+    },
+    {
+      "sku": "ATVMX18200",
+      "category": "汽车摩托",
+      "brand": "Atverce",
+      "status": "approved",
+      "expected": {
+        "P0": 0,
+        "P1": 0
+      }
+    },
+    {
+      "sku": "ABTL00000J",
+      "category": "汽车摩托",
+      "brand": "Atverce",
+      "status": "approved",
+      "expected": {
+        "P0": 0,
+        "P1": 0
+      }
+    },
+    {
+      "sku": "ABQ4000000",
+      "category": "五金工具",
+      "brand": "Atverce",
+      "status": "approved",
+      "expected": {
+        "P0": 0,
+        "P1": 0
+      }
+    },
+    {
+      "sku": "ABU6000013",
+      "category": "五金工具",
+      "brand": "Atverce",
+      "status": "approved",
+      "expected": {
+        "P0": 0,
+        "P1": 0
+      }
+    },
+    {
+      "sku": "AHU6000000",
+      "category": "五金工具",
+      "brand": "Atverce",
+      "status": "approved",
+      "expected": {
+        "P0": 0,
+        "P1": 0
+      }
+    },
+    {
+      "sku": "AMU0000005",
+      "category": "五金工具",
+      "brand": "Merion",
+      "status": "approved",
+      "expected": {
+        "P0": 0,
+        "P1": 0
+      }
+    },
+    {
+      "sku": "ATVMX22700",
+      "category": "五金工具",
+      "brand": "Atverce",
+      "status": "approved",
+      "expected": {
+        "P0": 0,
+        "P1": 0
+      }
+    },
+    {
+      "sku": "MBU5000002",
+      "category": "五金工具",
+      "brand": "Atverce",
+      "status": "approved",
+      "expected": {
+        "P0": 0,
+        "P1": 0
+      }
+    },
+    {
+      "sku": "MBU6000001",
+      "category": "五金工具",
+      "brand": "Atverce",
+      "status": "approved",
+      "expected": {
+        "P0": 0,
+        "P1": 0
+      }
+    },
+    {
+      "sku": "ME260114",
+      "category": "五金工具",
+      "brand": "Merion",
+      "status": "approved",
+      "expected": {
+        "P0": 0,
+        "P1": 0
+      }
+    },
+    {
+      "sku": "ME260135",
+      "category": "五金工具",
+      "brand": "Merion",
+      "status": "approved",
+      "expected": {
+        "P0": 0,
+        "P1": 0
+      }
+    },
+    {
+      "sku": "AMU600000M",
+      "category": "五金工具",
+      "brand": "Merion",
+      "status": "approved",
+      "expected": {
+        "P0": 0,
+        "P1": 0
+      }
+    },
+    {
+      "sku": "AMU600000F",
+      "category": "五金工具",
+      "brand": "Merion",
+      "status": "approved",
+      "expected": {
+        "P0": 0,
+        "P1": 0
+      }
+    },
+    {
+      "sku": "AMU600000G",
+      "category": "五金工具",
+      "brand": "Merion",
+      "status": "approved",
+      "expected": {
+        "P0": 0,
+        "P1": 0
+      }
+    }
+  ]
 }
