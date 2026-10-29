@@ -49,6 +49,8 @@ import unicodedata
 from datetime import datetime
 from pathlib import Path
 
+from _limits import AUTOPARTS_CATS  # noqa: E402  （与 build_batch_csv / make_upload_pack 共用）
+
 BASE = Path(__file__).resolve().parent
 ROOT = BASE.parent
 DEFAULT_RULES = BASE / "denylist.json"
@@ -80,8 +82,7 @@ STOPWORDS = {"de", "del", "la", "el", "los", "las", "y", "o", "para", "con", "en
 # 英制单位残留（V3.2 要求全部换算公制）
 UNIT_RE = re.compile(r"\d+(?:[.,]\d+)?\s?(inch|pulgadas?|pulg\.?|lbs?|oz)\b", re.I)
 
-# 标题建议区间更宽的类目（汽配要放适配车型/年款/位置，骨架规定 80–120）
-AUTOPARTS_CATS = {"汽车摩托", "autoparts", "automotriz"}
+# AUTOPARTS_CATS 统一从 _limits 导入（与 build_batch_csv / make_upload_pack 共用一份）
 
 
 def die(msg, code=2):
@@ -225,7 +226,26 @@ def snippet(text, start, width=60):
     return re.sub(r"\s+", " ", frag).strip()
 
 
-def check_row(row, site, cfg, g, cats=None, default_cat=""):
+def fact_available(facts, label):
+    """类目必带项是否值得要求：facts 里没有的项不要求写，避免逼模型编造。
+    facts 为空（如 demo 样本）时返回 True，保持原有严格口径。"""
+    if not facts:
+        return True
+    if "尺寸" in label and "尺码" not in label:
+        s = facts.get("size") or {}
+        return any(s.get(k) for k in ("length_cm", "width_cm", "height_cm", "diameter_cm"))
+    if "材质" in label or "面料" in label:
+        return bool(facts.get("material"))
+    if "电压" in label:
+        p = facts.get("power") or {}
+        return bool(p.get("voltage_v") or p.get("battery_v") or p.get("charger_v"))
+    if "功率" in label:
+        p = facts.get("power") or {}
+        return bool(p.get("state_power")) and bool(p.get("w")) and float(p["w"]) > 0
+    return True
+
+
+def check_row(row, site, cfg, g, cats=None, default_cat="", facts=None):
     findings = []
     title, desc = row.get("title", ""), row.get("desc", "")
     body = f"{title}\n{desc}"
@@ -356,6 +376,9 @@ def check_row(row, site, cfg, g, cats=None, default_cat=""):
             for item in entry.get("required", []):
                 # 条件必带：if_pattern 不命中就跳过（如手动工具不需要电压/功率）
                 if item.get("if_pattern") and not re.search(item["if_pattern"], body, re.I):
+                    continue
+                # facts 里没有的项不要求（否则会逼模型编造；facts 为空时保持严格）
+                if not fact_available(facts, item.get("label", "")):
                     continue
                 if not re.search(item["pattern"], body, re.I):
                     add("P2", f"{site}-P2-CAT-REQ", f"可能缺必带信息：{item['label']}",
@@ -620,6 +643,9 @@ def main():
     ap.add_argument("--category", default="", help="类目名（五金工具/汽车摩托/家居建材/运动户外/宠物用品/厨房用品/家电/时尚配件）")
     ap.add_argument("--out", default=str(REPORT_DIR), help="报告输出目录（会自动按日期建子目录）")
     ap.add_argument("--fail-on-p0", action="store_true", help="出现 P0 时退出码 3")
+    ap.add_argument("--fail-on-p1", action="store_true", help="出现 P0 或 P1 时退出码 3（批次卡口用）")
+    ap.add_argument("--input-root", default="",
+                    help="facts.json 根目录；给了就按事实卡可用性放宽类目必带项（facts 没有的不要求写）")
     args = ap.parse_args()
 
     rules = json.loads(DEFAULT_RULES.read_text(encoding="utf-8"))
@@ -648,9 +674,23 @@ def main():
     if not rows:
         die("没有读到任何商品行，检查列名/文件格式")
 
+    facts_map = {}
+    if args.input_root:
+        root = Path(args.input_root)
+        for row in rows:
+            pid = row.get("id") or ""
+            p = root / pid / "facts.json"
+            if pid and p.exists():
+                try:
+                    facts_map[pid] = json.loads(p.read_text(encoding="utf-8-sig"))
+                except Exception:  # noqa: BLE001
+                    pass
+        print(f"[i] 已载入 {len(facts_map)} 份 facts，类目必带项按事实卡可用性放宽")
+
     results = []
     for row in rows:
-        for f in check_row(row, args.site, cfg, g, cats, args.category):
+        for f in check_row(row, args.site, cfg, g, cats, args.category,
+                           facts=facts_map.get(row.get("id") or "")):
             f["row_id"] = row["id"]
             results.append(f)
 
@@ -660,6 +700,8 @@ def main():
           f"P2-结构={total['P2'] - conv_p2} P2-转化={conv_p2}）")
     print(f"报告：{md}")
     print(f"明细：{csvf}")
+    if args.fail_on_p1 and (total["P0"] > 0 or total["P1"] > 0):
+        raise SystemExit(3)
     if args.fail_on_p0 and total["P0"] > 0:
         raise SystemExit(3)
 

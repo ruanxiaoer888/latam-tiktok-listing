@@ -5,7 +5,9 @@
   "status": "verified",
   "gates": {
     "hard_blocks": [],
-    "warnings": []
+    "warnings": [
+      "供电以原始描述为准：8000 mAh 锂电、Type-C 输入 9V、工作电压 6-8.4V；属性 127V/200W 不可信，正文不写 127V 与瓦数"
+    ]
   },
   "identity": {
     "brand": "Merion",
@@ -14,21 +16,22 @@
     "title_raw": "Ventilador Turbo Mini Jet De 130000 Rpm Sopladora , 52 M/s"
   },
   "power": {
-    "type": "corded",
-    "voltage_v": 127.0,
-    "battery_v": null,
+    "type": "battery",
+    "voltage_v": null,
+    "battery_v": 7.4,
     "charger_v": null,
-    "w": 200.0,
+    "w": null,
     "claimed_w": 200,
     "rated_claimed_w": null,
     "claims_w": [
       200
     ],
     "basis": "attribute",
-    "state_power": true,
+    "state_power": false,
     "listing_policy": "state_verified_only",
     "device_v": null,
-    "listing_voltage_v": 127.0
+    "listing_voltage_v": 127.0,
+    "battery_v_basis": "description：Voltaje de funcionamiento 6V-8.4V（2S 锂电标称 7.4V）"
   },
   "size": {
     "length_cm": null,
@@ -38,7 +41,7 @@
     "raw": []
   },
   "weight_kg": null,
-  "capacity": "4 Ah",
+  "capacity": "8000 mAh",
   "pieces": null,
   "material": [],
   "material_basis": null,
@@ -146,7 +149,7 @@
   "unknowns": [],
   "_meta": {
     "rules_version": "v1.3",
-    "built_at": "2026-10-22T00:07:03",
+    "built_at": "2026-10-30T00:14:00",
     "built_from": [
       "input/AMU5000000/input.json",
       "input/AMU5000000/item.json"
@@ -155,7 +158,9 @@
       "input.json": "c37dee7e06b857ef402b929ef28310f1fb7a20b08fe03f4c09c37262efe9e0cf",
       "item.json": "6c511ef669c2194464659f98ae4ed36474d5e170dd91810fef7a4bc2eeb8d0a7"
     },
-    "verified_by": "DSH 自动核验（可追溯性检查，待人工抽查）",
-    "verified_at": "2026-10-22T00:08:46"
+    "verified_by": "试点：按原始描述纠正供电口径 2026-10-30",
+    "verified_at": "2026-10-30T00:14:00",
+    "overrides": "input/AMU5000000/overrides.json",
+    "overrides_note": "2026-10-30 试点发现：原始描述为「内置 8000 mAh 锂电 + Type-C 充电（输入 9V）、工作电压 6V-8.4V」，属无线手持；美客多属性「Corriente continua / 127V / 200W」被误解析成 127V 插电。按原始描述纠正供电口径。"
   }
 }

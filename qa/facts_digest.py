@@ -69,6 +69,35 @@ def size_str(f):
     return f"{txt} cm（原文：{raw}）" if raw != "-" else txt
 
 
+def fact_lines(f):
+    """单个 facts.json → 生成用事实块（facts_digest 与 scripts/render_prompt.py 共用）。"""
+    p = f.get("power") or {}
+    cert = f.get("certification") or {}
+    mx = g(f, "site_profiles", "MX", default={}) or {}
+    ck = g(f, "extras", "core_keyword", default="") or "-"
+    out = [
+        f"## {f.get('product_id')} · {f.get('category')} · {f.get('status')}",
+        f"- 品牌：{g(f,'identity','brand')}　型号：{g(f,'identity','model')}",
+        f"- 原标题：{g(f,'identity','title_raw')}",
+        f"- 平台核心词（标题必须覆盖其实词）：{ck}",
+        f"- 供电：{p.get('type')}　可写功率：{num(p.get('w'),'W') if p.get('state_power') else '不写'}　"
+        f"电压：{num(p.get('voltage_v'),'V')}　电池：{num(p.get('battery_v'),'V')}　"
+        f"充电器：{num(p.get('charger_v'),'V')}",
+        f"- 尺寸：{size_str(f)}　重量：{num(f.get('weight_kg'),'kg')}　"
+        f"承载/容量：{f.get('capacity') or '-'}　件数：{num(f.get('pieces'))}",
+        f"- 材质：{join(f.get('material'))}（依据 {f.get('material_basis') or '-'}）",
+        f"- 包装清单：{join(g(f,'package','included'))}　不含：{join(g(f,'package','not_included'))}",
+        f"- 兼容/适配：{join(f.get('compatibility'))}",
+        f"- 功能点：{join(f.get('features'))}",
+        f"- 使用场景：{join(f.get('usage'))}",
+        f"- 认证：{cert.get('status')}　价格：{num(mx.get('price'),' MXN')}　图片：{len(f.get('images') or [])} 张",
+    ]
+    w = g(f, "gates", "warnings", default=[]) or []
+    if w:
+        out.append(f"- 注意：{'；'.join(w)}")
+    return out
+
+
 def main():
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -139,28 +168,7 @@ def main():
                  "`certification.status=missing` 时禁止出现 NOM/INMETRO/ANATEL/UN38.3 字样")
     lines.append("")
     for f in rows:
-        p = f.get("power") or {}
-        cert = f.get("certification") or {}
-        mx = g(f, "site_profiles", "MX", default={}) or {}
-        lines.append(f"## {f.get('product_id')} · {f.get('category')} · {f.get('status')}")
-        lines.append(f"- 品牌：{g(f,'identity','brand')}　型号：{g(f,'identity','model')}")
-        lines.append(f"- 原标题：{g(f,'identity','title_raw')}")
-        ck = g(f, "extras", "core_keyword", default="") or "-"
-        lines.append(f"- 平台核心词（标题必须覆盖其实词）：{ck}")
-        lines.append(f"- 供电：{p.get('type')}　可写功率：{num(p.get('w'),'W') if p.get('state_power') else '不写'}　"
-                     f"电压：{num(p.get('voltage_v'),'V')}　电池：{num(p.get('battery_v'),'V')}　"
-                     f"充电器：{num(p.get('charger_v'),'V')}")
-        lines.append(f"- 尺寸：{size_str(f)}　重量：{num(f.get('weight_kg'),'kg')}　"
-                     f"承载/容量：{f.get('capacity') or '-'}　件数：{num(f.get('pieces'))}")
-        lines.append(f"- 材质：{join(f.get('material'))}（依据 {f.get('material_basis') or '-'}）")
-        lines.append(f"- 包装清单：{join(g(f,'package','included'))}　不含：{join(g(f,'package','not_included'))}")
-        lines.append(f"- 兼容/适配：{join(f.get('compatibility'))}")
-        lines.append(f"- 功能点：{join(f.get('features'))}")
-        lines.append(f"- 使用场景：{join(f.get('usage'))}")
-        lines.append(f"- 认证：{cert.get('status')}　价格：{num(mx.get('price'),' MXN')}　图片：{len(f.get('images') or [])} 张")
-        w = g(f, "gates", "warnings", default=[]) or []
-        if w:
-            lines.append(f"- 注意：{'；'.join(w)}")
+        lines.extend(fact_lines(f))
         lines.append("")
 
     if skipped:

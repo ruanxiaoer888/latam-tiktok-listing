@@ -82,6 +82,32 @@ HUMAN_CHECK = "需人工核对：首图是否有文字/水印/边框"
 
 LEVEL_ORDER = {"P0": 0, "P1": 1, "P2": 2}
 LEVEL_LABEL = {"P0": "P0 阻断", "P1": "P1 风险", "P2": "P2 提示"}
+
+
+def _apply_platform_limits():
+    """图片阈值统一从 qa/denylist.json 的 sites.MX.images 读；读不到就保留上面的默认值。"""
+    global MIN_IMAGES, MAX_IMAGES, SUGGEST_RANGE, FACTS_CARD_RANGE, MIN_EDGE_PX, ASPECT_TOL
+    global MIN_FILE_KB, MAX_FILE_MB, ALLOWED_EXTS, WHITE_EDGE_PCT, WHITE_BRIGHTNESS, WHITE_SATURATION
+    import json
+    try:
+        img = json.loads((BASE / "denylist.json").read_text(encoding="utf-8"))["sites"]["MX"]["images"]
+    except Exception:  # noqa: BLE001
+        return
+    count = img.get("count") or [MIN_IMAGES, MAX_IMAGES]
+    MIN_IMAGES, MAX_IMAGES = int(count[0]), int(count[1])
+    SUGGEST_RANGE = (MIN_IMAGES, MAX_IMAGES)
+    FACTS_CARD_RANGE = tuple(img.get("facts_card_range") or FACTS_CARD_RANGE)
+    MIN_EDGE_PX = int(img.get("min_edge_px", MIN_EDGE_PX))
+    ASPECT_TOL = float(img.get("aspect_tol", ASPECT_TOL))
+    MIN_FILE_KB = int(img.get("min_file_kb", MIN_FILE_KB))
+    MAX_FILE_MB = int(img.get("max_file_mb", MAX_FILE_MB))
+    ALLOWED_EXTS = tuple(img.get("allowed_exts") or ALLOWED_EXTS)
+    WHITE_EDGE_PCT = float(img.get("white_edge_pct", WHITE_EDGE_PCT))
+    WHITE_BRIGHTNESS = float(img.get("white_brightness", WHITE_BRIGHTNESS))
+    WHITE_SATURATION = float(img.get("white_saturation", WHITE_SATURATION))
+
+
+_apply_platform_limits()
 RULE_ORDER = ["COUNT-LOW", "COUNT-HIGH", "SIZE-MIN", "RATIO-MAIN", "RATIO-DETAIL",
               "FORMAT", "CORRUPT", "FILESIZE-LOW", "FILESIZE-HIGH", "DUP-MAIN", "DUP", "WHITE"]
 RULE_TITLE = {

@@ -18,14 +18,15 @@ listings 的两种布局都认（先扁平、再 SKU 文件夹）：
                     默认最终 exit 3；--allow-unverified 打印警告后放行。
   1. 属性映射        input.json → 属性映射.xlsx（写进 _smoke 目录）
   2. 汇总校验用 CSV  listing + input.json → check.csv（写进 _smoke 目录）
-  3. 合规校验        仅 verified 行 → check_listing --fail-on-p0：报告 md + 明细 csv（写进 _smoke）
-  4. 批次结果表      校验结果 + 事实卡警告 → 批次结果.xlsx（写进 _smoke）
+  3. 合规校验        仅 verified 行 → check_listing --fail-on-p1：P0/P1 任一 >0 即 exit 3（写进 _smoke）
+  4. 事实一致性      check_consistency --strict：文案与 facts 矛盾（供电方向/瓦数/容量/认证）P0 即 exit 3
+  5. 批次结果表      校验结果 + 事实卡警告 → 批次结果.xlsx（写进 _smoke）
 
 退出码：
-  0   全部通过（--allow-unverified 放行且 listing 无 P0）
+  0   全部通过（--allow-unverified 放行且 listing 无 P0/P1）
   1   运行期错误（子进程失败 / IO / 报告文件缺失）
   2   参数错误（argparse）
-  3   门禁拦截：有被拒 SKU（默认，除非 --allow-unverified），或 check_listing 出现 P0
+  3   门禁拦截：有被拒 SKU（默认，除非 --allow-unverified），或 check_listing 出现 P0/P1
 """
 import argparse
 import json
@@ -195,7 +196,8 @@ def main():
 
         check_csv = scan_dir / "check.csv"
         run([sys.executable, BASE / "build_batch_csv.py",
-             "--input-root", inroot, "--listing-dir", ldir, "--out", check_csv], "汇总校验用 CSV")
+             "--input-root", inroot, "--listing-dir", ldir, "--out", check_csv,
+             "--site", args.site], "汇总校验用 CSV")
 
         verified_csv = scan_dir / "check_verified.csv"
         kept = filter_check_csv(check_csv, verified_csv, set(checked))
@@ -203,12 +205,17 @@ def main():
             print("[!] 过滤后没有可校验的行（清单与 input.json 对不上），跳过校验与出表。")
         else:
             run([sys.executable, BASE / "check_listing.py",
-                 "--input", verified_csv, "--site", args.site, "--out", scan_dir, "--fail-on-p0"], "合规校验")
+                 "--input", verified_csv, "--site", args.site, "--out", scan_dir,
+                 "--fail-on-p1", "--input-root", inroot], "合规校验")
             details = sorted(scan_dir.glob("*/明细_*.csv"))
             if len(details) != 1:
                 print(f"[X] 期望 1 份明细，实际 {len(details)} 份：{details}", file=sys.stderr)
                 sys.exit(1)
             print(f"[i] 本次明细：{details[0]}")
+
+            run([sys.executable, BASE / "check_consistency.py",
+                 "--check-csv", verified_csv, "--input-root", inroot,
+                 "--out", scan_dir, "--strict"], "事实一致性校验")
 
             notes = {}
             extra = {}

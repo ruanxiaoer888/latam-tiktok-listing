@@ -1,0 +1,16 @@
+{
+  "name": "listing_write",
+  "version": "1.0.0",
+  "description": "拉美 TikTok Shop Listing 初稿（标题 + 首屏 + 卖点 + 规格 + 包装 + FAQ + CTA），输出 JSON",
+  "locale": ["es-MX", "pt-BR"],
+  "inputs": ["facts", "scene", "site_rules", "conversion", "category_pack", "skeleton"],
+  "outputs": "listing_draft/v1",
+  "required_json_keys": ["title", "hook", "bullets", "specs", "package_included", "faq"],
+  "checks": ["P0-*", "P1-*", "P2-*"],
+  "contexts": [
+    {"id": "site_rules", "title": "站点规则", "path": "skill/rules-{site_lower}.md"},
+    {"id": "conversion", "title": "转化要求", "path": "skill/转化层.md"},
+    {"id": "skeleton", "title": "输出骨架与自检", "path": "skill/骨架.md"},
+    {"id": "category_pack", "title": "类目包", "path": "skill/类目/*-{category}.md"}
+  ]
+}

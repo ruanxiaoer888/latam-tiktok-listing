@@ -1,0 +1,16 @@
+{
+  "name": "listing_fix",
+  "version": "1.0.0",
+  "description": "按 check_listing 的违规清单改稿：只改被点名的项，输出完整 JSON + changes",
+  "locale": ["es-MX", "pt-BR"],
+  "inputs": ["facts", "current_draft", "violations", "site_rules", "conversion", "skeleton", "category_pack"],
+  "outputs": "listing_draft/v1+changes",
+  "required_json_keys": ["title", "hook", "bullets", "specs", "package_included", "faq", "changes"],
+  "checks": ["P0-*", "P1-*", "P2-*"],
+  "contexts": [
+    {"id": "site_rules", "title": "站点规则", "path": "skill/rules-{site_lower}.md"},
+    {"id": "conversion", "title": "转化要求", "path": "skill/转化层.md"},
+    {"id": "skeleton", "title": "输出骨架与自检", "path": "skill/骨架.md"},
+    {"id": "category_pack", "title": "类目包", "path": "skill/类目/*-{category}.md"}
+  ]
+}

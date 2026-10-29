@@ -138,6 +138,7 @@
       "currency": "MXN",
       "title": { "max": 300, "min": 25, "recommended": [60, 80], "autoparts": [80, 120], "keyword_front": 30 },
       "description": { "max": 10000, "recommended_min": 300 },
+      "images": { "count": [5, 9], "facts_card_range": [5, 6], "min_edge_px": 800, "aspect_tol": 0.03, "min_file_kb": 10, "max_file_mb": 5, "allowed_exts": [".jpg", ".jpeg", ".png"], "white_edge_pct": 0.08, "white_brightness": 235, "white_saturation": 0.1 },
       "checks": [
         {
           "id": "MX-P1-ABSOLUTE",
@@ -213,6 +214,7 @@
       "currency": "BRL",
       "title": { "max": 200, "min": 25, "recommended": [60, 80], "autoparts": [80, 120], "keyword_front": 30 },
       "description": { "max": 10000, "recommended_min": 300 },
+      "images": { "count": [5, 9], "facts_card_range": [5, 6], "min_edge_px": 800, "aspect_tol": 0.03, "min_file_kb": 10, "max_file_mb": 5, "allowed_exts": [".jpg", ".jpeg", ".png"], "white_edge_pct": 0.08, "white_brightness": 235, "white_saturation": 0.1 },
       "checks": [
         {
           "id": "BR-P1-ABSOLUTE",

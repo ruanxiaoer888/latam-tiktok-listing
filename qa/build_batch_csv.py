@@ -6,14 +6,20 @@ r"""
   <batch>\listing-<id>.txt                 旧布局
   <batch>\<id>\标题.txt + 描述.txt         新布局（交付文件夹即源稿）
 
+标题长度只做「提示」，不阻断；区间从 qa\denylist.json 统一读取（qa\_limits.py），
+汽配类目自动用更宽的 autoparts 区间。
+
 用法：
   python build_batch_csv.py --input-root ..\input --listing-dir ..\output\批次20261020 --out ..\output\_smoke\...\check.csv
+  python build_batch_csv.py ... --site BR
 """
 import argparse
 import csv
 import json
 import sys
 from pathlib import Path
+
+from _limits import title_ok, title_range
 
 
 def load_listing(ldir, pid):
@@ -38,6 +44,7 @@ def main():
     ap.add_argument("--input-root", required=True)
     ap.add_argument("--listing-dir", required=True)
     ap.add_argument("--out", required=True)
+    ap.add_argument("--site", default="MX", choices=["MX", "BR"], help="站点；标题建议区间按站点/类目取")
     args = ap.parse_args()
 
     inroot = Path(args.input_root).resolve()
@@ -73,10 +80,11 @@ def main():
         w.writerows(rows)
 
     print(f"已写出 {len(rows)} 条 -> {out}")
-    print("\n标题长度检查：")
+    lo, hi = title_range(args.site)
+    print(f"\n标题长度检查（{args.site} 建议 {lo}–{hi}；汽配用更宽区间）：")
     for r in rows:
-        flag = "OK" if 60 <= len(r[1]) <= 80 else "!!"
-        print(f"  [{flag}] {r[0]:12} {len(r[1]):3} chars | {r[1]}")
+        ok = title_ok(args.site, r[1], r[4])
+        print(f"  [{'OK' if ok else '!!'}] {r[0]:12} {len(r[1]):3} chars | {r[1]}")
     if missing:
         print("缺成稿的商品：" + "、".join(missing))
 

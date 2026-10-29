@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 r"""批次成稿 → 交付文件夹（README + 每个 SKU 的 上架信息.md / 图片\）。
 
-成稿本体就是 `<batch>\<SKU>\标题.txt` + `描述.txt`（本脚本不覆盖它们）。
-本脚本只补三样：`上架信息.md`、`图片\`（从 input\<SKU>\img 复制）、批次 `README.md`。
+成稿两种布局都认：`<batch>\<SKU>\标题.txt` + `描述.txt`（推荐），或旧的扁平 `listing-<SKU>.txt`
+（遇到扁平件会先归位成 SKU 文件夹，原件保留为 `原始成稿.txt`，不丢内容）。
+本脚本补三样：`上架信息.md`、`图片\`（从 input\<SKU>\img 复制）、批次 `README.md`。
 
 用法：
   python qa\make_upload_pack.py --batch output\批次20261023
@@ -19,6 +20,8 @@ import shutil
 import sys
 from pathlib import Path
 
+from _limits import title_ok, title_range
+
 ROOT = Path(__file__).resolve().parent.parent
 LANG = {"MX": "墨西哥 MX / es-MX", "BR": "巴西 BR / pt-BR"}
 CUR = {"MX": "MXN", "BR": "BRL"}
@@ -33,6 +36,42 @@ def load_json(p: Path, default=None):
         return json.loads(p.read_text(encoding="utf-8-sig"))
     except Exception:
         return default
+
+
+def parse_flat(path: Path):
+    """扁平 listing-<SKU>.txt：第 1 个非空行是标题，其后是描述。"""
+    lines = path.read_text(encoding="utf-8-sig").splitlines()
+    while lines and not lines[0].strip():
+        lines.pop(0)
+    if not lines:
+        return None
+    title = lines[0].strip()
+    rest = lines[1:]
+    while rest and not rest[0].strip():
+        rest.pop(0)
+    return title, "\n".join(rest).strip()
+
+
+def ensure_layout(batch: Path):
+    """把扁平成稿归位成 <SKU>\\标题.txt + 描述.txt，原件保留为 原始成稿.txt。"""
+    moved = []
+    for p in sorted(batch.glob("listing-*.txt")):
+        sku = p.stem[len("listing-"):]
+        out = batch / sku
+        if (out / "标题.txt").exists() and (out / "描述.txt").exists():
+            print(f"[!] {sku} 已有 SKU 文件夹，跳过扁平件（{p.name} 未移动）")
+            continue
+        parsed = parse_flat(p)
+        if not parsed:
+            print(f"[!] {p.name} 是空文件，跳过")
+            continue
+        title, desc = parsed
+        out.mkdir(exist_ok=True)
+        (out / "标题.txt").write_text(title + "\n", encoding="utf-8")
+        (out / "描述.txt").write_text(desc + "\n", encoding="utf-8")
+        shutil.move(str(p), str(out / "原始成稿.txt"))
+        moved.append(sku)
+    return moved
 
 
 def list_images(img_dir: Path):
@@ -106,6 +145,7 @@ def find_counts(scan_dir, skus):
 
 
 def write_sku_info(sku, title, desc, facts, img_count, out_dir, site):
+    lo, hi = title_range(site, facts.get("category", ""))
     price = ((facts.get("site_profiles") or {}).get(site) or {}).get("price")
     lines = [
         f"# {sku} · TikTok Shop {LANG.get(site, site)} 上架信息",
@@ -125,7 +165,7 @@ def write_sku_info(sku, title, desc, facts, img_count, out_dir, site):
         title,
         "```",
         "",
-        f"字符数：{len(title)}（60–80 合规）",
+        f"字符数：{len(title)}（建议 {lo}–{hi}）",
         "",
         "## 2. 描述（整段复制）",
         "",
@@ -224,11 +264,15 @@ def main():
     if not batch.is_dir():
         raise SystemExit(f"找不到批次目录：{batch}")
 
+    moved = ensure_layout(batch)
+    if moved:
+        print(f"[i] 已把 {len(moved)} 份扁平成稿归位成 SKU 文件夹（原件保留为 原始成稿.txt）")
+
     skus = sorted(d.name for d in batch.iterdir()
                   if d.is_dir() and not d.name.startswith("_")
                   and (d / "标题.txt").exists() and (d / "描述.txt").exists())
     if not skus:
-        raise SystemExit(f"{batch} 下没有 <SKU>\\标题.txt + 描述.txt，先让 Agent 生成成稿")
+        raise SystemExit(f"{batch} 下没有成稿：需要 <SKU>\\标题.txt + 描述.txt，或扁平 listing-<SKU>.txt")
 
     rows = []
     for sku in skus:
@@ -255,7 +299,7 @@ def main():
         write_sku_info(sku, title, desc, facts, len(copied), out_dir, args.site)
         price = ((facts.get("site_profiles") or {}).get(args.site) or {}).get("price") or 0
         rows.append((sku, title, price, len(copied)))
-        flag = "OK" if 60 <= len(title) <= 80 else "!!"
+        flag = "OK" if title_ok(args.site, title, facts.get("category", "")) else "!!"
         print(f"  [{flag}] {sku}: {len(copied)} 张图, 标题 {len(title)} 字符")
 
     counts = find_counts(args.scan_dir or None, skus)
