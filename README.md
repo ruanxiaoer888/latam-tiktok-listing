@@ -2,6 +2,7 @@
 
 > 2026-10-30 · v2.0：**Pattern 化 + 交付闭环 + 事实一致性门禁**
 > 前身是 Gemini GEM 那套「内容标准」，现在是一条带确定性闸门的批量生产线。
+> **新手先看 `新手怎么用.md`（零命令）。** 本文剩下的是给技术和维护者看的。
 
 ## 身份
 
@@ -98,7 +99,9 @@ python scripts\render_prompt.py --sku <SKU> --site MX --pattern listing_fix `
 
 > 旧流程 `qa\make_listing_pack.py`（`_packs`）保留可用但不再扩展。
 
-## 不依赖 DSH 的最小用法（任何电脑 / 任何模型）
+## （给技术同学）不依赖 DSH 的最小用法（任何电脑 / 任何模型）
+
+> 新手请跳过本节，直接看 `新手怎么用.md`。
 
 核心是 Python + Markdown，**不需要 DeepSeek Harness**。DSH 只负责「自动加载技能 + 一键跑」；
 换任何电脑、任何模型都能用这套流程。
