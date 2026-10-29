@@ -9,8 +9,8 @@ TikTok 图片合规检查器 v1.0
 不做的事：不改 input/ 里的图、不压缩、不做文字/水印自动判定（只在报告里固定输出人工核对项）。
 
 依赖：Pillow（PIL）。系统 python 默认没有 Pillow，脚本会检测并明确报错退出 2，
-不静默跳过。本机请用 DSH 自带 python（含 Pillow 12.3）：
-  C:\\Users\\Michael\\.dsh\\dsh-runtimes\\dsh-primary-runtime\\dependencies\\python\\python.exe
+不静默跳过。装好 Pillow 的任意 python 都可以；没有的话先
+  python -m pip install Pillow
 
 用法：
   # 全量：扫 input 下所有含 img/ 的 SKU

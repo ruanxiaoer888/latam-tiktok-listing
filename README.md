@@ -98,6 +98,52 @@ python scripts\render_prompt.py --sku <SKU> --site MX --pattern listing_fix `
 
 > 旧流程 `qa\make_listing_pack.py`（`_packs`）保留可用但不再扩展。
 
+## 不依赖 DSH 的最小用法（任何电脑 / 任何模型）
+
+核心是 Python + Markdown，**不需要 DeepSeek Harness**。DSH 只负责「自动加载技能 + 一键跑」；
+换任何电脑、任何模型都能用这套流程。
+
+**环境**（一次）
+
+```powershell
+python -m pip install -r requirements.txt   # openpyxl + Pillow
+```
+
+不需要 API Key——脚本本身不调模型，生成那一步由你选任意模型完成。
+
+**四步**（仓库根执行，Windows 示例；Mac/Linux 把 `\` 换成 `/`）
+
+```powershell
+# 1) 组装 prompt（把事实卡 + 站点规则 + 类目包 + pattern 压成一份）
+python scripts\render_prompt.py --sku ABU5000000 --site MX
+#    -> output\_prompts\ABU5000000.md
+
+# 2) 把这份文件「整份」贴给任意模型（ChatGPT / Claude / Gemini / Codex），开头加一句：
+#    按文件里的全部要求执行，只输出一个 JSON；不要代码块、不要解释。
+#    把模型回复存成 output\_draft\ABU5000000.json
+
+# 3) JSON → 可粘贴的纯文本（格式由代码保证，不靠模型自觉）
+python scripts\render_listing.py --json output\_draft\ABU5000000.json --out-root output\批次20261030 --site MX
+
+# 4) 门禁 + 校验（P0/P1 任一 >0 会报错并中止）
+python qa\run_batch.py --input-root input --listing-dir output\批次20261030 --site MX
+```
+
+失败了就改稿，重复 2–4：
+
+```powershell
+python scripts\render_prompt.py --sku ABU5000000 --site MX --pattern listing_fix `
+  --findings output\_smoke\run_batch_<ts>\<日期>\明细_MX_check_verified_<ts>.csv `
+  --batch output\批次20261030
+```
+
+**仍然跟本机绑定的小地方**
+
+- `.ps1/.cmd`（`sync-all`、`setup-new-pc`）只在 Windows 有效；其他系统只用上面的 Python 流程即可
+- `run_batch` 在系统 Python 缺 `openpyxl` 时会尝试 DSH 自带 Python；装好依赖就用不到这条回退
+- `check_images` 需要 `Pillow`，缺了会明确提示 `pip install Pillow`，不会静默跳过
+- 生成质量取决于所选模型：优先选能稳定输出 JSON、指令跟随好的模型
+
 ## 校验能力（按环节）
 
 | 脚本 | 查什么 | 阻断 |
