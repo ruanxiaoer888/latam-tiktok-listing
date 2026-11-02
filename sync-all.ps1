@@ -193,6 +193,13 @@ if ($DryRun) {
 Write-Host ""
 Write-Host "[..] checking for stale files in global skill directories..." -ForegroundColor Cyan
 
+# Define expected sync items for each skill (must match individual sync scripts)
+$expectedItems = @{
+    "latam-tiktok-listing" = @("SKILL.md", "README.md", "skill", "qa", "kb", "source-gemini")
+    "tiktok-shop-listing" = @("SKILL.md", "references", "agents")
+    "mercadolibre-listing-collector" = @("SKILL.md", "references", "scripts")
+}
+
 $staleWarnings = @()
 foreach ($s in $skills) {
     $targetDir = Join-Path $env:USERPROFILE ".agents\skills\$($s.Name)"
@@ -203,16 +210,24 @@ foreach ($s in $skills) {
         $_.FullName.Substring($targetDir.Length + 1).Replace('\', '/')
     }
     
-    # Get expected files from source (based on sync items)
+    # Get expected files from source based on sync items
     $sourceFiles = @()
-    foreach ($item in $s.Items) {
-        $srcPath = Join-Path $root $item
+    $items = $expectedItems[$s.Name]
+    if (-not $items) { continue }
+    
+    # Determine source root for this skill
+    $srcRoot = $root
+    if ($s.Name -eq "tiktok-shop-listing") { $srcRoot = Join-Path $root "codex-skill" }
+    if ($s.Name -eq "mercadolibre-listing-collector") { $srcRoot = Join-Path $root "collector" }
+    
+    foreach ($item in $items) {
+        $srcPath = Join-Path $srcRoot $item
         if (Test-Path $srcPath -PathType Leaf) {
             $sourceFiles += $item.Replace('\', '/')
         } elseif (Test-Path $srcPath -PathType Container) {
             $files = Get-ChildItem $srcPath -Recurse -File -ErrorAction SilentlyContinue
             foreach ($f in $files) {
-                $rel = $f.FullName.Substring($root.Length + 1).Replace('\', '/')
+                $rel = $f.FullName.Substring($srcRoot.Length + 1).Replace('\', '/')
                 $sourceFiles += $rel
             }
         }
