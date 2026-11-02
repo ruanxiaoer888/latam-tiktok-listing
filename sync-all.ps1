@@ -1,5 +1,12 @@
 # Sync BOTH skills from this workspace to %USERPROFILE%\.agents\skills and report
 # whether the DuMate-managed copies are fresh.
+#
+# Naming note:
+#   - This repo (latam-tiktok-listing) is the SOURCE master for Skill /latam-tiktok-listing.
+#   - DSH loads the synced copy at C:\Users\Michael\.agents\skills\latam-tiktok-listing\SKILL.md.
+#   - "latam-tiktok-listing" = source + data warehouse; "/latam-tiktok-listing" = runtime Skill ID.
+#   - They are the SAME thing, just different names for different contexts.
+#
 # Usage:
 #   double-click sync-all.cmd
 #   powershell -NoProfile -ExecutionPolicy Bypass -File .\sync-all.ps1
@@ -54,6 +61,10 @@ if (-not (Test-Path (Join-Path $root "sync-to-skill.ps1"))) {
     Write-Host "[FAIL] sync-to-skill.ps1 not found next to this script: $root" -ForegroundColor Red
     exit 1
 }
+if (-not (Test-Path (Join-Path $root "sync-codex-skill.ps1"))) {
+    Write-Host "[FAIL] sync-codex-skill.ps1 not found next to this script: $root" -ForegroundColor Red
+    exit 1
+}
 if (-not (Test-Path (Join-Path $root "sync-collector-skill.ps1"))) {
     Write-Host "[FAIL] sync-collector-skill.ps1 not found next to this script: $root" -ForegroundColor Red
     exit 1
@@ -62,14 +73,21 @@ if (-not (Test-Path (Join-Path $root "sync-collector-skill.ps1"))) {
 if ($DryRun) {
     Write-Host "[..] -DryRun: sync scripts were NOT executed."
 } else {
-    Write-Host "=== 1/2 latam-tiktok-listing ==="
+    Write-Host "=== 1/3 latam-tiktok-listing ==="
     $rc = Invoke-SyncScript (Join-Path $root "sync-to-skill.ps1")
     if ($rc -ne 0) {
         Write-Host "[FAIL] sync-to-skill.ps1 failed (exit=$rc); stopping." -ForegroundColor Red
         exit 1
     }
     Write-Host ""
-    Write-Host "=== 2/2 mercadolibre-listing-collector ==="
+    Write-Host "=== 2/3 tiktok-shop-listing (Codex) ==="
+    $rc = Invoke-SyncScript (Join-Path $root "sync-codex-skill.ps1")
+    if ($rc -ne 0) {
+        Write-Host "[FAIL] sync-codex-skill.ps1 failed (exit=$rc); stopping." -ForegroundColor Red
+        exit 1
+    }
+    Write-Host ""
+    Write-Host "=== 3/3 mercadolibre-listing-collector ==="
     $rc = Invoke-SyncScript (Join-Path $root "sync-collector-skill.ps1")
     if ($rc -ne 0) {
         Write-Host "[FAIL] sync-collector-skill.ps1 failed (exit=$rc); stopping." -ForegroundColor Red
@@ -102,6 +120,11 @@ $skills = @(
         Name = "latam-tiktok-listing"
         RepoFile = (Join-Path $root "SKILL.md")
         AgentsFile = (Join-Path (Join-Path $agentsRoot "latam-tiktok-listing") "SKILL.md")
+    },
+    [pscustomobject]@{
+        Name = "tiktok-shop-listing"
+        RepoFile = (Join-Path $root "codex-skill\SKILL.md")
+        AgentsFile = (Join-Path (Join-Path $agentsRoot "tiktok-shop-listing") "SKILL.md")
     },
     [pscustomobject]@{
         Name = "mercadolibre-listing-collector"

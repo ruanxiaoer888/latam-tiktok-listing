@@ -1,7 +1,8 @@
 # TikTok 工作区约定（一句话生成规则）
 
-> 本文件是工作区根目录 `AGENTS.md` 的仓库副本，跟着 GitHub 仓库走。
-> **换电脑**：把本文件放到工作区根目录（与 `listing-pipeline\` 同级），DSH 会自动加载，无需再说一遍规则。
+> 本文件是 Skill `/latam-tiktok-listing` 源码仓库的协作约定，跟着 GitHub 仓库走。
+> **命名说明**：工作区目录 `skills/latam-tiktok-listing` = Skill `/latam-tiktok-listing` 的源码母版 + 数据仓库（input/output/qa）。DSH 调用时用 `/latam-tiktok-listing`，两者是同一套东西。
+> **换电脑**：把本文件放到工作区根目录（与 `SKILL.md` 同级），DSH 会自动加载，无需再说一遍规则。
 
 ## 0. 默认交互方式：一句话，全自动
 

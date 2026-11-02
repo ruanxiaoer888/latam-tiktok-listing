@@ -69,6 +69,54 @@
 | `specs` | object | 选定的西班牙语规格键值（用于规格段） |
 | `raw_attributes` | object | 原始 ML 属性全量留档（只读，不直接生成） |
 
+## 5.1 证据状态（evidence_status）
+
+> 每个关键事实字段可附带证据状态，标注数据来源的可信度。与合规动作（PASS/NEEDS_EVIDENCE/REWRITE/REMOVE）分开管理。
+> 详见 `skill/references/compliance-audit.md`。
+
+| 路径 | 类型 | 说明 |
+|---|---|---|
+| `<field>.evidence_status` | enum | `confirmed` / `image_read` / `inferred` / `to_confirm` |
+| `<field>.evidence_source` | string/null | 证据来源描述（如 `img/03.jpg`、`用户确认 2026-10-21`、`attribute Marca`） |
+
+### 状态定义
+
+| 状态 | 含义 | 典型来源 |
+|---|---|---|
+| `confirmed` | 用户明确确认、或来自铭牌/官方文档 | overrides.json、制造商规格书 |
+| `image_read` | 从产品图片中识别的文字/参数 | 图片 OCR / 人工读图 |
+| `inferred` | 基于类目惯例、同类产品、上下文推断 | build_facts.py 推导逻辑 |
+| `to_confirm` | 缺失、模糊、冲突，需补充 | 门禁 warning |
+
+### 使用规则
+
+- **可选字段**：不是每个字段都必须有 evidence_status；关键字段（brand、voltage、capacity、material、certification）建议标注
+- **不影响生成门禁**：`status=verified` 仍然是生成的唯一门槛；evidence_status 用于审核和运营复核
+- **overrides.json 自动提升**：通过 overrides 确认的字段，evidence_status 自动设为 `confirmed`
+- **图片读取降级**：当同一字段同时有 image_read 和 attribute 来源时，以 attribute 为准，evidence_status 取更高可信度的那个
+
+### 示例
+
+```json
+{
+  "material": {
+    "value": ["PVC"],
+    "evidence_status": "image_read",
+    "evidence_source": "img/03.jpg 参数表"
+  },
+  "power.battery_v": {
+    "value": 18,
+    "evidence_status": "confirmed",
+    "evidence_source": "用户确认 2026-10-21：电池电压 18V"
+  },
+  "weight_kg": {
+    "value": 0.3,
+    "evidence_status": "inferred",
+    "evidence_source": "同尺寸同类产品推算"
+  }
+}
+```
+
 ## 6. 站点与图片
 
 | 路径 | 类型 | 说明 |

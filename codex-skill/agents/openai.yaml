@@ -1,0 +1,4 @@
+interface:
+  display_name: "TikTok Shop 墨西哥 Listing 优化"
+  short_description: "默认墨西哥双语Listing，突出真实卖点与具体场景，集中展示参数并优化搜索词"
+  default_prompt: "Use $tiktok-shop-listing to create or revise persuasive, fact-supported Seller Center fields, defaulting to Mexico with Spanish copy and Chinese reference text: highlight verified buying reasons in the title, concrete uses, scannable benefits and grouped parameters; preserve my confirmed facts and prices, follow my market/language choices, and keep research and edits within scope."

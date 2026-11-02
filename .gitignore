@@ -34,3 +34,6 @@ collector/_work/
 
 # DuMate/浏览器的页面快照与会话痕迹（可能含 token，不入库；建议直接删）
 .dumate/
+
+# Raw product data (images/videos/facts) - too large for git
+input/

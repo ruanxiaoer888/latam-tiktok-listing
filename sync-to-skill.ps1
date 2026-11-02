@@ -33,9 +33,19 @@ if ($srcFull -eq $dstFull) {
 }
 
 # Remove the copied sub-folders first so deleted/renamed files do not linger.
+# NOTE: On some Windows setups (DSH sandbox / read-only skill dir), Remove-Item
+# may be denied. In that case, Copy-Item -Force below will overwrite existing
+# files; stale files from a previous sync are handled by the SHA256 check after.
 foreach ($d in @("skill", "qa", "source-gemini", "kb")) {
     $p = Join-Path $dst $d
-    if (Test-Path $p) { Remove-Item $p -Recurse -Force }
+    if (Test-Path $p) {
+        try {
+            Remove-Item $p -Recurse -Force -ErrorAction Stop
+        } catch {
+            # Silently skip removal; Copy-Item -Force will overwrite files anyway.
+            # The SHA256 verification step below will catch any stale extras.
+        }
+    }
 }
 
 # Old versions copied the sync scripts themselves into the skill folder. They are

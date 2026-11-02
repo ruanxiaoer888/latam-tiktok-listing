@@ -1,7 +1,7 @@
 # HANDOFF｜交接文档
 
 > 最后更新：**2026-10-30**（工具链 v2.0 完成、首批 8 条上架、进入 14 天观察期）
-> 仓库：https://github.com/ruanxiaoer888/listing-pipeline （private，main）
+> 仓库：https://github.com/ruanxiaoer888/latam-tiktok-listing （private，main）
 > 本文件位置 = 仓库根目录 = 流水线主本
 > 交互约定：**用户只发一句话，Agent 全自动做完，不展示命令**（见 `AGENTS.md`）
 > 新手入口：**`新手怎么用.md`（零命令）**；技术用法见 `README.md`

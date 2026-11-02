@@ -131,7 +131,7 @@ def main():
 
     if not os.path.isdir(os.path.join(ROOT, "input")):
         print("[ERROR] input\\ not found under %s" % ROOT, file=sys.stderr)
-        print("        Run this from the listing-pipeline workspace, not an installed skill copy.",
+        print("        Run this from the latam-tiktok-listing workspace, not an installed skill copy.",
               file=sys.stderr)
         return 2
 

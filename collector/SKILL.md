@@ -1,6 +1,6 @@
 ---
 name: mercadolibre-listing-collector
-description: "美客多（Mercado Libre）商品 Listing 批量采集与增量续采。当需要从飞书多维表格的「商品链接」列批量抓取美客多商品页、把商品详情（全部原图 + 标题／价格／类目／规格属性／西语原文描述）落成 listing-pipeline 的 `input/<SKU>/` 目录结构、续采上次被风控拦截或抓取失败的 SKU、核对哪些 SKU 还没采到、生成采集清单或交付压缩包时使用。也适用于换一台电脑继续采集。内置飞书表读取、美客多页面数据提取路径（`__NORDIC_RENDERING_CTX__`）、反爬拦截与失效 SKU 排查、目录产物与命名规范，以及读表／建目录／生成清单／打包校验的可执行脚本。"
+description: "美客多（Mercado Libre）商品 Listing 批量采集与增量续采。当需要从飞书多维表格的「商品链接」列批量抓取美客多商品页、把商品详情（全部原图 + 标题／价格／类目／规格属性／西语原文描述）落成 latam-tiktok-listing 的 `input/<SKU>/` 目录结构、续采上次被风控拦截或抓取失败的 SKU、核对哪些 SKU 还没采到、生成采集清单或交付压缩包时使用。也适用于换一台电脑继续采集。内置飞书表读取、美客多页面数据提取路径（`__NORDIC_RENDERING_CTX__`）、反爬拦截与失效 SKU 排查、目录产物与命名规范，以及读表／建目录／生成清单／打包校验的可执行脚本。"
 ---
 
 # 美客多 Listing 采集（飞书表 → 美客多商品页 → `input/<SKU>/`）
@@ -66,12 +66,12 @@ scripts\
 **把这两条路径先记下来**（下文示例用 `<工作区>` 和 `<技能>` 代替）：
 
 ```
-<工作区> = 你的 listing-pipeline 仓库根（clone 出来的那一层，随机器变化，不要写死盘符）
+<工作区> = 你的技能仓库根（clone 出来的那一层，随机器变化，不要写死盘符）
 <技能>   = 本 collector 目录，例如 <工作区>\collector
 ```
 
 > **技能装到 `%USERPROFILE%\.agents\skills\` 或本机技能目录后，脚本位置已不在工作区里**——
-> 那时 `<collector 上一级>` 不再是 `listing-pipeline` 根，默认值会指错。**必须给每条命令显式写
+> 那时 `<collector 上一级>` 不再是仓库根，默认值会指错。**必须给每条命令显式写
 > `--input-root`**（或先设环境变量 `MLP_INPUT_ROOT`）。下文示例一律写成显式参数，照抄即可。
 
 ### 1. 拿全量清单（飞书表）
@@ -188,7 +188,7 @@ python "<技能>\scripts\pack_and_verify.py" --input-root "<工作区>\input" \
 
 ## 安装与换机
 
-- 两个技能（本技能 + 下游 `latam-tiktok-listing`）都在同一个 `listing-pipeline` 仓库里，
+- 两个技能（本技能 + 下游 `latam-tiktok-listing`）都在同一个仓库里，
   一次 clone 全拿到；仓库根的 `迁移到新电脑.md` / `setup-new-pc.cmd` 是换机入口
 - 技能运行位置二选一：DSH 全局 `%USERPROFILE%\.agents\skills\<技能名>\`，
   或本机 DuMate 技能目录 `...\data\skills\user\<技能名>\`

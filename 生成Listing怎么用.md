@@ -9,7 +9,7 @@
 
 ```powershell
 # 0. 采集已经落盘：input\<SKU>\{input.json, item.json, img\}
-cd E:\AUSU\DSHProjects\Tiktok\listing-pipeline
+cd E:\AUSU\DSHProjects\Tiktok\latam-tiktok-listing
 
 # 1. 建事实卡（美客多信息 → facts.json）
 python qa\build_facts.py --only <SKU>

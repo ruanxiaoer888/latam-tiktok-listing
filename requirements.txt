@@ -1,4 +1,4 @@
-# Python dependencies for listing-pipeline.
+# Python dependencies for latam-tiktok-listing.
 #
 # System Python (the `python` on PATH) needs only openpyxl for the xlsx writers:
 #     python -m pip install -r requirements.txt

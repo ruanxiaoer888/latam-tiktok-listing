@@ -20,7 +20,7 @@ Step 1 "Check the workspace"
 # kb\ is required by check_facts.py; collector\ is the second skill - a clone
 # without either one used to pass this check and still print ALL DONE.
 foreach ($f in @("SKILL.md", "README.md", "skill", "qa", "kb", "collector")) {
-    if (-not (Test-Path (Join-Path $root $f))) { Fail "missing '$f' - is this the listing-pipeline folder?" }
+    if (-not (Test-Path (Join-Path $root $f))) { Fail "missing '$f' - is this the latam-tiktok-listing folder?" }
 }
 Ok "workspace: $root"
 

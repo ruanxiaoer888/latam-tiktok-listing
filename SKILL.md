@@ -5,6 +5,13 @@ description: "拉美 TikTok Shop（墨西哥 MX / 巴西 BR）商品 Listing 生
 
 # 拉美 TikTok Shop Listing 生成、转化与合规校验
 
+> **命名说明**：本文件是 Skill ID `/latam-tiktok-listing` 的源码母版。
+> -   DSH 调用名：`/latam-tiktok-listing`（全局技能目录 `C:\Users\Michael\.agents\skills\latam-tiktok-listing\SKILL.md`）
+> -   源码位置：`D:\Michael\DSHProjects\skills\latam-tiktok-listing\SKILL.md`（即本文件）
+> -   两者是同一套东西的"运行时副本"和"开发母版"，通过 `sync-all.cmd` 同步。
+> -   工作区根目录名 `skills/latam-tiktok-listing` = 这个 Skill 的源码仓库 + 数据仓库（input/output/qa）。
+> -   **注意**：本 Skill (`/latam-tiktok-listing`) 与 Codex 版 `/tiktok-shop-listing` 是两个独立的 Skill，前者负责工程化执行（门禁+校验+批量），后者负责知识组织和决策框架（SEO 证据、合规审计、定价模型）。两者互补，不互相覆盖。
+
 ## 什么时候用
 
 - 根据商品图片（5–6 张）+ 原描述，生成或重写 MX / BR 站 Listing
@@ -28,7 +35,11 @@ skill\类目\01..09-*.md   9 个类目包（双站标题公式/必带信息/FAQ/
 skill\案例库索引.md      9 条案例的类目映射、盲区、few-shot 使用规则
 skill\短视频脚本.md      可选模块 B（Hook 库/CTA 库/15-30 秒结构），默认不生成
 skill\属性映射.md        ML 属性 → TikTok 槽位映射规则（电池电压 vs 充电器电压等）
-kb\_schemas\             5 个类目事实 schema（五金工具/汽车摩托/家电/运动户外/服装）+ _fields.md（字段字典）
+skill\references\        模块化参考文档（按需加载，不塞进主提示词）
+  seo-evidence.md        SEO 证据分级规范（observed/inferred/fallback 三级标注）
+  compliance-audit.md    合规审计框架（数据来源状态 + 合规动作分级 + 严重度）
+  pricing-mx.md          墨西哥站定价决策框架（存档备用，未集成进生成流程）
+kb\_schemas\             5 个类目事实 schema（五金工具/汽车摩托/家电/运动户外/服装）+ _fields.md（字段字典，含 evidence_status 规范）
                          **没有 schema 的类目（如「时尚配件」）不许生成**，见硬约束
 kb\README.md             事实库状态机（draft/verified/quarantined/blocked）+ 命令
 input\<SKU>\facts.json   事实卡：生成的唯一事实来源（verified 才可生成）
@@ -64,7 +75,8 @@ sync-all.ps1 / .cmd      一次同步两个技能 → 全局技能目录 + SHA25
    - **上架前再加两道**：`python qa\check_certificates.py --strict`（认证，只挡上架）+ `python qa\check_images.py --input-root input`（图片：5–9 张、短边 ≥800px、±3% 比例、无重复图；**P0 → exit 3**；文字/水印需人工核对）。
 3. **读数（顺序固定）**：
    - **事实**：只读 `input\<SKU>\facts.json`。**不读原始描述、不读图片、不猜参数**——`power.state_power=false` 时不许写瓦数，`certification.status=missing` 时不许写 NOM/INMETRO/ANATEL。
-   - **规则**：`skill\生成提示词.md`（模板）+ `skill\骨架.md` + `skill\转化层.md` + `skill\rules-<站点>.md` + `skill\类目\<最贴近的类目>.md`；要 few-shot 就按 `skill\案例库索引.md` 取同类目案例。
+   - **规则**：`skill\生成提示词.md`（模板，含窄编辑模式）+ `skill\骨架.md` + `skill\转化层.md` + `skill\rules-<站点>.md` + `skill\类目\<最贴近的类目>.md`；要 few-shot 就按 `skill\案例库索引.md` 取同类目案例。
+   - **参考文档（按需）**：SEO 证据分级 → `skill\references\seo-evidence.md`；合规审计 → `skill\references\compliance-audit.md`；定价建议 → `skill\references\pricing-mx.md`。常规生成不需要加载，仅在对应场景触发时读取。
 4. **生成**（二选一）：
    - 单条：按规则直接产出纯文本，**不要**输出"以下是您的 Listing"、不要结构标签、不要引用标记。
    - 批量：`input\<商品ID>\facts.json`（+ 需要时 `output\_batch\digest.md`）喂进去，逐条产出到 `output\`。
