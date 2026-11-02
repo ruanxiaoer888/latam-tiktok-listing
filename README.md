@@ -1,4 +1,4 @@
-# listing-pipeline｜拉美 TikTok Shop Listing 生产流水线
+# latam-tiktok-listing｜拉美 TikTok Shop Listing 生产流水线
 
 > 2026-10-30 · v2.0：**Pattern 化 + 交付闭环 + 事实一致性门禁**
 > 前身是 Gemini GEM 那套「内容标准」，现在是一条带确定性闸门的批量生产线。
@@ -39,7 +39,7 @@
 ## 目录
 
 ```text
-listing-pipeline\
+skills/latam-tiktok-listing\
 ├─ AGENTS.md                一句话生成规则（仓库副本；换机放到工作区根目录）
 ├─ SKILL.md                 技能入口（什么时候用、怎么用、硬约束）
 ├─ README.md                本文件
