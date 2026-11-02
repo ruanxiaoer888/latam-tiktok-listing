@@ -202,8 +202,8 @@ def write_readme(batch, rows, counts, site):
         "",
         "## 怎么用（3 步）",
         "",
-        "1. 打开某个 SKU 文件夹，先看 `上架信息.md`。",
-        "2. 复制 `标题.txt` → 后台商品标题；复制 `描述.txt` → 详情描述（后台不认 Markdown，粘完后把每条 ⭐ 冒号前的短语手动加粗）。",
+        "1. 打开某个 SKU 文件夹，打开 `上架信息.md`。",
+        "2. 按文件里的 **§1 标题** 复制到后台商品标题；按 **§2 描述** 整段复制到详情描述（后台不认 Markdown，粘完后把每条 ⭐ 冒号前的短语选中手动加粗）。",
         "3. 打开 `图片` 文件夹，按文件名顺序（01 是主图）上传。",
         "",
         "## 本期 SKU",
@@ -297,6 +297,9 @@ def main():
             copied.append(p.name)
 
         write_sku_info(sku, title, desc, facts, len(copied), out_dir, args.site)
+        # 上架信息.md 已包含标题+描述全文；删除中间 txt，交付目录只留 上架信息.md + 图片\
+        for stale in ("标题.txt", "描述.txt"):
+            (out_dir / stale).unlink(missing_ok=True)
         price = ((facts.get("site_profiles") or {}).get(args.site) or {}).get("price") or 0
         rows.append((sku, title, price, len(copied)))
         flag = "OK" if title_ok(args.site, title, facts.get("category", "")) else "!!"

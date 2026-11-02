@@ -2,9 +2,10 @@
 r"""
 批量：把 input\ 原始数据与批次成稿合成校验用 CSV。
 
-认两种成稿布局（优先扁平，再 SKU 文件夹）：
+认三种成稿布局（优先扁平，再 SKU 文件夹，再上架信息.md）：
   <batch>\listing-<id>.txt                 旧布局
-  <batch>\<id>\标题.txt + 描述.txt         新布局（交付文件夹即源稿）
+  <batch>\<id>\标题.txt + 描述.txt         中间布局
+  <batch>\<id>\上架信息.md                 新布局（推荐，一个文件搞定）
 
 标题长度只做「提示」，不阻断；区间从 qa\denylist.json 统一读取（qa\_limits.py），
 汽配类目自动用更宽的 autoparts 区间。
@@ -34,6 +35,22 @@ def load_listing(ldir, pid):
     d = ldir / pid / "描述.txt"
     if t.exists() and d.exists():
         return t.read_text(encoding="utf-8").strip(), d.read_text(encoding="utf-8").strip()
+    # 新布局：从上架信息.md的代码块中提取标题和描述
+    md = ldir / pid / "上架信息.md"
+    if md.exists():
+        import re
+        text = md.read_text(encoding="utf-8")
+        blocks = re.findall(r'```\n(.*?)```', text, re.DOTALL)
+        if len(blocks) >= 2:
+            title = blocks[0].strip().split('\n')[0].strip()
+            desc = blocks[1].strip()
+            return title, desc
+        elif len(blocks) == 1:
+            # 只有一个代码块，尝试按空行分割
+            content = blocks[0].strip()
+            parts = content.split('\n\n', 1)
+            if len(parts) >= 2:
+                return parts[0].strip(), parts[1].strip()
     return None
 
 

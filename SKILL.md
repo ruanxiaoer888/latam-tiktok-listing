@@ -106,7 +106,7 @@ sync-all.ps1 / .cmd      一次同步两个技能 → 全局技能目录 + SHA25
 
 ## 输出
 
-- `output\<批次>.xlsx`：列名对齐 TikTok 后台批量上架模板
+- **每个 SKU 交付目录只有两样东西**：`output\批次YYYYMMDD\<SKU>\上架信息.md`（标题+描述+后台字段+变体图片对应+待办，一个文件）+ `图片\`（白底主图）。不拆标题.txt、描述.txt 等零散文件。
 - `output\_smoke\run_batch_<时间戳>_<pid>\`：`run_batch.py` 每次校验的明细（独立目录、不入库）
 - `qa\报告\<日期>\`：`check_listing.py` 单独跑时的 md 报告 + csv 明细（含命中位置与修改建议）
 

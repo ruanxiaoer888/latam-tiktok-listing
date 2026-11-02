@@ -32,13 +32,28 @@
 
 只有两个数据目录：`input\` 是原料，`output\` 是产物。**交付物全部在批次目录里，不许在仓库根新开目录。**
 
-- **成稿就在交付文件夹里**：`output\批次YYYYMMDD\<SKU>\标题.txt` + `描述.txt`（Agent 直接写这里，不再另存 listing 文件）
-- 每个 SKU 另外两样：`图片\`（从 `input\<SKU>\img` 复制，01 是主图）、`上架信息.md`（后台字段、缺什么、备注）
+- **成稿就在交付文件夹里**：`output\批次YYYYMMDD\<SKU>\上架信息.md`（标题+描述+后台字段+变体图片对应+待办，一个文件搞定）+ `图片\`（从源素材复制白底主图，01 是主图）
 - 批次说明：`output\批次YYYYMMDD\README.md`（怎么用、本期 SKU、校验结论）
+- **每个 SKU 交付目录只有两样东西：`上架信息.md` + `图片\` 文件夹**。不拆标题.txt、描述.txt 等零散文件——运营打开一个文件就能完成所有复制粘贴。
 - **批次根目录只放：README.md + SKU 文件夹；一个机器文件都不许放**。校验/映射/明细等机器文件全部写进 `output\_smoke\run_batch_<时间戳>_<pid>\`，用户不用看
 - 原始素材：`input\<SKU>\`（**不是给人上架用的**，别让运营从这里拿图片）
 
 同一批次目录已存在就续写，不新建重复目录。每次交付都要出 SKU 文件夹：运营拿到一个 SKU 文件夹就能上架，批次根目录不许再堆机器文件。
+
+### 2.1 中间产物目录（Agent 自用，运营不看）
+
+以下目录是流水线的中间缓存，**不是交付物**。可以安全清理，不影响任何已交付批次。
+
+| 目录 | 用途 | 生命周期 |
+|---|---|---|
+| `output\_batch\` | `source_digest.py` / `facts_digest.py` / `build_scene.py` 的产物（原始摘要、事实摘要、场景卡） | 下次批量生成前可清；重跑脚本会自动重建 |
+| `output\_packs\` | `make_listing_pack.py` 的产物（每个 SKU 的生成包） | 对应批次交付完成后可清；重跑会自动重建 |
+| `output\_smoke\` | `run_batch.py` 每次校验的机器文件（check.csv / 明细 / 属性映射 / 批次结果） | 永久保留用于回溯；磁盘紧张时可归档或删除 7 天前的 |
+| `output\_research\` | 市场调研、技术对接等研究资料 | 长期保留；不属于 Listing 流水线 |
+| `output\经营台账\` | 定价模型与经营分析 | 长期保留；不属于 Listing 流水线 |
+| `output\_归档\` | 历史对照样本（A/B 测试、定稿快照） | 长期保留 |
+
+> **原则**：`_batch` 和 `_packs` 是临时缓存，随时可删可重建；`_smoke` 是校验审计日志，按需清理；其余是独立资料库，不动。
 
 ## 3. 数据不全时怎么说（人话，不甩报错）
 
@@ -55,7 +70,7 @@ python qa\check_facts.py --only <SKU>            # READY 才继续
 python qa\check_facts_quality.py --input-root input --strict
 python qa\build_scene.py --only <SKU>            # 或 --all 批量
 python qa\make_listing_pack.py --sku <SKU>       # 或 --all；产物 output\_packs\<SKU>.md
-# 按生成包直接写 output\批次YYYYMMDD\<SKU>\标题.txt + 描述.txt（成稿就是交付文件）
+# 按生成包直接写 output\批次YYYYMMDD\<SKU>\上架信息.md（标题+描述+后台字段+变体图片对应，一个文件）+ 图片\（白底主图）
 python qa\run_batch.py --input-root input --listing-dir output\批次YYYYMMDD --site MX
 # 机器文件全部进 output\_smoke\run_batch_<时间戳>_<pid>\，批次目录不动
 python qa\make_upload_pack.py --batch output\批次YYYYMMDD

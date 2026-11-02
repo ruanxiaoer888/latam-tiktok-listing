@@ -5,9 +5,10 @@ r"""
 用法：
   python run_batch.py --input-root ..\input --listing-dir ..\output\批次0921 --site MX
 
-listings 的两种布局都认（先扁平、再 SKU 文件夹）：
+listings 的三种布局都认（先扁平、再 SKU 文件夹、再上架信息.md）：
   <batch>\listing-<SKU>.txt                      旧布局
-  <batch>\<SKU>\标题.txt + 描述.txt              新布局（推荐，交付文件夹即源稿）
+  <batch>\<SKU>\标题.txt + 描述.txt              中间布局
+  <batch>\<SKU>\上架信息.md                      新布局（推荐，一个文件搞定）
 
 机器文件去哪：**全部写进本次 output\_smoke\run_batch_<时间戳>\_<pid>\**，
 批次目录一个机器文件都不落（批次根只留 README + SKU 文件夹）。
@@ -95,13 +96,16 @@ def read_facts(inroot, pid):
 
 
 def find_listing(ldir, pid):
-    """扁平 listing-<SKU>.txt 或 <SKU>\\标题.txt，两种布局都认。"""
+    """扁平 listing-<SKU>.txt 或 <SKU>\\标题.txt 或 <SKU>\\上架信息.md，三种布局都认。"""
     flat = ldir / f"listing-{pid}.txt"
     if flat.exists():
         return flat
     d = ldir / pid
     if (d / "标题.txt").exists() and (d / "描述.txt").exists():
         return d / "标题.txt"
+    md = d / "上架信息.md"
+    if md.exists():
+        return md
     return None
 
 
@@ -243,14 +247,14 @@ def main():
     elif rejected:
         print("[i] 没有可校验的清单（全部被门禁拒绝），跳过校验与出表。")
     else:
-        print("[i] 批次目录里还没有任何 SKU，先让 Agent 生成成稿（标题.txt / 描述.txt）。")
+        print("[i] 批次目录里还没有任何 SKU，先让 Agent 生成成稿（上架信息.md）。")
 
     print("\n=== 完成 ===")
     if checked:
         print(f"  批次目录（只放交付文件）：{ldir}")
         print(f"  机器文件（不用看）：{scan_dir}")
     if lack:
-        print(f"\n下一步：让 Agent 生成这 {len(lack)} 个 SKU 的 <批次>\\<SKU>\\标题.txt + 描述.txt，然后重跑本命令。")
+        print(f"\n下一步：让 Agent 生成这 {len(lack)} 个 SKU 的 <批次>\\<SKU>\\上架信息.md + 图片\\，然后重跑本命令。")
     if rejected and not args.allow_unverified:
         print(f"\n[门禁] {len(rejected)} 个 SKU 未通过生成前门禁，本次退出码 3："
               f"{'、'.join(pid for pid, _ in rejected)}")
