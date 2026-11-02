@@ -1,6 +1,6 @@
 # HANDOFF｜交接文档
 
-> 最后更新：**2026-10-30**（工具链 v2.0 完成、首批 8 条上架、进入 14 天观察期）
+> 最后更新：**2026-11-02**（P0/P1/P2 优化完成、9 类目 schema 齐全、pre-commit 三重防护）
 > 仓库：https://github.com/ruanxiaoer888/latam-tiktok-listing （private，main）
 > 本文件位置 = 仓库根目录 = 流水线主本
 > 交互约定：**用户只发一句话，Agent 全自动做完，不展示命令**（见 `AGENTS.md`）
@@ -10,7 +10,7 @@
 
 ## 0. 一句话
 
-**工具链已经够用（81 条 0 缺陷、交付闭环、一致性门禁），现在的卡点不在文案，在「认证 / 主图 / 履约质量」；首批 8 条已上架，进入 14 天观察期，期间冻结新 Listing。**
+**工具链已完成全面优化（命名统一、结构清理、9 类目 schema 齐全、黄金集 PASS、pre-commit 三重防护），现在可以正常使用了。当前卡点不在工程侧，在「认证 / 主图 / 履约质量」；首批 8 条已上架，进入 14 天观察期。**
 
 ---
 
@@ -25,35 +25,61 @@
 - Listing 侧已就绪：批次20261022-v2 **81 条成稿，P0/P1/P2 全 0**。
 - **当前处于 14 天冻结期**：不生成新 Listing、不改提示词，先拿真实数据。
 - 待拍板：**63 款电动/电池产品缺证书**——补证，还是把选品收缩到免认证手动工具（当前可售池约 18 款）。
+- **工程侧已全部就绪**：命名统一为 `latam-tiktok-listing`，9 个类目都有 schema，不再被事实门禁阻断。
 
 ---
 
-## 2. 已完成（2026-10-29 ~ 10-30，已推送）
+## 2. 已完成（2026-11-02，已推送）
 
-### 2.1 工具链 v2.0（Pattern 化 + 闭环）
+### 2.1 P0 清理（安全/数据风险消除）
 
-| 模块 | 内容 |
+| 任务 | 详情 |
 |---|---|
-| Pattern | `patterns\listing_write`（初稿）、`patterns\listing_fix`（按违规清单改稿） |
-| 脚本 | `scripts\render_prompt.py`（组装 + 版本/sha256）、`render_listing.py`（JSON→纯文本，格式由代码保证）、`eval_pattern.py`（复用校验器打分） |
-| 事实一致性 | 新增 `qa\check_consistency.py`（供电方向 / 瓦数 / 容量 / 认证），已接入 `run_batch` |
-| 合规闸门 | `check_listing --fail-on-p1`（P1 真阻断）、`--input-root`（类目必带项按 facts 可用性判断） |
-| 平台限制单一源 | `denylist.json` 新增 `images`；标题区间经 `qa\_limits.py` 统一读取 |
-| 交付闭环 | `make_upload_pack` 兼容扁平布局并归位 SKU 文件夹；新增 `qa\normalize_listing.py` |
-| 评测 | 黄金集 20 条（approved）+ 基线 `output\_eval\` |
+| `.dumate/` 会话痕迹 | 物理删除，未被 git 追踪 |
+| `collector/_work/pack_soplad/` 冗余图片 | 删除 25 张（11.85 MB） |
+| `output/` 产物追踪 | 从 git 索引移除 338 个文件（本地保留） |
+| `input/` 大文件追踪 | 从 git 索引移除 416 个文件（含 6 个 >100MB 视频），更新 .gitignore |
 
-### 2.2 数据与交付
+### 2.2 P1 命名统一
 
-- 批次20261022-v2 从扁平迁移为 **81 个 SKU 文件夹**（81 标题 / 81 描述 / 81 上架信息 / 730 张图），根目录只有 README。
-- 清洗 81 份成稿的 `**` 与全角标点，并补了标点后空格（374 处）。
-- 修 2 张主图：`ATVMX18200` 1182×1182（裁掉带「AI生成」水印的场景带）、`ABTL00000J` 1920×1920（补白）。
-- **`AMU5000000` 事实卡纠错**：原始描述是 8000mAh 锂电 + 6–8.4V，属性误解析成 127V 插电；已写 overrides 重建并重新核验。
+- 全局替换 `listing-pipeline` → `latam-tiktok-listing`（6 文件 12 处）
+- GitHub 仓库名、README 标题、git remote 全部统一
+- 历史文档（`fabric对照分析`、`审计报告`）中的旧路径标注"已废弃"
 
-### 2.3 基础设施
+### 2.3 P2 结构优化
 
-- `core.hooksPath=.githooks` 生效，pre-commit 会跑 `selftest`（4/4）。
-- `sync-all` 后仓库与 `~\.agents` 两个技能哈希一致。
-- 已推送 5 个提交：`7b631db` → `3e8b2a0`（HEAD）。
+| 任务 | 详情 |
+|---|---|
+| 双源关系标注 | `skill/references/` 3 个文件添加来源说明 + README 维护提醒表格 |
+| sync 脚本文档统一 | `sync-to-skill.cmd` / `sync-collector-skill.cmd` 添加 ⚠️ 警告，README 明确推荐 `sync-all.cmd` |
+| 工具脚本整理 | 4 个 Python 脚本从 `output/_batch/` 移到 `scripts/` |
+| requirements.txt 验证 | openpyxl + Pillow 已覆盖所有第三方依赖 |
+| 黄金集定位 | manifest.json 添加 `listing_location` 字段，20 个 listing 本地完整 |
+| 文档归档 | 2 个一次性分析报告移到 `docs/archive/`，根目录 .md 从 14→12 |
+| stale file detection | `sync-all.ps1` 末尾添加残留文件检测，能正确报告"无残留" |
+
+### 2.4 类目 schema 补全
+
+- 新增 4 个类目 schema：家居建材、宠物用品、厨房用品、时尚配件
+- 现在 **9 个类目全部有 schema**，不再被事实门禁阻断
+- SKILL.md description 更新为"9 个类目包 + schema"
+
+### 2.5 pre-commit hook 增强
+
+- Check 1: 拦截 >50MB 大文件（建议用 Git LFS）
+- Check 2: 拦截 `.dumate/` 和 `_work/` 等敏感/临时路径
+- Check 3: 保留原有 selftest 回归测试
+
+### 2.6 黄金集回归测试
+
+- P0=0 P1=0 P2-结构=0 P2-转化=0 → **PASS**
+- 存档：`output\_eval\listing_write@1.0.0.json`
+
+### 2.7 同步验证
+
+- 全局技能目录：64+8+15 文件，hash OK
+- selftest：4/4 PASS
+- DuMate 副本：已在应用内手动更新
 
 ---
 
@@ -124,12 +150,14 @@
 17. **PowerShell 写 JSON 会带 BOM**：`golden\manifest.json` 中过招；解析用 `utf-8-sig`，写盘用 Python。
 18. **批次迁移在 git 里显示删除**：旧扁平文件被跟踪、新布局被 ignore；要保留交付就 `git add -f`。
 19. **文档数字手抄必过期**：README 曾写 110/READY 81/93 缺 raw，全错。一律命令取数。
+20. **GitHub 连接不稳定**：偶尔超时属正常，本地提交成功后稍后再推即可。
+21. **嵌套文件夹问题**：之前同步时出现过 `latam-tiktok-listing/latam-tiktok-listing/` 嵌套，已通过删除 + 重新同步解决，现在 `sync-all.ps1` 有 stale file detection 防止复发。
 
 ### 5.5 旧店业务教训（别重复）
 
-20. 退款 41% 的主因是漏件/破损/二手，不是文案；**先修品控再放量**。
-21. 热销款恰好退货最高（砂光机、电锯、搅拌机）：先小批量验证，别一次压库存。
-22. 标价是划线价，实际成交约 6 折；定价按到手价算利润。
+22. 退款 41% 的主因是漏件/破损/二手，不是文案；**先修品控再放量**。
+23. 热销款恰好退货最高（砂光机、电锯、搅拌机）：先小批量验证，别一次压库存。
+24. 标价是划线价，实际成交约 6 折；定价按到手价算利润。
 
 ---
 
@@ -142,14 +170,14 @@ python qa\check_images.py --input-root input                  # 图片 P0
 python qa\check_certificates.py --input-root input --site MX  # 认证卡口
 python scripts\render_prompt.py --sku <SKU> --site MX         # 组装 prompt
 python scripts\render_listing.py --json output\_draft\<SKU>.json --out-root output\批次YYYYMMDD
-python scripts\eval_pattern.py --batch output\批次YYYYMMDD --golden eval\golden\manifest.json
+python scripts\eval_pattern.py --batch output\批次YYYYMMDD --pattern listing_write@1.0.0
 python qa\selftest.py                                         # 一键回归（4 项）
-.\sync-all.cmd                                                # 同步技能副本
+.\sync-all.cmd                                                # 同步技能副本 + stale 检测
 ```
 
 ---
 
-## 7. 数字快照（2026-10-30，跑命令为准）
+## 7. 数字快照（2026-11-02，跑命令为准）
 
 | 项 | 数值 |
 |---|---|
@@ -157,14 +185,16 @@ python qa\selftest.py                                         # 一键回归（4
 | 事实卡 | READY=84 / PENDING=16 / QUARANTINED=13 / skip=0 |
 | 已出稿（v2） | 81 条，P0=0 P1=0 P2=0 |
 | 已上架 | 8 条（Atverce） |
-| 黄金集 | 20 条 approved |
+| 黄金集 | 20 条 approved，回归测试 PASS |
+| 类目 schema | 9 个齐全（五金工具/汽车摩托/家居建材/运动户外/宠物/厨房/家电/时尚配件/服装） |
 | 图片 | 108 SKU：P0=55（40 SKU）/ P1=167/ P2=56 |
 | 认证阻断（MX） | 122 条 / 74 SKU（NOM-003 73 + UN38.3 49） |
-| 代码版本 | `3e8b2a0`（main，已推送） |
+| pre-commit 防护 | 三重：大文件 + 敏感路径 + selftest |
+| 代码版本 | `4e15cae`（main，已推送） |
 
 ---
 
 ## 8. 一句话给下一个人
 
-**工具已经够用，别再打磨；盯三件事：证书、主图、退货率。**
+**工具已经够用且经过全面优化，别再打磨工程侧；盯三件事：证书、主图、退货率。**
 下一批商品等 14 天数据回来再动，别在没数据时优化文案。
