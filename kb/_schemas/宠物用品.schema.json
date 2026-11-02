@@ -1,0 +1,41 @@
+{
+  "schema": "category-schema/v1",
+  "category": "宠物用品",
+  "version": "1.0",
+  "updated": "2026-11-02",
+  "description": "宠物用品事实卡字段。required = 生成硬门槛；recommended = 缺了提醒但不阻断。",
+  "required": [
+    { "path": "identity.brand", "label": "品牌" },
+    { "path": "pet.weight_range_kg", "label": "适用体重区间（kg，比 S/M/L 更重要）" },
+    { "path": "pet.body_type", "label": "适用体型（MX：raza pequeña/mediana/grande；BR：porte pequeno/médio/grande）" },
+    { "path": "pet.species", "label": "适用宠物（犬/猫/通用）" },
+    { "path": "package.included", "label": "包装清单", "non_empty": true }
+  ],
+  "recommended": [
+    { "any_of": ["size.length_cm", "size.width_cm", "size.height_cm", "size.raw"], "label": "尺寸（颈围/胸围/长宽高 cm）" },
+    { "path": "material", "label": "材质（可拆洗/防滑底/无毒）", "non_empty": true },
+    { "path": "washable", "label": "是否可机洗（lavable a máquina / lavável na máquina）" },
+    { "path": "power.battery_model", "label": "电池型号（智能用品必填）" },
+    { "path": "power.battery_included", "label": "是否含电池" },
+    { "path": "power.battery_life_hours", "label": "续航时间（小时）" }
+  ],
+  "compliance_rules": {
+    "prohibited_claims": [
+      "anti pulgas / antipulgas（驱虫疗效宣称）",
+      "antibacterial / antibacteriano（抗菌医疗功效）",
+      "antialérgico / hipoalergénico（无检测依据时）"
+    ],
+    "certification_required": {
+      "battery_bluetooth": "BR: ANATEL, MX: NOM",
+      "food_contact": "食品级/无毒依据（食盆、玩具）"
+    },
+    "note": "宠物药属受限类目（BR 需 ANVISA / MX 需 COFEPRIS），禁止宣称疗效。"
+  },
+  "notes": [
+    "体重区间是硬门槛：只写'大号'不写 kg → 退货。",
+    "体型叫法必须本地化：MX raza / BR porte，写错一眼外国店。",
+    "智能用品必须写电池型号，否则差评。",
+    "禁止宣称疗效：驱虫、治病、消毒、抗过敏医疗功效。",
+    "材质安全：入口类（食盆、玩具）要食品级/无毒依据。"
+  ]
+}

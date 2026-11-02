@@ -1,0 +1,42 @@
+{
+  "schema": "category-schema/v1",
+  "category": "时尚配件",
+  "version": "1.0",
+  "updated": "2026-11-02",
+  "description": "时尚配件事实卡字段。required = 生成硬门槛；recommended = 缺了提醒但不阻断。",
+  "required": [
+    { "path": "identity.brand", "label": "品牌" },
+    { "path": "material", "label": "材质（不锈钢304/316L、合金、925银、真皮、水晶玻璃）", "non_empty": true },
+    { "path": "size.raw", "label": "尺寸（链长/戒指周长mm/腰带长度/表盘直径）", "non_empty": true },
+    { "path": "weight_g", "label": "重量（g，显质感也是运费依据）" },
+    { "path": "package.included", "label": "包装清单（是否含礼盒必须说明）", "non_empty": true }
+  ],
+  "recommended": [
+    { "path": "adjustable", "label": "是否可调节（ajustable / ajustável）" },
+    { "path": "hypoallergenic", "label": "是否防过敏（有依据才写 hipoalergénico / hipoalergênico）" },
+    { "path": "plating_type", "label": "镀层类型（banhado a ouro / chapado en oro，必须写清厚度或等级）" },
+    { "path": "includes_gift_box", "label": "是否含礼盒（送礼场景关键）" },
+    { "any_of": ["size.length_cm", "size.width_cm"], "label": "其他尺寸" }
+  ],
+  "compliance_rules": {
+    "prohibited_claims": [
+      "材质虚标：合金写 acero inoxidable/aço inoxidável",
+      "镀金写成 oro/ouro（必须写 chapado/banhado）",
+      "hipoalergénico/antialérgico（无检测依据时）",
+      "UV400（太阳镜，无检测依据时）",
+      "大牌同款/复刻（侵权直接下架）"
+    ],
+    "certification_required": {
+      "sunglasses_uv400": "需 UV400 检测依据",
+      "nickel_content": "含镍首饰注意 antialérgico 宣称"
+    },
+    "note": "这是最接近服饰逻辑的类目，但仍以材质和尺寸准确为先，不能只靠氛围图。"
+  },
+  "notes": [
+    "尺寸是硬门槛：只写 S/M/L 不写周长 → 退货。",
+    "材质不得虚标：acero inoxidable/aço inoxidável 必须是真不锈钢。",
+    "镀金/镀银必须写'镀'（chapado/banhado），不能写成纯金纯银。",
+    "'hipoalergénico/antialérgico' 无依据 → 违规。",
+    "图上是礼盒但清单没写 → 差评。"
+  ]
+}

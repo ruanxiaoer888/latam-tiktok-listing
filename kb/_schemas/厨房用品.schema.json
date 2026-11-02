@@ -1,0 +1,40 @@
+{
+  "schema": "category-schema/v1",
+  "category": "厨房用品",
+  "version": "1.0",
+  "updated": "2026-11-02",
+  "description": "厨房用品事实卡字段。required = 生成硬门槛；recommended = 缺了提醒但不阻断。",
+  "required": [
+    { "path": "identity.brand", "label": "品牌" },
+    { "path": "capacity_l", "label": "容量（L / ml）" },
+    { "path": "piece_count", "label": "件数（与图一致）" },
+    { "path": "material", "label": "材质（304不锈钢/铝合金+涂层/玻璃/硅胶）", "non_empty": true },
+    { "path": "compatible_heat_sources", "label": "适用热源（gas/eléctrica/inducción 或 gás/elétrica/indução），必须逐项写", "non_empty": true },
+    { "path": "package.included", "label": "包装清单（含不含盖必须说明）", "non_empty": true }
+  ],
+  "recommended": [
+    { "path": "max_temperature_c", "label": "耐温（°C）" },
+    { "path": "dishwasher_safe", "label": "是否可洗碗机清洗" },
+    { "path": "food_grade_cert", "label": "食品接触认证（BPA-free/PFOA-free，有依据才能写）" },
+    { "path": "includes_lid", "label": "是否含盖（差评高发点）" },
+    { "any_of": ["size.length_cm", "size.width_cm", "size.height_cm", "size.raw"], "label": "尺寸" }
+  ],
+  "compliance_rules": {
+    "prohibited_claims": [
+      "永不粘（虚假宣称）",
+      "libre de BPA/PFOA（无检测依据时）"
+    ],
+    "certification_required": {
+      "electrical_appliances": "BR: INMETRO, MX: NOM（带电器附件如电锅、电水壶）",
+      "food_contact": "食品级/BPA-free/PFOA-free 必须有检测依据"
+    },
+    "note": "是否支持 induction 不写清楚是这个类目退货的第一大原因。"
+  },
+  "notes": [
+    "适用热源是硬门槛：只写'apto para todo tipo de estufa'但不列具体热源 → 退货。",
+    "巴西感应灶普及，不写 indução 直接丢一半流量。",
+    "件数必须说明是否包含锅盖（12件 = 6锅 + 6盖）。",
+    "涂层锅禁止写'永不粘'，属于虚假宣称。",
+    "洗碗机可否不写 → 差评。"
+  ]
+}

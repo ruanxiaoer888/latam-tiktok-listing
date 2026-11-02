@@ -1,0 +1,30 @@
+{
+  "schema": "category-schema/v1",
+  "category": "家居建材",
+  "version": "1.0",
+  "updated": "2026-11-02",
+  "description": "家居建材事实卡字段。required = 生成硬门槛；recommended = 缺了提醒但不阻断。",
+  "required": [
+    { "path": "identity.brand", "label": "品牌" },
+    { "path": "size.length_cm", "label": "长度（cm）" },
+    { "path": "size.width_cm", "label": "宽度（cm）" },
+    { "path": "size.height_cm", "label": "高度（cm）" },
+    { "path": "material", "label": "材质 + 表面处理", "non_empty": true },
+    { "path": "package.included", "label": "包装清单（含安装配件）", "non_empty": true }
+  ],
+  "recommended": [
+    { "path": "load_capacity_kg", "label": "承重（kg，建议值非极限值）" },
+    { "path": "weight_kg", "label": "整机重量" },
+    { "path": "installation_method", "label": "安装方式（免打孔/螺丝/落地）" },
+    { "path": "package.dimensions_cm", "label": "包装尺寸（长×宽×高 cm）" },
+    { "path": "package.weight_kg", "label": "包装重量（决定运费和体积重）" },
+    { "path": "applicable_area", "label": "适用范围（浴室/厨房/外墙/室内）" }
+  ],
+  "notes": [
+    "尺寸是硬门槛：没有精确尺寸就不生成（装不上就退）。",
+    "承重必须写'建议值'而不是'极限值'，虚标导致破损索赔。",
+    "安装配件是否包含必须在包装清单中明确，不含却写在描述里必退。",
+    "大件走体积重，包装尺寸重量决定运费，必须填写。",
+    "专业词本地化：MX 用 azulejo/tablaroca，BR 用 porcelanato/metalon/alvenaria。"
+  ]
+}
