@@ -188,4 +188,56 @@ if ($DryRun) {
 } else {
     Write-Host "[OK] sync-all finished: both skills synced and hash-verified."
 }
+
+# ---- Stale file detection: warn about files in target but not in source ----
+Write-Host ""
+Write-Host "[..] checking for stale files in global skill directories..." -ForegroundColor Cyan
+
+$staleWarnings = @()
+foreach ($s in $skills) {
+    $targetDir = Join-Path $env:USERPROFILE ".agents\skills\$($s.Name)"
+    if (-not (Test-Path $targetDir)) { continue }
+    
+    # Get all files in target
+    $targetFiles = Get-ChildItem $targetDir -Recurse -File -ErrorAction SilentlyContinue | ForEach-Object {
+        $_.FullName.Substring($targetDir.Length + 1).Replace('\', '/')
+    }
+    
+    # Get expected files from source (based on sync items)
+    $sourceFiles = @()
+    foreach ($item in $s.Items) {
+        $srcPath = Join-Path $root $item
+        if (Test-Path $srcPath -PathType Leaf) {
+            $sourceFiles += $item.Replace('\', '/')
+        } elseif (Test-Path $srcPath -PathType Container) {
+            $files = Get-ChildItem $srcPath -Recurse -File -ErrorAction SilentlyContinue
+            foreach ($f in $files) {
+                $rel = $f.FullName.Substring($root.Length + 1).Replace('\', '/')
+                $sourceFiles += $rel
+            }
+        }
+    }
+    
+    # Find stale files (in target but not in source)
+    $stale = $targetFiles | Where-Object { $_ -notin $sourceFiles }
+    if ($stale.Count -gt 0) {
+        $staleWarnings += "$($s.Name): $($stale.Count) stale file(s) in global dir"
+        $stale | Select-Object -First 5 | ForEach-Object {
+            $staleWarnings += "    - $_"
+        }
+        if ($stale.Count -gt 5) {
+            $staleWarnings += "    ... and $($stale.Count - 5) more"
+        }
+    }
+}
+
+if ($staleWarnings.Count -gt 0) {
+    Write-Host "[WARN] Found stale files in global skill directories:" -ForegroundColor Yellow
+    foreach ($w in $staleWarnings) { Write-Host "    $w" -ForegroundColor Yellow }
+    Write-Host "    These files exist in the global dir but not in the source repo." -ForegroundColor Gray
+    Write-Host "    They may be leftovers from a previous sync or manual edits." -ForegroundColor Gray
+} else {
+    Write-Host "[OK] No stale files detected" -ForegroundColor Green
+}
+
 exit 0

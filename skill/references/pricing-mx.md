@@ -1,7 +1,9 @@
 # 墨西哥站定价决策框架（存档备用）
 
+> **来源**：`codex-skill/references/pricing-mexico.md`（英文原版）的中文适配版。
+> **维护注意**：修改定价规则时需同步更新 codex-skill 和 skill 两处，避免规则漂移。
+
 > **当前状态**：存档参考，未集成进生成流程。当需要做半自动定价时启用。
-> 来源：Codex `tiktok-shop-listing` skill 的 pricing-mexico.md，已适配本 pipeline 的事实纪律。
 
 ## 适用场景
 

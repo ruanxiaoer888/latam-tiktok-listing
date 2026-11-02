@@ -1,5 +1,8 @@
 # 合规审计框架
 
+> **来源**：`codex-skill/references/compliance-check.md`（英文原版）的中文适配版。
+> **维护注意**：修改合规规则时需同步更新 codex-skill 和 skill 两处，避免规则漂移。
+
 > 本文件定义 Listing 合规审核的分级标准。用于人工终审、批量审计、以及 `check_listing.py` 的结果解读。
 > 与 `qa/denylist.json` 的关系：denylist 做机器快筛（正则匹配），本框架做语义级审核兜底。
 

@@ -1,5 +1,8 @@
 # SEO 证据分级规范
 
+> **来源**：`codex-skill/references/seo-mexico.md`（英文原版）的中文适配版。
+> **维护注意**：修改 SEO 规则时需同步更新 codex-skill 和 skill 两处，避免规则漂移。
+
 > 本文件定义搜索词的来源标注规则。所有生成的 Listing 核心搜索词必须按此规范标注证据等级。
 > 未标注的词默认视为 `inferred`，不得进入标题前 30 字符。
 

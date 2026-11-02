@@ -10,7 +10,8 @@
 
 - **技能入口**：`SKILL.md`（DSH / Claude Code / Codex 可识别）
 - **全局安装**：`%USERPROFILE%\.agents\skills\latam-tiktok-listing\`（DSH 自动加载）
-- **主本**：本目录。改规则只改这里，改完跑 **`sync-all.cmd`**（同步两个技能 + SHA256 校验）
+- **主本**：本目录。改规则只改这里，改完跑 **`sync-all.cmd`**（同步三个技能 + SHA256 校验）
+  - ⚠️ `sync-to-skill.cmd` / `sync-collector-skill.cmd` 是内部组件，单独跑会漏同步其他技能
 - **版本库**：本目录就是 git 仓库根（`origin` = GitHub 私有库）
 - **交接**：`HANDOFF.md`；设计取舍见 `fabric对照分析-20261029.md`
 
@@ -204,3 +205,15 @@ python scripts\render_prompt.py --sku ABU5000000 --site MX --pattern listing_fix
 - 平台规则会变（标题上限、认证要求）：定期回后台核对 `denylist.json`
 - 只做「生成 + 校验」，**不做自动上传**
 - 文档数字容易过期：一律以命令输出为准，不要手抄
+
+## 双源维护提醒
+
+`skill/references/` 下的三个文件是从 `codex-skill/references/` 适配而来的中文版：
+
+| skill/references/ | codex-skill/references/ | 内容 |
+|---|---|---|
+| `seo-evidence.md` | `seo-mexico.md` | SEO 证据分级 |
+| `compliance-audit.md` | `compliance-check.md` | 合规审计框架 |
+| `pricing-mx.md` | `pricing-mexico.md` | 墨西哥定价决策 |
+
+**修改这些规则时，必须同步更新两处**，否则两个 Skill 会给出矛盾建议。
